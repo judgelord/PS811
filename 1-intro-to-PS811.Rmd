@@ -1,0 +1,107 @@
+---
+title: "PS811"
+author: "Devin Judge-Lord"
+date: \today
+output: html_document
+---
+
+# \#goals
+This course builds core research skills:
+
+## No-brainers 
+- Keep data tidy
+- Write readable code (e.g. pipe, don't nest)
+- Write efficient, easy-to-edit code (use functions, rarely copy & paste)
+- Clearly presenting your data & results (tables, figures) 
+- Never copy & paste into a paper
+
+--
+
+## Worthwhile 
+- Backing up / version control (e.g. git)
+- Commenting your code 
+- Being organized (e.g. project folders)
+- Being portable (e.g. `here`)
+- Breaking projects up into component parts
+
+---
+
+## Potential next steps
+- Getting new data (e.g. web scraping & API's)
+- Text analysis
+- Classification 
+- Dimension reduction
+- Machine learning
+- Surveys (e.g. qualtrics & mturk)
+- Using remote servers
+
+---
+
+# 2. Markdown + git
+
+- Using [Rmarkdown](http://rmarkdown.rstudio.com)
+- [Class notes template](http://GitHub.com/judgelord/811/example_notes.Rmd)
+- [Problem set template](http://GitHub.com/judgelord/811/example_problem_set.Rmd)
+- Publishing your course webpage/portfolio on [GitHub](http://GitHub.com)
+
+
+*Assignment 1:* Publish your 811 webpage: Your research interests + potential questions, data, & methods
+
+*Assignment 2:* Problem set in R Markdown
+
+---
+
+# 3. Tidy data + readable code 
+
+- Nameing things
+- Manipulating data with `dplyr` (cheatsheet) & getting the most out of other `tidyverse` tools
+- Pipes with `magrittr` (`%>%` and `%<>%`)
+- Output (tables, `ggplot`)
+- Commenting (`# R comment`, `% LaTeX comment`, `<!-- markdown / html coment -->`)
+
+**Assignment 3:** Choose a dataset, edit variable names & values, do something cool with it.
+
+---
+
+# 4. Efficient code that does not break
+
+- Project files (e.g. data, figs, functions)
+- `here`
+- Saving and loading data files
+- Reproducible tables and figures
+
+**Assignment 4:** Save your data and `setup.R` script to your 811 git repository, work on data summary, use `here()` for all file paths.
+
+
+---
+
+# 5. Summary analysis
+
+- Presenting model results 
+- More `ggplot` --- choosing layers (lines, intervals, colors, labels, facets, maps)
+
+**Assignment 5:** Data summary
+
+---
+
+# 6. Data viz class presentations
+
+- Bonus (optional): convert your 811 web page to a slideshow with `xaringan` (When you have to make a conference presentation, you'll be glad you did)
+
+---
+
+# 7-(n-1). TBD
+
+--- 
+
+# n. Final data analysis presentations
+
+---
+
+# More resources and thanks!
+
+Awesome previous 811 instructors: [Mike DeCrescenzo](https://mikedecr.github.io/), [Hannah Chapman](https://hannahschapman.com/), [Sarah Bouchat](https://bouchat.github.io/), Jack Edelson.
+
+Similar courses by [Rochelle Terman](https://github.com/rochelleterman/PS239T), Rachel Bernhard, and [Jae Yeon Kim](https://github.com/jaeyk/PS239T).
+
+Templates from Mike DeCrescenzo, Adam Lauretig, and Steven V. Miller. See [Mike's LaTeX workshop materials](https://mikedecr.github.io/code/)
