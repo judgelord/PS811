@@ -25,6 +25,7 @@ knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
 requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
               "magrittr",
               "foreign",
+              "readstata13",
               "here")
 
 ## Install any you don't have
@@ -35,12 +36,11 @@ install.packages(c(requires[to_install], "NA"), repos = "https://cloud.r-project
 library(tidyverse)
 library(ggplot2); theme_set(theme_bw())
 library(magrittr)
-library(foreign)
 library(here)
 ```
 
 
-Imagine that your stats professor provides a sample of data and asks you to estimate the linear regression model $y_i = \alpha + \beta x_i + \epsilon_i$ (or, in equivilant notation, $y_i = \beta_0 + \beta_1 x_i + \epsilon_i$).
+Imagine that you are provided a sample of data and asked to estimate the linear regression model $y_i = \alpha + \beta x_i + \epsilon_i$ (or, in equivilant notation, $y_i = \beta_0 + \beta_1 x_i + \epsilon_i$).
 
 Let us say that these data contain 20 observations for two variables:
 
@@ -66,7 +66,11 @@ You have a number of tasks:
 
 8. Write a paragraph (double-spaced) interpreting the parameters and explaining the results of your hypothesis test.  
 
-**But**, for whatever reason (maybe you like open source tools or pretty plots), you want to do your problem set in R. [R Markdown](http://rmarkdown.rstudio.com) offers an easy way to do this without cutting and pasting. If you accidentally regressed X on Y rather than Y on X, fix the model and **pow**, your plots and estimates cited in your discussion are instantly corrected.
+**But**, for whatever reason, you want to do your problem set in R. [R Markdown](http://rmarkdown.rstudio.com) offers an easy way to do this without cutting and pasting. If you accidentally regressed X on Y rather than Y on X, fix the model and **pow**, your plots and estimates cited in your discussion are instantly corrected.
+
+- [Here is the RMarkdown template](https://github.com/judgelord/811/raw/master/example_problem_set.Rmd) that made this pdf. Save it as a .Rmd file. 
+
+- [Here is a pdf about writing in RMarkdown](https://github.com/judgelord/811/raw/master/example_notes.pdf)
 
 **But** the data are in STATA!?! 
 
@@ -81,13 +85,11 @@ PS813_EX1 yourseed
 save "EX1.dta"
 ```
 
-Then load it into R with the `foreign` package:
+Then load it into R with the `readstata13` package:
 ```{r data}
 ## Load your data, defining an R object called "d"
 ## Short names are easier to work with, but if we were saving these data, we might call them something more legible, like Leg_Activity
-d <- read.dta("data/EX1/EX1_.dta")
-d <- rename(d, terms = x, Leg_Act = y)
-
+d <- readstata13::read.dta13("data/EX1.dta")
 ```
 
 Now on to the tasks: 
