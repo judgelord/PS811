@@ -68,9 +68,9 @@ You have a number of tasks:
 
 **But**, for whatever reason, you want to do your problem set in R. [R Markdown](http://rmarkdown.rstudio.com) offers an easy way to do this without cutting and pasting. If you accidentally regressed X on Y rather than Y on X, fix the model and **pow**, your plots and estimates cited in your discussion are instantly corrected.
 
-- [Here is the RMarkdown template](https://github.com/judgelord/811/raw/master/example_problem_set.Rmd) that made this pdf. Save it as a .Rmd file. 
+- [Here is the RMarkdown template](https://github.com/judgelord/PS811/raw/master/example_problem_set.Rmd) that made this pdf. Save it as a .Rmd file. 
 
-- [Here is a pdf about writing in RMarkdown](https://github.com/judgelord/811/raw/master/example_notes.pdf)
+- [Here is a pdf about writing in RMarkdown](https://github.com/judgelord/PS811/raw/master/example_notes.pdf)
 
 **But** the data are in STATA!?! 
 

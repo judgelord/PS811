@@ -3,15 +3,15 @@ title: "Notes"
 author: "Devin Judge-Lord"
 date: \today
 output:
-  html_document: 
-    toc: true
-    code_folding: hide
   pdf_document:
     toc: true
     citation_package: natbib
     fig_caption: yes
     keep_tex: no
     latex_engine: pdflatex
+  html_document: 
+    toc: true
+    code_folding: hide
   word_document: 
     toc: true
 header-includes:
@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # R Markdown
 
-Digital notes are easy to search, read, and share. Markdown is just **plain text** that can be rendered as HTML, PDF, or even Microsoft Word. It allows us to use various syntax, like LaTeX and **R** as needed, either in chunks or inline with the rest of our text. For example, typing "\$`y = \alpha + X\beta`\$" gives us "$y = \alpha + X\beta$" and typing "\{`r` `nchar("hello world")`\}" gives us "`r  nchar("hello world")`." See <http://rmarkdown.rstudio.com> and [this cheatsheat](https://rmarkdown.rstudio.com/lesson-15.html). [Here is the RMarkdown template](https://github.com/judgelord/811/raw/master/example_notes.Rmd) that made this pdf. Save it as a .Rmd file.
+Digital notes are easy to search, read, and share. Markdown is just **plain text** that can be rendered as HTML, PDF, or even Microsoft Word. It allows us to use various syntax, like LaTeX and **R** as needed, either in chunks or inline with the rest of our text. For example, typing "\$`y = \alpha + X\beta`\$" gives us "$y = \alpha + X\beta$" and typing "\{`r` `nchar("hello world")`\}" gives us "`r  nchar("hello world")`." See <http://rmarkdown.rstudio.com> and [this cheatsheat](https://rmarkdown.rstudio.com/lesson-15.html). [Here is the RMarkdown template](https://github.com/judgelord/PS811/raw/master/example_notes.Rmd) that made this pdf. Save it as a .Rmd file.
 
 Rstudio's "Knit" button will call on your LaTeX compiler to make a PDF, but you can also choose HTML and Word from the dropdown menu next to the Knit button. The header of this .Rmd file, called YAML, specifies options for each type of output. I prefer rendering notes in HTML so that I can share them as a web page, but since LaTeX writes to PDF, some LaTeX syntax only works when rendering a pdf.
 
