@@ -38,8 +38,11 @@ library(ggplot2); theme_set(theme_bw())
 library(magrittr)
 library(here)
 ```
+<!-- The above header sets everything up. -->
 
-<!-- Just like LaTeX, Markdown is plain text. To use LaTex syntax: $LaTeX syntax$ -->
+<!-- The below is just example content, edit/delete as needed. -->
+
+<!-- NOTE: Just like LaTeX, Markdown is plain text. To use LaTex syntax: $LaTeX syntax$ -->
 Imagine that you are provided a sample of data and asked to estimate the linear regression model $y_i = \alpha + \beta x_i + \epsilon_i$ (or, in equivilant notation, $y_i = \beta_0 + \beta_1 x_i + \epsilon_i$).
 
 Let us say that these data contain 20 observations for two variables:
@@ -101,6 +104,7 @@ if(is.null(d)){
 
 Now on to the tasks: 
 \newpage
+<!-- Obviously, delete the above before you turn this in -->
 
 # 1. A plot of Legislative Activity by Terms in Office
 
