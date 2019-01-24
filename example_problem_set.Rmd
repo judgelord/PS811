@@ -39,7 +39,7 @@ library(magrittr)
 library(here)
 ```
 
-
+<!-- Just like LaTeX, Markdown is plain text. To use LaTex syntax: $LaTeX syntax$ -->
 Imagine that you are provided a sample of data and asked to estimate the linear regression model $y_i = \alpha + \beta x_i + \epsilon_i$ (or, in equivilant notation, $y_i = \beta_0 + \beta_1 x_i + \epsilon_i$).
 
 Let us say that these data contain 20 observations for two variables:
@@ -114,9 +114,10 @@ ggplot(d, aes(y = Leg_Act, x = terms)) +
 ```{r correlation_variables}
 ## STATA: corr Leg_Act terms
 ## R: 
-cor(d$Leg_Act, d$terms)
+corXY <- cor(d$Leg_Act, d$terms)
+corXY
 ```
-
+The correlation between Legislative Activity and Terms in Office is `corXY`
 # 2. Estimating linear regression
 ```{r regression}
 ## STATA: regress Leg_Act terms
@@ -159,7 +160,6 @@ ggplot(d, aes(y = resid, x = terms)) +
 ## STATA: corr Leg_Act p_Leg_Act
 ## R:
 correlation <- cor(d$Leg_Act, p_Leg_Act)
-correlation
 ```
 $Cor(Y,\hat{Y})$ = `r correlation`
 
