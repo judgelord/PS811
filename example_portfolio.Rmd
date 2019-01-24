@@ -123,7 +123,7 @@ DIMEplot <- function(d){
 ```   
 
 We can compare alignment among governors (G) and upper (U) and lower (L) chambers of state legislatures between 2003 and 2008:
-```{r bonica-all-2004, fig.height = 5, fig.width = 3.1, fig.show='hold'}
+```{r DIME-2003-2008-plots, fig.height = 5, fig.width = 3.1, fig.show='hold'}
 d %>% 
   filter(year == 2004) %>% 
   DIMEplot()
