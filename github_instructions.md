@@ -35,6 +35,11 @@ Note if RStudo does not have that small blue-red-green Git button, RStudio did n
 10. From the blue-red-green Git button menu, select "Commit" and select your new `portfolio.Rmd` and `portfolio.html` files (I would just never commit your 811.R project as it may someday be too large). "Commit" these two files, then "Push" to your GitHub (in the future, you will first "pull" in new changes).
 ![](Figs/git-commit.png)
 
+**Tip** Entering these two lines into your terminal/consol/shell will let you skip having to enter your username in the future:
+
+`git config --global user.email "youremail@email.com"`
+`git config --global user.name "yourGitHubUserName"`
+
 Your page should soon be live at https://YourUserName.github.io/811/portfolio.html
 
 You are now almost done with Assignment #2. You just need to write a few sentences for the following and repeat steps 8-10 to update your page. 
