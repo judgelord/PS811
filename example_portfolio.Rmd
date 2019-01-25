@@ -35,6 +35,10 @@ library(here)
 ```
 <!-- The above header sets everything up. -->
 
+
+
+
+
 <!-- Replace the below with bit about you. -->
 ### Research Interests
 I am interested in policy made by unelected institutions within democracies, especially how activists and social movements influence bureaucratic policymaking in the United States.
@@ -47,7 +51,7 @@ How do we distinguish grassroots and astroturf activism? Does either affect poli
 ---
 
 ### Methods
-Text analysis (reuse, topic models and other Bayesian classifiers, content analysis), various regression models including duration modeling, process tracing.
+Text analysis (reuse, topic models and other Bayesian classifiers, content analysis), various regression models including duration models, field experiments, and process tracing.
 
 ---
 

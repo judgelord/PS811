@@ -28,7 +28,7 @@ Office hours: Fridays 10-12 AM in the North Hall computer lab.
 Required software: [R](https://www.rstudio.com/products/rstudio/download/#download), [LaTeX](https://www.latex-project.org/get/), [git](https://git-scm.com/downloads)
 
 Class materials will be on <https://github.com/judgelord/PS811>  
-- In RStudio: File -> New Project -> Version Control -> Git -> paste this URL 
+- In RStudio: File -> New Project -> Version Control -> Git -> paste this URL ( [Instructions](https://github.com/judgelord/PS811/github_instructions) )
 
 # \#goals
 This 1-credit course builds core research skills to aid coursework for other stats classes and research papers:
@@ -137,37 +137,6 @@ Here is an [example portfolio](https://judgelord.github.io/PS811/1-intro-to-PS81
 ### n. Final data analysis presentations
 
 ---
-
-## Getting started 
-
-Sign in to your GitHub.com account, go to the Repository tab, and click on the green "New" button:
-![](Figs/git-new.png)
-
-Name this new repository "811" (not PS811) and initialize with a README.
-![](Figs/git-new2.png)
-
-Copy the URL of this repository.
-
-Download your new **811** repository. 
-
-In RStudio: File -> New Project -> Version Control -> Git -> paste this URL
-
-Note if RStudo does not have that small blue-red-green Git button, RStudio did not fid git to be installed. 
-![](Figs/git-clone-new.png)
-
-Also download the **PS811** class repository
-![](Figs/git-clone.png)
-
-Move, the `example_portfolio.Rmd` file from the **PS811** folder to your **811** folder on your computer, *then* open it in RStudio.
-![](Figs/git-portfolio.png)
-
-Add your name as the `Author: "Your Name"` and delete the example text below the line `<!-- Replace the below with bit about you. -->`
-
-Save as `portfolio.Rmd`
-
-Hit the "Knit" button to make a new HTML: `portfolio.html`.
-
-From the blue-red-gree Git button menu, select "Committ"
 
 
 
