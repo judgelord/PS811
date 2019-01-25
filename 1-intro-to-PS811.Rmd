@@ -27,6 +27,9 @@ Office hours: Fridays 10-12 AM in the North Hall computer lab.
 
 Required software: [R](https://www.rstudio.com/products/rstudio/download/#download), [LaTeX](https://www.latex-project.org/get/), [git](https://git-scm.com/downloads)
 
+Class materials will be on <https://github.com/judgelord/PS811>  
+- In RStudio: File -> New Project -> Version Control -> Git -> paste this URL 
+
 # \#goals
 This 1-credit course builds core research skills to aid coursework for other stats classes and research papers:
 
@@ -87,7 +90,8 @@ Attendance: If you are solid on a week's topic and want to skip, this is totally
 ### 3. Tidy data + readable code 
 
 - Nameing things
-- Manipulating data with `dplyr` (cheatsheet) & getting the most out of other `tidyverse` tools
+- Manipulating data with [`dplyr`](https://dplyr.tidyverse.org/) ( [cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf) ) & getting the most out of other `tidyverse` tools
+- New variables with `mutate()` and `ifelse()`
 - Pipes with `magrittr` (`%>%` and `%<>%`)
 - Output (tables, `ggplot`)
 - Commenting (`# R comment`, `% LaTeX comment`, `<!-- markdown / html coment -->`)
@@ -115,9 +119,12 @@ Attendance: If you are solid on a week's topic and want to skip, this is totally
 
 **Assignment 5:** Finish up initial data summary: clearly show what is most interesting or puzzling about your data.
 
+Here is an [example portfolio](https://judgelord.github.io/PS811/1-intro-to-PS811.html) with a data summary that employs several of the tools we will have learned, including loading data, commenting code, renaming variables, making new variables, filtering data, building a custom function, pipes, adjusting figure size and labels, and a number of `ggplot` layers.
+
 ---
 
 ### 6. Data viz workshop
+
 
 - Bonus (optional): convert your 811 web page to a slideshow with `xaringan` (When you have to make a conference presentation, you'll be glad you did!)
 
@@ -130,6 +137,40 @@ Attendance: If you are solid on a week's topic and want to skip, this is totally
 ### n. Final data analysis presentations
 
 ---
+
+## Getting started 
+
+Sign in to your GitHub.com account, go to the Repository tab, and click on the green "New" button:
+![](Figs/git-new.png)
+
+Name this new repository "811" (not PS811) and initialize with a README.
+![](Figs/git-new2.png)
+
+Copy the URL of this repository.
+
+Download your new **811** repository. 
+
+In RStudio: File -> New Project -> Version Control -> Git -> paste this URL
+
+Note if RStudo does not have that small blue-red-green Git button, RStudio did not fid git to be installed. 
+![](Figs/git-clone-new.png)
+
+Also download the **PS811** class repository
+![](Figs/git-clone.png)
+
+Move, the `example_portfolio.Rmd` file from the **PS811** folder to your **811** folder on your computer, *then* open it in RStudio.
+![](Figs/git-portfolio.png)
+
+Add your name as the `Author: "Your Name"` and delete the example text below the line `<!-- Replace the below with bit about you. -->`
+
+Save as `portfolio.Rmd`
+
+Hit the "Knit" button to make a new HTML: `portfolio.html`.
+
+From the blue-red-gree Git button menu, select "Committ"
+
+
+
 
 ## More resources and thanks!
 
