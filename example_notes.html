@@ -164,7 +164,10 @@ $(document).ready(function () {
 <!-- The below is just for reference, delete it if you like. -->
 <div id="r-markdown" class="section level1">
 <h1>R Markdown</h1>
-<p>Digital notes are easy to search, read, and share. Markdown is just <strong>plain text</strong> that can be rendered as HTML, PDF, or even Microsoft Word. It allows us to use various syntax, like LaTeX and <strong>R</strong> as needed, either in chunks or inline with the rest of our text. For example, typing “$<code>y = \alpha + X\beta</code>$” gives us “<span class="math inline">\(y = \alpha + X\beta\)</span>” and typing “{<code>r</code> <code>nchar(&quot;hello world&quot;)</code>}” gives us “11.” See <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a> and <a href="https://rmarkdown.rstudio.com/lesson-15.html">this cheatsheat</a>. <a href="https://github.com/judgelord/PS811/raw/master/example_notes.Rmd">Here is the RMarkdown template</a> that made this pdf. Save it as a .Rmd file.</p>
+<p>Digital notes are easy to search, read, and share. Markdown is just <strong>plain text</strong> that can be rendered as HTML, PDF, or even Microsoft Word. It allows us to use various syntax, like LaTeX and <strong>R</strong> as needed, either in chunks or inline with the rest of our text. For example, typing “$<code>y = \alpha + X\beta</code>$” gives us “<span class="math inline">\(y = \alpha + X\beta\)</span>” and typing “{<code>r</code> <code>nchar(&quot;hello world&quot;)</code>}” gives us “11.” See <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a> and <a href="https://rmarkdown.rstudio.com/lesson-15.html">this cheatsheat</a>.</p>
+<ul>
+<li><a href="https://github.com/judgelord/PS811/raw/master/example_notes.Rmd">Here is the RMarkdown template</a> that made this pdf. Save it as a .Rmd file.</li>
+</ul>
 <p>Rstudio’s “Knit” button will call on your LaTeX compiler to make a PDF, but you can also choose HTML and Word from the dropdown menu next to the Knit button. The header of this .Rmd file, called YAML, specifies options for each type of output. I prefer rendering notes in HTML so that I can share them as a web page, but since LaTeX writes to PDF, some LaTeX syntax only works when rendering a pdf.</p>
 <hr />
 <p>We embed a chunk of R code like this:</p>
