@@ -28,7 +28,7 @@ Office hours: Fridays 10-12 AM in the North Hall computer lab.
 Required software: [R](https://www.rstudio.com/products/rstudio/download/#download), [LaTeX](https://www.latex-project.org/get/), [git](https://git-scm.com/downloads)
 
 Class materials will be on <https://github.com/judgelord/PS811>  
-- In RStudio: File -> New Project -> Version Control -> Git -> paste this URL ( [Instructions](https://github.com/judgelord/PS811/github_instructions) )
+- In RStudio: File -> New Project -> Version Control -> Git -> paste this URL ( [Instructions](https://github.com/judgelord/PS811/blob/master/github_instructions.md) )
 
 # \#goals
 This 1-credit course builds core research skills to aid coursework for other stats classes and research papers:
