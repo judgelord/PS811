@@ -27,11 +27,14 @@ Office hours: Fridays 10-12 AM in the North Hall computer lab.
 
 Required software: [R](https://www.rstudio.com/products/rstudio/download/#download), [LaTeX](https://www.latex-project.org/get/), [git](https://git-scm.com/downloads)
 
-Class materials will be on <https://github.com/judgelord/PS811>  
-- In RStudio: File -> New Project -> Version Control -> Git -> paste this URL ( [Instructions](https://github.com/judgelord/PS811/blob/master/github_instructions.md) )
+Materials will be on the course [website](https://judgelord.github.io/PS811/1-intro-to-PS811.html).
+
+Students should clone this repository:
+
+- In RStudio: File -> New Project -> Version Control -> Git -> [paste this URL] <https://github.com/judgelord/PS811> <[Instructions](https://github.com/judgelord/PS811/blob/master/github_instructions.md)>
 
 # \#goals
-This 1-credit course builds core research skills to aid coursework for other stats classes and research papers:
+This course builds core research skills to aid coursework for other stats classes and research papers:
 
 ## No-brainers 
 - Keeping data tidy
@@ -65,19 +68,28 @@ This 1-credit course builds core research skills to aid coursework for other sta
 
 ## Assignments
 
-1. The first assignment is to write a problem set for a statistics class (e.g. 813) in a plain text notebook--- [R Markdown](http://rmarkdown.rstudio.com) / [R Notebook](https://bookdown.org/yihui/rmarkdown/notebook.html) or similar (e.g. [Jupyter](https://jupyter.org/)). - 10%
+1. The first assignment is to write a problem set for a statistics class (e.g. 813) in a plain text notebook--- [R Markdown](http://rmarkdown.rstudio.com) or similar (e.g. [Jupyter](https://jupyter.org/)). (10%)
 
-2. The remaining assignments are all incremental steps in producing a reproducible analysis of a dataset of your choosing. - 50%
 
-Attendance: If you are solid on a week's topic and want to skip, this is totally fine, just show some work demonstrating this *ahead of time*. We may also use DataCamp tutorials to build or demonstrate skills as needed (i.e. according to your background knowledge and interests). - 40%
+[Example Problem Set / Data Exercise](https://github.com/judgelord/PS811/raw/master/example_problem_set.pdf)
+
+2. The remaining assignments are all incremental steps in producing a reproducible analysis of a dataset of your choosing. (50%)
+
+[Example Portfolio](https://judgelord.github.io/PS811/example_portfolio.html)
+
+Attendance: If you are solid on a week's topic and want to skip, this is totally fine, just show some work demonstrating this *ahead of time*. We may also use DataCamp tutorials to build or demonstrate skills as needed (i.e. according to your background knowledge and interests). (40%)
 
 ---
 
-### 2. Markdown + git
+### 2. [R Markdown](https://judgelord.github.io/PS811/2-RMarkdown.html) + [git](https://judgelord.github.io/PS811/3-git.html)
 
 - Using [R Markdown](http://rmarkdown.rstudio.com)
-- [Class notes template](https://github.com/judgelord/PS811/raw/master/example_notes.pdf)
+
+- Class notes template
+<[HTML](https://judgelord.github.io/PS811/example_notes.html)> <[PDF](https://github.com/judgelord/PS811/raw/master/example_notes.pdf)>
+
 - [Problem set template](https://github.com/judgelord/PS811/raw/master/example_problem_set.pdf)
+
 - Publishing your course webpage/portfolio on [GitHub](http://GitHub.com)
 
 
