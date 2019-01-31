@@ -122,6 +122,7 @@ corXY <- cor(d$Leg_Act, d$terms)
 corXY
 ```
 The correlation between Legislative Activity and Terms in Office is `corXY`
+
 # 2. Estimating linear regression
 ```{r regression}
 ## STATA: regress Leg_Act terms
