@@ -1,4 +1,4 @@
-This course builds core research skills:
+This course builds core skills for reproducible research.
 
 - Building reproducible research projects 
 - Creating appealing and informative visualizations
