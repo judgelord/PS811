@@ -8,10 +8,36 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+## Sets defaults for R chunks
+knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
+                      warning=FALSE,
+                      message=FALSE,
+                      # fig.path='Figs/', ## where to save figures
+                      fig.height = 3,
+                      fig.width = 3,
+                      fig.align = 'center')
 
-## Keep everything in one place. Why?
+## Add any R packages you require. 
+## Here are some we will use in 811:
+requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
+              "magrittr",
+              "foreign",
+              "readstata13",
+              "here")
+
+## Install any you don't have
+to_install <- c(requires %in% rownames(installed.packages()) == FALSE)
+install.packages(c(requires[to_install], "NA"), repos = "https://cloud.r-project.org/" )
+
+## Load all required R packages
+library(tidyverse)
+library(ggplot2); theme_set(theme_bw())
+library(magrittr)
+library(here)
+```
+![](Figs/git-fire.png)
+
+## Keep everything in one folder. Why?
 - Portability
 - Replication
 - Transparency
@@ -45,59 +71,68 @@ knitr::opts_chunk$set(echo = TRUE)
 #### /functions
 #### /scratchpad
 
-**Tip:** Use `source(setup.R)` in all scripts - where `setup.R` is a script to load the packages and functions used in your project.
+**Tip:** Use `source(setup.R)` in all scripts, where `setup.R` is a script that loads the packages and functions used in your project.
 
 ---
 
 ## Finding things
-#### `here()` a function for valid file paths: [Ode to the here() package](https://github.com/jennybc/here_here) 
+- `here()` makes valid file paths: [Ode to the here() package](https://github.com/jennybc/here_here) 
 
-#### **NEVER use `setwd()`!**
+```{r here}
+## This works wherever this file is saved in the project folder
+d <- readstata13::read.dta13(here("data/EX1.dta"))
+```
+
+**NEVER** use `setwd()` or user-specific file paths (e.g. `"C:\Users\path\that\only\I\have"`)!
 
 ---
+
 ## Naming things!
 
-#### **NEVER** untitled.R, ProblemSet.Rmd, Rplot.png!
+**NEVER** name files untitled.R, data.csv, ProblemSet.Rmd, Rplot.png!
 
-![](Figs/naming-animals.png)
+<img style="float: center;" src="Figs/naming-animals.png">
 
 --- 
 
 ## Basics 
 
 ### To get started
-#### `git clone repositiory.url` (or, in RStudio, File -> New Project -> Verstion Congtol -> Git)
-#### `git config --global user.name` 
-#### `git config --global user.email`
+- `git clone repositiory.url` (or, in RStudio, File -> New Project -> Verstion Congtol -> Git)
+- `git config --global user.name "yourGitHubUserName"` 
+- `git config --global user.email "yourEmail@email.com` (these do need to be done in the terminal/consol)
 
 --
 
 ## To do frequently
-#### `git commit` - confirm your changes
-#### `git pull` - merge in others' changes
-#### `git push` - update online repository
+- `git commit` - confirm your changes
+- `git pull` - merge in others' changes
+- `git push` - update online repository
 
-![](Figs/git-animal.jpg)
+![](https://imgs.xkcd.com/comics/git_commit.png)
+
 
 ---
 
 ## Avoid
-### Committing files > 100MB
+- Usless commit messages
+- Committing files > 100MB
 
 ---
 
 ## Troubleshooting
-### `git checkout` - restore a file from the online repo.
-### `git reset` - read up on this before you do it! 
-### If you really get stuck, trash your local folder and clone a fresh version, but first, google your error:
+- `git checkout` - restore a file from the online repo.
+- `git reset` - read up on this before you do it! 
 
-![](Figs/google-animal.jpg)
+
+![](https://imgs.xkcd.com/comics/git.png)
+
 
 ---
 
 ## [GitHub](https://GitHub.com)
 ### Easily build a website
-#### Repository -> Settings -> GitHub Pages
+- Repository -> Settings -> GitHub Pages
 
 ### [GitHub pro is free for students](https://education.github.com/pack)
 - unlimited collaborators on private repositories

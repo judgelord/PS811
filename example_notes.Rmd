@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # R Markdown
 
-Digital notes are easy to search, read, and share. Markdown is just **plain text** that can be rendered as HTML, PDF, or even Microsoft Word. It allows us to use various syntax, like LaTeX and **R** as needed, either in chunks or inline with the rest of our text. For example, typing "\$`y = \alpha + X\beta`\$" gives us "$y = \alpha + X\beta$" and typing "\{`r` `nchar("hello world")`\}" gives us "`r  nchar("hello world")`." See <http://rmarkdown.rstudio.com> and [this cheatsheat](https://rmarkdown.rstudio.com/lesson-15.html). 
+Digital notes are easy to search, read, and share. Markdown is just **plain text** that can be rendered as HTML, PDF, or even Microsoft Word. We can use various syntax, like LaTeX and **R** as needed, either in chunks or inline with the rest of our text. For example, typing "\$`y = \alpha + X\beta`\$" gives us "$y = \alpha + X\beta$" and typing "\{`r` `nchar("hello world")`\}" gives us "`r  nchar("hello world")`." See <http://rmarkdown.rstudio.com> and [this cheatsheat](https://rmarkdown.rstudio.com/lesson-15.html). 
 
 - [Here is the RMarkdown template](https://github.com/judgelord/PS811/raw/master/example_notes.Rmd) that made this pdf. Save it as a .Rmd file.
 

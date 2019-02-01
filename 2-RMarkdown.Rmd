@@ -3,22 +3,28 @@ title: "R Markdown"
 author: "Devin Judge-Lord"
 date: 
 output:
-  html_document: 
-    toc: true
+  html_document:
     latex_engine: pdflatex
+    toc: yes
+  pdf_document:
+    toc: yes
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-![](Figs/latex-animals.png)
+![](http://www.phdcomics.com/comics/archive/phd101212s.gif)
+
+**Never copy and paste numbers, table, numbers, or figures into a paper.**
 
 ---
 
 ## R Markdown
 
-Markdown is just **plain text** that can be rendered as HTML, PDF, or even Microsoft Word. It allows us to use various syntax, like $\LaTeX$ and **R** as needed inline with the rest of our text. For example, typing "\$`y = \alpha + X\beta`\$" gives us "$y = \alpha + X\beta$" and typing "\{`r` `nchar("hello world")`\}" gives us "`r  nchar("hello world")`"---pretty cool. For more, see <http://rmarkdown.rstudio.com>, especially this [cheatsheet](http://rmarkdown.rstudio.com).
+Markdown is just **plain text** that can be rendered as HTML, PDF, or even Microsoft Word. Rstudio's "Knit" button will make the selected document.
 
-Rstudio's "Knit" button will make the selected document.
+We can use various syntaxes, like $\LaTeX$ and **R** as needed inline with the rest of our text. For example, typing "\$`y = \alpha + X\beta`\$" gives us "$y = \alpha + X\beta$" and typing "\{`r` `nchar("hello world")`\}" gives us "`r  nchar("hello world")`"---pretty cool. For more, see <http://rmarkdown.rstudio.com>, especially this [cheatsheet](http://rmarkdown.rstudio.com).
+
+
 
 --- 
 
@@ -28,7 +34,8 @@ data("pressure") # a dataset built into R
 head(pressure)
 ```
 
-In the .Rmd file, you'll see that the above chunk of R code begins with \`\`\`, then tells the computer that it is `r` code, and then names this chunk "pressure." 
+In [the .Rmd file](https://github.com/judgelord/PS811/blob/master/2-RMarkdown.Rmd), you'll see that the above chunk of R code begins with "\`\`\`\{r pressure\}", which tells the computer that this chunk is `r` code and names this chunk "pressure." 
+
 Give code chunks informative names! If your chunk produces figures, they will be saved with this name.
 
 ---
@@ -95,6 +102,7 @@ ggplot(data = pressure, aes(x = temperature, y = pressure)) +
 
 ---
 
+<!--
 We can link to figures in the text of the document by adding `\\label{fig:pressure}` to the caption.
 Typing `\ref{fig:pressure}` will now always correctly reference figure \ref{fig:pressure} regardless of how many figures are added above it.
 
@@ -103,12 +111,12 @@ ggplot(data = pressure, aes(x = temperature, y = pressure)) +
   geom_point() + 
   geom_line() 
 ```
-
+-->
 ---
 
 # Two ways to code
 
-#### 1. Get code working in a .R file (e.g. in your /scratchpad folder), then copy the final code into .Rmd file chunks. 
+#### 1. Get code working in a .R file (e.g. in your /scratchpad subfolder), then copy the final code into .Rmd file chunks. 
 
 #### 2. Workshop code in .Rmd file chunks. 
 #### You may want to change RStudio settings (gear button) to `Chunk Output in Consol`
@@ -119,11 +127,11 @@ Either way, press command/control+enter to run **a line or highlighted section**
 ---
 
 # Writing Math
-We can use LaTeX to write nice-looking math.  For example, we can write out a regression equation as $y = \alpha + X\beta + \varepsilon$, without having to copy, paste, or insert special symbols. To write out anything math related, we enclose it in dollar signs $\$$`math`$\$$. The regression equasion above, for example, is $\$$ `y = \alpha + X\beta + \varepsilon` $\$$. If we want to index something by adding subscripts $x_{1}, x_{2}$ etc, the code is $\$$`x_{1}, x_{2}`$\$$. Fractions are written such that $\$$`\frac{1}{2}`$\$$ is $\frac{1}{2}$, and exponents ($2^{2}$) are written $\$$`2^{2}`$\$$.
+We can use MathJax and/or $\LaTeX$ to write nice-looking math.  For example, we can write out a regression equation as $y = \alpha + X\beta + \varepsilon$, without having to copy, paste, or insert special symbols. To write out anything math related, we enclose it in dollar signs $\$$`math`$\$$. The regression equasion above, for example, is $\$$ `y = \alpha + X\beta + \varepsilon` $\$$. If we want to index something by adding subscripts $x_{1}, x_{2}$ etc, the code is $\$$`x_{1}, x_{2}`$\$$. Fractions are written such that $\$$`\frac{1}{2}`$\$$ is $\frac{1}{2}$, and exponents ($2^{2}$) are written $\$$`2^{2}`$\$$.
 
 ---
 
-The Greek letters have a slash before them which tells Latex to print that as a Greek letter. Similarly $2 \times 2$ is written $\$$ `2 \times 2` $\$$. A useful guide to special characters and formatting in Latex is here \url{https://users.dickinson.edu/~richesod/latex/latexcheatsheet.pdf}. I regularly google latex symbols.
+The Greek letters have a slash before them which tells $\LaTeX$ or MathJax to print that as a Greek letter. Similarly $2 \times 2$ is written $\$$ `2 \times 2` $\$$. See guides to special characters and formatting in $\LaTeX$ [here](https://users.dickinson.edu/~richesod/latex/latexcheatsheet.pdf) and MathJax [here](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference). I regularly google symbols.
 
 ---
 
@@ -162,7 +170,7 @@ $$ % start Latex mode
 7 & 8 & 0
 \end{array} % ends the matrix
 \right] %creates the left bracket, the "\right" command scales the bracket "]"
-$$ % ends Latex mode
+$$ % ends LaTeX mode
 ```
 
 ### Matrix multiplication

@@ -18,6 +18,12 @@ library(magrittr)
 
 # source(here(setup.R))
 ```
+
+![](https://imgs.xkcd.com/comics/code_quality.png)
+
+---
+
+
 # R
 - Object-oriented 
 - Data frames
@@ -29,7 +35,8 @@ library(magrittr)
 ---
 ## "Environment"
 Many data objects at once
-- do not "attach" data
+
+- do not "attach" data!
 
 ---
 # Read in data
@@ -162,13 +169,20 @@ starwars %>%
 
 ---
 
-# **Review:** Never:
+# **Review:** Don't:
 
+- Copy and paste numbers, table, numbers, or figures into a paper
+- Attach data
 - Use `setwd()`
 - Use user-specific file paths (e.g. `"C:\Users\path\that\only\I\have"`)
 - Name files untitled.R, ProblemSet.Rmd, Rplot.png
 - Name variables x1, x2 or variable1, varible2, in real data
 - Write undocumented code
+- Write lazy commit messages
+
+![](http://www.phdcomics.com/comics/archive/phd031214s.gif)
+
+---
 
 ## Being good at R is being good at googling
 - New tasks are never easy
