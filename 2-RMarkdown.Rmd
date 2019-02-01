@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 ![](http://www.phdcomics.com/comics/archive/phd101212s.gif)
 
-**Never copy and paste numbers, table, numbers, or figures into a paper.**
+***This is why don't copy and paste numbers, table, or figures into a paper.**
 
 ---
 
@@ -30,7 +30,7 @@ We can use various syntaxes, like $\LaTeX$ and **R** as needed inline with the r
 
 We can embed a chunk of R code like this:
 ```{r pressure}
-data("pressure") # a dataset built into R
+# a dataset built into R
 head(pressure)
 ```
 

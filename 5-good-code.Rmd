@@ -1,0 +1,5 @@
+
+
+![](https://imgs.xkcd.com/comics/exploits_of_a_mom.png)
+
+Have long scripts [send you a text or email](https://github.com/jennybc/send-email-with-r) when they are done.
