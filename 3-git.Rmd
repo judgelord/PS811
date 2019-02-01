@@ -37,17 +37,29 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ---
 
-## Project repositories
+## Repositories == Project folders
 
-### Folders
+### + Subfolders
 #### /data
 #### /figs
 #### /functions
 #### /scratchpad
 
-#### `source(setup.R)` - a script to load packages and functions
-#### `here()` a function for valid file paths. Don't use `setwd()`!
-#### etc.
+**Tip:** Use `source(setup.R)` in all scripts - where `setup.R` is a script to load the packages and functions used in your project.
+
+---
+
+## Finding things
+#### `here()` a function for valid file paths: [Ode to the here() package](https://github.com/jennybc/here_here) 
+
+#### **NEVER use `setwd()`!**
+
+---
+## Naming things!
+
+#### **NEVER** untitled.R, ProblemSet.Rmd, Rplot.png!
+
+![](Figs/naming-animals.png)
 
 --- 
 
@@ -65,7 +77,9 @@ knitr::opts_chunk$set(echo = TRUE)
 #### `git pull` - merge in others' changes
 #### `git push` - update online repository
 
---
+![](Figs/git-animal.jpg)
+
+---
 
 ## Avoid
 ### Committing files > 100MB
@@ -75,7 +89,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Troubleshooting
 ### `git checkout` - restore a file from the online repo.
 ### `git reset` - read up on this before you do it! 
-### If you really get stuck, trash your local folder and clone a fresh version.
+### If you really get stuck, trash your local folder and clone a fresh version, but first, google your error:
+
+![](Figs/google-animal.jpg)
 
 ---
 

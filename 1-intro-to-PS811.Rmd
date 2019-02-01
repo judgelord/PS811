@@ -81,25 +81,26 @@ Attendance: If you are solid on a week's topic and want to skip, this is totally
 
 ---
 
-### 2. [R Markdown](https://judgelord.github.io/PS811/2-RMarkdown.html) + [git](https://judgelord.github.io/PS811/3-git.html)
+### 2. [R Markdown](https://judgelord.github.io/PS811/2-RMarkdown.html)
 
 - Using [R Markdown](http://rmarkdown.rstudio.com)
 
 - Class notes template
-<[HTML](https://judgelord.github.io/PS811/example_notes.html)> <[PDF](https://github.com/judgelord/PS811/raw/master/example_notes.pdf)>
+<[HTML](https://judgelord.github.io/PS811/example_notes.html)> 
+<[PDF](https://github.com/judgelord/PS811/raw/master/example_notes.pdf)>
 
-- [Problem set template](https://github.com/judgelord/PS811/raw/master/example_problem_set.pdf)
-
-- Publishing your course webpage/portfolio on [GitHub](http://GitHub.com)
+- [Problem set / Data exercise template](https://github.com/judgelord/PS811/raw/master/example_problem_set.pdf)
 
 
-**Assignment 1:** Publish your 811 web page: Your research interests + potential questions, data, & methods
-
-**Assignment 2:** Problem set in R Markdown
+**Assignment 1:** Complete a problem set in R Markdown
 
 ---
 
-### 3. Tidy data + readable code 
+### 3. Project folders and [git](https://judgelord.github.io/PS811/3-git.html)
+
+**Assignment 2:** Publish your 811 webpage/portfolio on [GitHub](http://GitHub.com): Your research interests + potential questions, data, & methods
+
+### 4. Tidy data + readable code 
 
 - Nameing things
 - Manipulating data with [`dplyr`](https://dplyr.tidyverse.org/) ( [cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf) ) & getting the most out of other `tidyverse` tools
@@ -108,11 +109,11 @@ Attendance: If you are solid on a week's topic and want to skip, this is totally
 - Output (tables, `ggplot`)
 - Commenting (`# R comment`, `% LaTeX comment`, `<!-- markdown / html coment -->`)
 
-**Assignment 3:** Choose a dataset, edit variable names & values, do something cool with it.
+**Assignment 3:** Choose a dataset, edit variable names & values, do something cool with it. ***DUE: FEB 23**
 
 ---
 
-### 4. Efficient code that does not break
+### 5. Efficient code that does not break
 
 - Project files (e.g. data, figs, functions)
 - `here`
@@ -124,29 +125,29 @@ Attendance: If you are solid on a week's topic and want to skip, this is totally
 
 ---
 
-### 5. Summary analysis
+### 6. Summary analysis
 
 - Presenting model results 
 - More `ggplot` --- choosing layers (lines, intervals, colors, labels, facets, maps)
 
-**Assignment 5:** Finish up initial data summary: clearly show what is most interesting or puzzling about your data.
+**Assignment 5:** Finish up initial data summary: clearly show what is most interesting or puzzling about your data. **DUE: MARCH 9**
 
 Here is an [example portfolio](https://judgelord.github.io/PS811/1-intro-to-PS811.html) with a data summary that employs several of the tools we will have learned, including loading data, commenting code, renaming variables, making new variables, filtering data, building a custom function, pipes, adjusting figure size and labels, and a number of `ggplot` layers.
 
 ---
 
-### 6. Data viz workshop
+### 7. Data viz workshop - MARCH 16
 
 
 - Bonus (optional): convert your 811 web page to a slideshow with `xaringan` (When you have to make a conference presentation, you'll be glad you did!)
 
 ---
 
-### 7-(n-1). TBD
+### 8-(n-1). TBD
 
 --- 
 
-### n. Final data analysis presentations
+### n. Final data analysis presentations - MAY 3
 
 ---
 

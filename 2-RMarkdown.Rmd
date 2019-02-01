@@ -10,6 +10,9 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+![](Figs/latex-animals.png)
+
+---
 
 ## R Markdown
 
@@ -64,7 +67,7 @@ It is safer to use `cache = FALSE`, which re-computes all results each time and 
 We can also embed plots. For example:
 
 ```{r pressure_plot}
-library(ggplot2)
+library(ggplot2);
 ggplot(data = pressure, aes(x = temperature, y = pressure)) + 
   geom_point() + 
   geom_line()

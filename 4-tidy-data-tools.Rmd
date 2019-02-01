@@ -13,11 +13,25 @@ knitr::opts_chunk$set(echo = TRUE)
 if(!"here" %in% rownames(installed.packages())){
 install.packages("here", repos = "https://cloud.r-project.org/" )}
 library(here)
-#source(here(setup.R))
 library(tidyverse)
 library(magrittr)
-```
 
+# source(here(setup.R))
+```
+# R
+- Object-oriented 
+- Data frames
+- [Cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+- [Hadley Wickham on R for Data Science](https://r4ds.had.co.nz/)
+- [Michael DeCrescenzo on getting started with R](https://mikedecr.github.io/811/811-basics/)
+
+![](Figs/objects-cartoon.jpg)
+---
+## "Environment"
+Many data objects at once
+- do not "attach" data
+
+---
 # Read in data
 ## Loading saved R objects
 `load()` works for objects saved as .Rdata from a local file or the web
@@ -27,7 +41,7 @@ library(magrittr)
 ### `d <- read.dta13()` loads stata data files int r
 
 ---
-# Naming things
+# Naming things!
 ## One of the hardest problems in computer science
 
 ## Objects 
@@ -65,7 +79,7 @@ library(magrittr)
 
 ---
 
-#[Tidyverse](https://magrittr.tidyverse.org/articles/magrittr.html)
+#[Tidyverse](https://www.tidyverse.org/learn/)
 
 ## Data manipulation with [dplyr](https://dplyr.tidyverse.org/)
 
@@ -95,8 +109,12 @@ starwars %>%
 
 ---
 
+## Tidy model output with `broom`
+
+---
+
 # Readable code 
-## Nest vs. piecemeal vs. pipe
+## Nest vs. piecemeal vs. [pipes with `magrittr`](https://magrittr.tidyverse.org/articles/magrittr.html)
 
 ### Functions can be nested
 ```{r nest}
@@ -108,11 +126,13 @@ select(
     skin_color == "gold"),
   name, homeworld, ends_with("color"))
 ```
+
 ### But this can be confusing and hard to edit.
 
 --
 
 ### Lets define an object and modify it.
+
 ```{r piecemeal}
 d <- starwars
 d <- filter(d, species == "Droid") 
@@ -125,7 +145,9 @@ select(d, name, homeworld, ends_with("color"))
 ### better, certaianly easier to read
 
 --
+
 ## Now lets just pipe the object `starwars` to a series of functions with `%>%` from the [`magrittr`](https://magrittr.tidyverse.org/articles/magrittr.html) package
+
 ```{r pipe}
 starwars %>% 
   ## %>% pipes one way, allowing us to string functions together
@@ -135,7 +157,23 @@ starwars %>%
   select(name, homeworld, ends_with("color"))
   
 ```
-## even better
----
-# Make new variables
+## even better!
 
+
+---
+
+# **Review:** Never:
+
+- Use `setwd()`
+- Use user-specific file paths (e.g. `"C:\Users\path\that\only\I\have"`)
+- Name files untitled.R, ProblemSet.Rmd, Rplot.png
+- Name variables x1, x2 or variable1, varible2, in real data
+- Write undocumented code
+
+## Being good at R is being good at googling
+- New tasks are never easy
+- Google error messages 
+- Search Stack Overflow
+- Engage #rstats twitter
+
+![](Figs/google-animal.jpg)
