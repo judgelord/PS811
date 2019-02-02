@@ -92,6 +92,7 @@ Then load it into R with the `readstata13` package:
 ```{r data}
 ## Load your data, defining an R object called "d"
 d <- readstata13::read.dta13(here("data/EX1.dta"))
+glimpse(d)
 ```
 
 ```{r if_data_fail, echo=FALSE}
@@ -105,6 +106,15 @@ if(is.null(d)){
 Now on to the tasks: 
 \newpage
 <!-- Obviously, delete the above before you turn this in -->
+
+In STATA, generate data with the `PS813_EX1` function:
+```{}
+net install PS813_EX1, from(https://faculty.polisci.wisc.edu/weimer/)
+
+PS813_EX1 yourseed
+
+save "EX1.dta"
+```
 
 # 1. A plot of Legislative Activity by Terms in Office
 

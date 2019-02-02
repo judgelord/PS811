@@ -79,8 +79,9 @@ library(here)
 - `here()` makes valid file paths: [Ode to the here() package](https://github.com/jennybc/here_here) 
 
 ```{r here}
-## This works wherever this file is saved in the project folder
+## This works no matter where a script is saved in the project folder
 d <- readstata13::read.dta13(here("data/EX1.dta"))
+glimpse(d)
 ```
 
 **NEVER** use `setwd()` or user-specific file paths (e.g. `"C:\Users\path\that\only\I\have"`)!

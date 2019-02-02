@@ -1,17 +1,26 @@
 ---
 title: "R Markdown"
 author: "Devin Judge-Lord"
-date: 
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
-    latex_engine: pdflatex
     toc: yes
   pdf_document:
     toc: yes
 ---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+if(!"here" %in% rownames(installed.packages())){
+install.packages("here", repos = "https://cloud.r-project.org/" )}
+library(here)
+library(tidyverse)
+library(magrittr)
+
+# source(here(setup.R))
 ```
+
 ![](http://www.phdcomics.com/comics/archive/phd101212s.gif)
 
 ***This is why don't copy and paste numbers, table, or figures into a paper.**
