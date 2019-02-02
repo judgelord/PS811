@@ -146,10 +146,10 @@ $(document).ready(function () {
 <p>Fridays 9-10 AM Soc Sci 6125, Jan. 25 - May 3</p>
 <p>Office hours: Fridays 10-12 AM in the North Hall computer lab.</p>
 <p>Required software: <a href="https://www.rstudio.com/products/rstudio/download/#download">R</a>, <a href="https://www.latex-project.org/get/">LaTeX</a>, <a href="https://git-scm.com/downloads">git</a></p>
-<p>Materials will be on the course <a href="https://judgelord.github.io/PS811/1-intro-to-PS811.html">website</a>.</p>
-<p>Students should clone this repository:</p>
+<p>Materials will be on the course <a href="https://github.com/judgelord/PS811">website</a>.</p>
+<p>Students should clone this repository: <a href="https://github.com/judgelord/PS811" class="uri">https://github.com/judgelord/PS811</a></p>
 <ul>
-<li>In RStudio: File -&gt; New Project -&gt; Version Control -&gt; Git -&gt; [paste this URL] <a href="https://github.com/judgelord/PS811" class="uri">https://github.com/judgelord/PS811</a> &lt;<a href="https://github.com/judgelord/PS811/blob/master/github_instructions.md">Instructions</a>&gt;</li>
+<li>In RStudio: File -&gt; New Project -&gt; Version Control -&gt; Git -&gt; [paste URL] &lt;<a href="https://github.com/judgelord/PS811/blob/master/github_instructions.md">Instructions</a>&gt;</li>
 </ul>
 <div id="goals" class="section level1">
 <h1>#goals</h1>
@@ -197,10 +197,18 @@ $(document).ready(function () {
 </ol>
 <p><a href="https://github.com/judgelord/PS811/raw/master/example_problem_set.pdf">Example Problem Set / Data Exercise</a></p>
 <ol start="2" style="list-style-type: decimal">
-<li>The remaining assignments are all incremental steps in producing a reproducible analysis of a dataset of your choosing. (50%)</li>
+<li>The remaining assignments are incremental steps in producing a reproducible analysis of a dataset you choose (50%)</li>
 </ol>
 <p><a href="https://judgelord.github.io/PS811/example_portfolio.html">Example Portfolio</a></p>
-<p>Attendance: If you are solid on a week’s topic and want to skip, this is totally fine, just show some work demonstrating this <em>ahead of time</em>. We may also use DataCamp tutorials to build or demonstrate skills as needed (i.e. according to your background knowledge and interests). (40%)</p>
+<ul>
+<li>Feb. 1: publish a portfolio page with your research interests and potential data source(s)</li>
+<li>Feb. 15 - Load and summarize some aspect(s) of your chosen data on your portfolio page with either output from summarize() or a ggplot()</li>
+<li>March 1: Simple plot(s) of something interesting with ggplot</li>
+<li>March 15: In-class workshop on data viz. For each draft portfolio, the class will constructively suggest how your point may be better communicated, and we will learn how to make it happen</li>
+<li>May 3: 5-minute presentations of data analysis portfolio pages</li>
+</ul>
+<p>Attendance: If you are solid on a week’s topic and want to skip, this is fine, just show some work demonstrating this <em>ahead of time</em>. We may also use DataCamp tutorials to build or demonstrate skills as needed (i.e. according to your background knowledge and interests). (40%)</p>
+<p>*No class March 22 (spring break)</p>
 <hr />
 <div id="r-markdown" class="section level3">
 <h3>2. <a href="https://judgelord.github.io/PS811/2-RMarkdown.html">R Markdown</a></h3>
@@ -226,7 +234,7 @@ $(document).ready(function () {
 <li>Output (tables, <code>ggplot</code>)</li>
 <li>Commenting (<code># R comment</code>, <code>% LaTeX comment</code>, <code>&lt;!-- markdown / html coment --&gt;</code>)</li>
 </ul>
-<p><strong>Assignment 3:</strong> Choose a dataset, edit variable names &amp; values, do something cool with it. *<strong>DUE: FEB 23</strong></p>
+<p><strong>Assignment 3:</strong> Choose a dataset, load and summarize some part of it on your portfolio page. *<strong>DUE: FEB 15</strong></p>
 <hr />
 </div>
 <div id="efficient-code-that-does-not-break" class="section level3">
@@ -237,7 +245,7 @@ $(document).ready(function () {
 <li>Saving and loading data files</li>
 <li>Reproducible tables and figures</li>
 </ul>
-<p><strong>Assignment 4:</strong> Save your data and <code>setup.R</code> script to your 811 git repository, work on data summary, use <code>here()</code> for all file paths.</p>
+<p><strong>Assignment 4:</strong> Save your data in a /data subfolder and add a <code>setup.R</code> script to your 811 git repository. Work on data summary, changing variable names and values to improve clarity. Use <code>here()</code> for all file paths.</p>
 <hr />
 </div>
 <div id="summary-analysis" class="section level3">
@@ -246,7 +254,7 @@ $(document).ready(function () {
 <li>Presenting model results</li>
 <li>More <code>ggplot</code> — choosing layers (lines, intervals, colors, labels, facets, maps)</li>
 </ul>
-<p><strong>Assignment 5:</strong> Finish up initial data summary: clearly show what is most interesting or puzzling about your data. <strong>DUE: MARCH 9</strong></p>
+<p><strong>Assignment 5:</strong> Finish up initial data summary: use ggplot to show something interesting or puzzling about your data. <strong>DUE: MARCH 1</strong></p>
 <p>Here is an <a href="https://judgelord.github.io/PS811/1-intro-to-PS811.html">example portfolio</a> with a data summary that employs several of the tools we will have learned, including loading data, commenting code, renaming variables, making new variables, filtering data, building a custom function, pipes, adjusting figure size and labels, and a number of <code>ggplot</code> layers.</p>
 <hr />
 </div>
