@@ -8,9 +8,11 @@ JudgeLord@wisc.edu | 715.204.4287
 
 Fridays 9-10 AM Soc Sci 6125, Jan. 25 - May 3
 
-Office hours: Fridays 10-12 AM in the North Hall computer lab.
+*No class March 22 (spring break)
 
-Required software: [R](https://www.rstudio.com/products/rstudio/download/#download), [LaTeX](https://www.latex-project.org/get/), [git](https://git-scm.com/downloads)
+**Office hours:** Fridays 10-12 AM in the North Hall computer lab.
+
+**Required software:** [R](https://www.rstudio.com/products/rstudio/download/#download), [LaTeX](https://www.latex-project.org/get/), [git](https://git-scm.com/downloads)
 
 Materials will be on the course [website](https://github.com/judgelord/PS811).
 
@@ -62,7 +64,9 @@ This course builds core research skills to aid coursework for other stats classe
 
 [Example Portfolio](https://judgelord.github.io/PS811/example_portfolio.html)
 
-- Feb. 1: publish a portfolio page with your research interests and potential data source(s) 
+All data files in your 811 project folder should be in a subfolder named "data" and all figures should be in a subfolder named "figs"---add `knitr::opts_chunk$set(fig.path=‘figs/‘)` to your `setup` chunk to make sure all figures are saved to this folder.
+
+- Feb. 1: publish a draft portfolio page with your research interests and potential data source(s) 
 - Feb. 15 - Load and summarize some aspect(s) of your chosen data on your portfolio page with either output from summarize() or a ggplot()
 - March 1: Simple plot(s) of something interesting with ggplot
 - March 15: In-class workshop on data viz. For each draft portfolio, the class will constructively suggest how your point may be better communicated, and we will learn how to make it happen
@@ -70,7 +74,6 @@ This course builds core research skills to aid coursework for other stats classe
 
 Attendance: If you are solid on a week's topic and want to skip, this is fine, just show some work demonstrating this *ahead of time*. We may also use DataCamp tutorials to build or demonstrate skills as needed (i.e. according to your background knowledge and interests). (40%)
 
-*No class March 22 (spring break)
 
 ---
 
