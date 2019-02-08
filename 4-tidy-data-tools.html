@@ -45,9 +45,10 @@ class: center, middle, inverse, title-slide
 #### Loading saved R objects
 `load()` works for objects saved as .Rdata from a local file or the web
 
-### New R objects
-##### `d &lt;- read.csv()` loads comma seperated values (a plain text spreadsheet)
-##### `d &lt;- read.dta13()` loads STATA data files int r
+#### New R objects
+`d &lt;- read.csv()` loads comma seperated values (a plain text spreadsheet)
+
+`d &lt;- read.dta13()` loads STATA data files int r
 
 ---
 # Naming things!
@@ -68,7 +69,7 @@ d &lt;- regulations
 
 `m1` or `model.1` for model output, corresponding to how you discuss them the text:
 
-"The p-value for coefficient 2 is \` r m1$pvalue[2]\`."
+"The p-value for coefficient 2 is \` r m1$p.value[2]\`."
 
 ---
 
@@ -336,7 +337,7 @@ New tasks are never easy
 - Name variables x1, x2 or variable1, varible2, in real data
 - Nest when you can pipe
 - Write useless commit messages
-- Anger your future self by failing do comment your code
+- Anger your future self by failing to comment your code
 
 ![](http://www.phdcomics.com/comics/archive/phd031214s.gif)
     </textarea>
