@@ -2,21 +2,36 @@
 title: "Tidy data & readable code"
 author: "Devin Judge-Lord"
 date: 
-output: 
-  html_document:
-  toc: true
+# output: 
+#   html_document:
+#   toc: true
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"
+    css: templates/xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Sets defaults for R chunks
+knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
+                      warning=FALSE,
+                      message=FALSE,
+                      fig.retina = 2,
+                      fig.align = "center", 
+                      dpi = 100,
+                      # fig.path='Figs/', ## where to save figures
+                      fig.height = 3,
+                      fig.width = 3)
 
-if(!"here" %in% rownames(installed.packages())){
-install.packages("here", repos = "https://cloud.r-project.org/" )}
 library(here)
-library(tidyverse)
-library(magrittr)
-
-# source(here(setup.R))
+source(here("setup.R"))
 ```
 
 ![](https://imgs.xkcd.com/comics/code_quality.png)
@@ -25,64 +40,84 @@ library(magrittr)
 
 
 # R
-- Object-oriented 
-- Data frames
+- Data frames are *objects*
+![](Figs/objects-cartoon.jpg)
+
+---
+# R Resources
 - [Cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
 - [Hadley Wickham on R for Data Science](https://r4ds.had.co.nz/)
 - [Michael DeCrescenzo on getting started with R](https://mikedecr.github.io/811/811-basics/)
 
-![](Figs/objects-cartoon.jpg)
 ---
-## "Environment"
-Many data objects at once
 
-- do not "attach" data!
+## "Environment" = your objects
+- Data, functions, etc.
+- Do not "attach" data!
 
----
-# Read in data
-## Loading saved R objects
+--
+
+## Read in data
+#### Loading saved R objects
 `load()` works for objects saved as .Rdata from a local file or the web
 
-## New R objects
-### `d <- read.csv()` loads comma seperated values (a plain text spreadsheet)
-### `d <- read.dta13()` loads stata data files int r
+### New R objects
+##### `d <- read.csv()` loads comma seperated values (a plain text spreadsheet)
+##### `d <- read.dta13()` loads STATA data files int r
 
 ---
 # Naming things!
-## One of the hardest problems in computer science
 
-## Objects 
-### `d` for data with which you are working
-### A more descriptive name for the original object (e.g. `d <- regulations`)
-### `m1` or `model.1`for models, corresponding to how you discuss them the text
+## Data objects 
+`d` for data with which you are working
+
+A more descriptive name for the original object. For example: 
+```{}
+## Save a new object with a discriptive name
+regulations <- d 
+save(regulations, file = "data/regulations.Rdata")
+
+## Load this object as the original while we mess with "d" again
+load("regulations.Rdata")
+d <- regulations
+```
+
+`m1` or `model.1` for model output, corresponding to how you discuss them the text:
+
+"The p-value for coefficient 2 is \` r m1$pvalue[2]\`."
+
+---
 
 ## Variables
 
-### **Never** name variables x1, x2 or variable1, varible2, in real data!
-
-### Good names make things easy to find, recall, guess
+**Never** use variables x1, x2 or variable1, varible2, for real data! Good names make things easy to find, recall, guess, saving you time and headaches. For Example:
 
 --
 
-### varying vs. FIXED variables
-- the most common convention, aligned with math notation
+`varying` vs. `FIXED` values
+- A common convention, aligned with math notation
 
-### dataset1 vs. DATASET2
-- if the source is key (e.g. when joining two similar datasets)
+Source 
+- `values_from_dataset1` vs. `VALUES_FROM_DATASET2`
+- If the source is key (e.g. when joining two similar datasets)
 
-### new_text vs. OLD_TEXT
-- new_text = tolower(OLD_TEXT)
+Transformations
+- `modified_text` vs. `Original_Text`
+- `modified_text <- tolower(Original_Text)`
 
---
+---
 
-### Common beginning for similar variables, figures, documents
-#### variables
-- `d$commentId`, `d$commentText`, `d$commentTotal`, `d$commentUnique`, `d$commentUniqueTotal`
-#### figures
-- commentsPerYear.png, commentsPerAgency.png, commentsPerAgencyPerYear.png
-#### documents
-- budgetEPA2016.pdf, budgetEPA2017.pdf, budgetEPA2018.pdf
+### Whatever you do, use common formats
 
+**Files** (budgetEPA2016.pdf, budgetEPA2017.pdf, budgetEPA2018.pdf)
+
+**Figures** (commentsPerYear.png, commentsPerAgency.png, commentsPerAgencyPerYear.png)
+
+**Variables** (`d$commentId`, `d$commentText`, `d$commentTotal`, `d$commentUniqueTotal`)
+
+```{r selectnames}
+starwars %>%  select(name, ends_with("color"))
+```
 
 ---
 
@@ -95,6 +130,8 @@ Many data objects at once
 filter(starwars, species == "Droid")
 ```
 
+---
+
 ### `summarize` by group (`n()`, `mean()`, `max()`, etc.)
 ```{r starwars_species}
 starwars %>% 
@@ -102,6 +139,8 @@ starwars %>%
   summarize(species_N = n()) %>% 
   arrange(-species_N)
 ```
+
+---
 
 ### New variables with `mutate`
 ```{r starwars_species2}
@@ -118,10 +157,22 @@ starwars %>%
 
 ## Tidy model output with `broom`
 
+```{r notbroom}
+lm(height ~ mass, data = starwars)
+```
+
+```{r broom}
+library(broom)
+tidy(
+  lm(height ~ mass, data = starwars),
+  conf.int = TRUE
+  )
+```
+
 ---
 
 # Readable code 
-## Nest vs. piecemeal vs. [pipes with `magrittr`](https://magrittr.tidyverse.org/articles/magrittr.html)
+Nest vs. piecemeal vs. [pipes with `magrittr`](https://magrittr.tidyverse.org/articles/magrittr.html)
 
 ### Functions can be nested
 ```{r nest}
@@ -136,9 +187,9 @@ select(
 
 ### But this can be confusing and hard to edit.
 
---
+---
 
-### Lets define an object and modify it.
+### Instead let's define an object and modify it.
 
 ```{r piecemeal}
 d <- starwars
@@ -149,11 +200,12 @@ d %<>% filter(eye_color == "yellow")
 d %<>% filter(skin_color == "gold")
 select(d, name, homeworld, ends_with("color"))
 ```
-### better, certaianly easier to read
 
---
+### Better, certainly easier to read and edit.
 
-## Now lets just pipe the object `starwars` to a series of functions with `%>%` from the [`magrittr`](https://magrittr.tidyverse.org/articles/magrittr.html) package
+---
+
+### Now let's just pipe the object `starwars` to a series of functions with `%>%` from the [`magrittr`](https://magrittr.tidyverse.org/articles/magrittr.html) package.
 
 ```{r pipe}
 starwars %>% 
@@ -164,12 +216,21 @@ starwars %>%
   select(name, homeworld, ends_with("color"))
   
 ```
-## even better!
 
+## Even better!
 
 ---
 
-# **Review:** Don't:
+### Being good at R is being good at google
+New tasks are never easy
+- Google your error 
+- Search Stack Overflow or #rstats twitter
+
+![](Figs/google-animal.jpg)
+
+---
+
+# Review: Don't:
 
 - Copy and paste numbers, table, numbers, or figures into a paper
 - Attach data
@@ -177,17 +238,9 @@ starwars %>%
 - Use user-specific file paths (e.g. `"C:\Users\path\that\only\I\have"`)
 - Name files untitled.R, ProblemSet.Rmd, Rplot.png
 - Name variables x1, x2 or variable1, varible2, in real data
-- Write undocumented code
-- Write lazy commit messages
+- Nest when you can pipe
+- Write useless commit messages
+- Anger your future self by failing do comment your code
 
 ![](http://www.phdcomics.com/comics/archive/phd031214s.gif)
 
----
-
-## Being good at R is being good at googling
-- New tasks are never easy
-- Google error messages 
-- Search Stack Overflow
-- Engage #rstats twitter
-
-![](Figs/google-animal.jpg)
