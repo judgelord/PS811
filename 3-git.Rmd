@@ -2,9 +2,21 @@
 title: "Reproducable & collaborative research with git"
 author: "Devin Judge-Lord"
 date: 
-output: 
-  html_document:
-  toc: true
+# output: 
+#   html_document:
+#   toc: true
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"
+    css: templates/xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    text_font_size: 2em
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -12,47 +24,38 @@ output:
 knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
                       warning=FALSE,
                       message=FALSE,
+                      fig.retina = 2,
+                      fig.align = "center", 
+                      dpi = 100,
                       # fig.path='Figs/', ## where to save figures
                       fig.height = 3,
-                      fig.width = 3,
-                      fig.align = 'center')
+                      fig.width = 3)
 
-## Add any R packages you require. 
-## Here are some we will use in 811:
-requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
-              "magrittr",
-              "foreign",
-              "readstata13",
-              "here")
-
-## Install any you don't have
-to_install <- c(requires %in% rownames(installed.packages()) == FALSE)
-install.packages(c(requires[to_install], "NA"), repos = "https://cloud.r-project.org/" )
-
-## Load all required R packages
-library(tidyverse)
-library(ggplot2); theme_set(theme_bw())
-library(magrittr)
 library(here)
+source(here("setup.R"))
 ```
+class: center
+
 ![](Figs/git-fire.png)
 
-## Keep everything in one folder. Why?
+---
+
+## Keep everything in one folder.
 - Portability
 - Replication
 - Transparency
 
 --
 
-## Track version history
+## Track version history.
 - Restore code that breaks
 - See what you or others did (e.g. why did our results change?!?)
 
 ---
 
-## Collaborating (even with non-git users)
+## Collaborating 
 
-#### With git users 
+#### With git-users 
 - Line-by-line merging/diff (code and writing)
 
 #### With non-users 
@@ -76,7 +79,7 @@ library(here)
 ---
 
 ## Finding things
-- `here()` makes valid file paths: [Ode to the here() package](https://github.com/jennybc/here_here) 
+`here()` makes valid file paths: [Ode to the here() package](https://github.com/jennybc/here_here) 
 
 ```{r here}
 ## This works no matter where a script is saved in the project folder
@@ -94,16 +97,23 @@ glimpse(d)
 
 <img style="float: center;" src="Figs/naming-animals.png">
 
---- 
+---
 
 ## Basics 
 
-### To get started
-- `git clone repositiory.url` (or, in RStudio, File -> New Project -> Verstion Congtol -> Git)
-- `git config --global user.name "yourGitHubUserName"` 
-- `git config --global user.email "yourEmail@email.com` (these do need to be done in the terminal/consol)
+### To get started:
+`git clone repositiory.url` in the terminal/consol.
 
---
+(or, in RStudio, File -> New Project -> Version Control -> Git)
+
+```{}
+git config --global user.name "yourGitHubUserName"
+git config --global user.email "yourEmail@email.com
+```
+
+(these do need to be done in the terminal/consol)
+
+---
 
 ## To do frequently
 - `git commit` - confirm your changes
@@ -116,7 +126,7 @@ glimpse(d)
 ---
 
 ## Avoid
-- Usless commit messages
+- Useless commit messages
 - Committing files > 100MB
 
 ---
