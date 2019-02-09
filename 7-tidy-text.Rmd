@@ -1,0 +1,42 @@
+---
+title: "Tidy text analysis 1 - Preprocessing and features"
+author: "Devin Judge-Lord"
+date: 
+# output: 
+#   html_document:
+#   toc: true
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"
+    css: "templates/xaringan-themer.css"
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+## Sets defaults for R chunks
+knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
+                      warning=FALSE,
+                      message=FALSE,
+                      fig.retina = 2,
+                      fig.align = "center", 
+                      dpi = 100,
+                      # fig.path='Figs/', ## where to save figures
+                      fig.height = 3,
+                      fig.width = 3)
+
+library(here)
+source(here("setup.R"))
+```
+
+[`tidytext`](https://cran.r-project.org/web/packages/tidytext/tidytext.pdf) packate
+
+[A tidy approach to text analysis](https://www.tidytextmining.com/) including
+[topic modeling](https://www.tidytextmining.com/topicmodeling.html) and
+[tidy() for Structural Topic Models from the `stm` package](https://juliasilge.github.io/tidytext/reference/stm_tidiers.html). More [here](https://rdrr.io/cran/tidytext/man/stm_tidiers.html).
+
+
+[Introduction to cluster analysis](https://eight2late.wordpress.com/2015/07/22/a-gentle-introduction-to-cluster-analysis-using-r/)

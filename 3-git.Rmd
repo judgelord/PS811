@@ -62,7 +62,7 @@ class: center
 - Share document URLs (Word, LaTeX, whatever)
 - Merge in their changes (LaTeX)
 - Share HTML project updates (summary stats, draft figures, to-do lists)
-- Share data
+- [Share data](https://github.com/jtleek/datasharing)
 
 ---
 
@@ -112,6 +112,8 @@ git config --global user.email "yourEmail@email.com
 ```
 
 (these do need to be done in the terminal/consol)
+
+See a more details [here](http://r-pkgs.had.co.nz/git.html) and [this blog post](https://www.r-bloggers.com/rstudio-and-github/) for more detailed instructions for git setup in RStudio.
 
 ---
 

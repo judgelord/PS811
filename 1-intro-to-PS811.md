@@ -24,8 +24,8 @@ Students should clone this repository: <https://github.com/judgelord/PS811>
 This course builds core research skills to aid coursework for other stats classes and research papers:
 
 ## No-brainers 
-- Keeping data tidy
-- Writing readable code (e.g. pipe, don't nest)
+- Keeping data [tidy](http://garrettgman.github.io/tidying/)
+- Writing readable code (e.g. [pipe](https://magrittr.tidyverse.org/articles/magrittr.html), don't nest)
 - Writing efficient, easy-to-edit code (use functions, rarely copy & paste)
 - Clearly presenting your data & results (tables, figures) 
 - Never copy & paste tables or figures into a paper
@@ -33,10 +33,10 @@ This course builds core research skills to aid coursework for other stats classe
 ---
 
 ## Worthwhile 
-- Backing up / version control (e.g. git)
+- Backing up / version control (e.g. [git](https://github.com/judgelord/PS811/3-git.html))
 - Commenting your code 
 - Being organized (e.g. project folders)
-- Being portable (e.g. `here`)
+- Being portable (e.g. [`here`](https://github.com/jennybc/here_here))
 - Breaking projects up into component parts
 
 ---
@@ -92,17 +92,20 @@ Attendance: If you are solid on a week's topic and want to skip, this is fine, j
 
 ---
 
-### 3. Project folders and [git](https://judgelord.github.io/PS811/3-git.html)
+### 3. [Project folders and git](https://judgelord.github.io/PS811/3-git.html)
+
+- Project files (e.g. /data, /figs, /functions)
+- File paths with `here`: [Ode to the here() package](https://github.com/jennybc/here_here) 
 
 **Assignment 2:** Publish your 811 webpage/portfolio on [GitHub](http://GitHub.com): Your research interests + potential questions, data, & methods
 
-### 4. Tidy data + readable code 
+### 4. [Tidy data + readable code]((https://judgelord.github.io/PS811/4-tidy-data.html)) 
 
 - Nameing things
-- Manipulating data with [`dplyr`](https://dplyr.tidyverse.org/) ( [cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf) ) & getting the most out of other `tidyverse` tools
+- Manipulating data with [`dplyr`](https://dplyr.tidyverse.org/) (See this [cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)) & getting the most out of other [`tidyverse`](https://www.tidyverse.org/learn/) tools
 - New variables with `mutate()` and `ifelse()`
-- Pipes with `magrittr` (`%>%` and `%<>%`)
-- Output (tables, `ggplot`)
+- Pipes with [`magrittr`](https://magrittr.tidyverse.org/articles/magrittr.html) (`%>%` and `%<>%`)
+- Output (tables, [`ggplot`](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf?raw=1))
 - Commenting (`# R comment`, `% LaTeX comment`, `<!-- markdown / html coment -->`)
 
 **Assignment 3:** Choose a dataset, load and summarize some part of it on your portfolio page.  ***DUE: FEB 15**
@@ -111,8 +114,6 @@ Attendance: If you are solid on a week's topic and want to skip, this is fine, j
 
 ### 5. Efficient code that does not break
 
-- Project files (e.g. data, figs, functions)
-- `here`
 - Saving and loading data files
 - Reproducible tables and figures
 
@@ -152,9 +153,11 @@ Here is an [example portfolio](https://judgelord.github.io/PS811/1-intro-to-PS81
 
 ## More resources and thanks!
 
-Awesome previous 811 instructors: [Mike DeCrescenzo](https://mikedecr.github.io/), [Hannah Chapman](https://hannahschapman.com/), [Sarah Bouchat](https://bouchat.github.io/), Jack Edelson.
+Awesome previous 811 instructors: [Mike DeCrescenzo](https://mikedecr.github.io/) (Mike's [811 lectures](https://mikedecr.github.io/811/)), [Hannah Chapman](https://hannahschapman.com/), [Sarah Bouchat](https://bouchat.github.io/) (Sarah's [lectures](https://bouchat.github.io/553)), Jack Edelson.
 
 Similar courses by [Rochelle Terman](https://github.com/rochelleterman/PS239T), Rachel Bernhard, and [Jae Yeon Kim](https://github.com/jaeyk/PS239T).
+
+[Karl Broman'slist of resources](https://github.com/kabagg/sisbid_2018_rr/blob/master/Resources/resources.md) for R Markdown, git, coding, etc.
 
 Templates from Mike DeCrescenzo, Adam Lauretig, and Steven V. Miller. See [Mike's LaTeX workshop materials](https://mikedecr.github.io/code/)
 

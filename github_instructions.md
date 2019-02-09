@@ -19,7 +19,7 @@ Getting started may be a bit of work, but it will save us time the rest of the s
 
 5. Now, download (i.e. "clone") the **PS811** class repository. 
 
-Note: The instructions below are brief. See [this blog post](https://www.r-bloggers.com/rstudio-and-github/) for more detailed instructions on git setup for RStudio.
+Note: The instructions below are brief. See a more detailed walk through [here](http://r-pkgs.had.co.nz/git.html) and [this blog post](https://www.r-bloggers.com/rstudio-and-github/) for more detailed instructions on git setup for RStudio.
 
 In RStudio: First, enable git:
 

@@ -91,8 +91,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -101,14 +107,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -141,8 +207,8 @@ $(document).ready(function () {
 <div id="no-brainers" class="section level2">
 <h2>No-brainers</h2>
 <ul>
-<li>Keeping data tidy</li>
-<li>Writing readable code (e.g. pipe, don’t nest)</li>
+<li>Keeping data <a href="http://garrettgman.github.io/tidying/">tidy</a></li>
+<li>Writing readable code (e.g. <a href="https://magrittr.tidyverse.org/articles/magrittr.html">pipe</a>, don’t nest)</li>
 <li>Writing efficient, easy-to-edit code (use functions, rarely copy &amp; paste)</li>
 <li>Clearly presenting your data &amp; results (tables, figures)</li>
 <li>Never copy &amp; paste tables or figures into a paper</li>
@@ -152,10 +218,10 @@ $(document).ready(function () {
 <div id="worthwhile" class="section level2">
 <h2>Worthwhile</h2>
 <ul>
-<li>Backing up / version control (e.g. git)</li>
+<li>Backing up / version control (e.g. <a href="https://github.com/judgelord/PS811/3-git.html">git</a>)</li>
 <li>Commenting your code</li>
 <li>Being organized (e.g. project folders)</li>
-<li>Being portable (e.g. <code>here</code>)</li>
+<li>Being portable (e.g. <a href="https://github.com/jennybc/here_here"><code>here</code></a>)</li>
 <li>Breaking projects up into component parts</li>
 </ul>
 <hr />
@@ -205,17 +271,21 @@ $(document).ready(function () {
 <hr />
 </div>
 <div id="project-folders-and-git" class="section level3">
-<h3>3. Project folders and <a href="https://judgelord.github.io/PS811/3-git.html">git</a></h3>
+<h3>3. <a href="https://judgelord.github.io/PS811/3-git.html">Project folders and git</a></h3>
+<ul>
+<li>Project files (e.g. /data, /figs, /functions)</li>
+<li>File paths with <code>here</code>: <a href="https://github.com/jennybc/here_here">Ode to the here() package</a></li>
+</ul>
 <p><strong>Assignment 2:</strong> Publish your 811 webpage/portfolio on <a href="http://GitHub.com">GitHub</a>: Your research interests + potential questions, data, &amp; methods</p>
 </div>
 <div id="tidy-data-readable-code" class="section level3">
-<h3>4. Tidy data + readable code</h3>
+<h3>4. <a href="(https://judgelord.github.io/PS811/4-tidy-data.html)">Tidy data + readable code</a></h3>
 <ul>
 <li>Nameing things</li>
-<li>Manipulating data with <a href="https://dplyr.tidyverse.org/"><code>dplyr</code></a> ( <a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf">cheatsheet</a> ) &amp; getting the most out of other <code>tidyverse</code> tools</li>
+<li>Manipulating data with <a href="https://dplyr.tidyverse.org/"><code>dplyr</code></a> (See this <a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf">cheatsheet</a>) &amp; getting the most out of other <a href="https://www.tidyverse.org/learn/"><code>tidyverse</code></a> tools</li>
 <li>New variables with <code>mutate()</code> and <code>ifelse()</code></li>
-<li>Pipes with <code>magrittr</code> (<code>%&gt;%</code> and <code>%&lt;&gt;%</code>)</li>
-<li>Output (tables, <code>ggplot</code>)</li>
+<li>Pipes with <a href="https://magrittr.tidyverse.org/articles/magrittr.html"><code>magrittr</code></a> (<code>%&gt;%</code> and <code>%&lt;&gt;%</code>)</li>
+<li>Output (tables, <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf?raw=1"><code>ggplot</code></a>)</li>
 <li>Commenting (<code># R comment</code>, <code>% LaTeX comment</code>, <code>&lt;!-- markdown / html coment --&gt;</code>)</li>
 </ul>
 <p><strong>Assignment 3:</strong> Choose a dataset, load and summarize some part of it on your portfolio page. *<strong>DUE: FEB 15</strong></p>
@@ -224,8 +294,6 @@ $(document).ready(function () {
 <div id="efficient-code-that-does-not-break" class="section level3">
 <h3>5. Efficient code that does not break</h3>
 <ul>
-<li>Project files (e.g. data, figs, functions)</li>
-<li><code>here</code></li>
 <li>Saving and loading data files</li>
 <li>Reproducible tables and figures</li>
 </ul>
@@ -260,8 +328,9 @@ $(document).ready(function () {
 </div>
 <div id="more-resources-and-thanks" class="section level2">
 <h2>More resources and thanks!</h2>
-<p>Awesome previous 811 instructors: <a href="https://mikedecr.github.io/">Mike DeCrescenzo</a>, <a href="https://hannahschapman.com/">Hannah Chapman</a>, <a href="https://bouchat.github.io/">Sarah Bouchat</a>, Jack Edelson.</p>
+<p>Awesome previous 811 instructors: <a href="https://mikedecr.github.io/">Mike DeCrescenzo</a> (Mike’s <a href="https://mikedecr.github.io/811/">811 lectures</a>), <a href="https://hannahschapman.com/">Hannah Chapman</a>, <a href="https://bouchat.github.io/">Sarah Bouchat</a> (Sarah’s <a href="https://bouchat.github.io/553">lectures</a>), Jack Edelson.</p>
 <p>Similar courses by <a href="https://github.com/rochelleterman/PS239T">Rochelle Terman</a>, Rachel Bernhard, and <a href="https://github.com/jaeyk/PS239T">Jae Yeon Kim</a>.</p>
+<p><a href="https://github.com/kabagg/sisbid_2018_rr/blob/master/Resources/resources.md">Karl Broman’slist of resources</a> for R Markdown, git, coding, etc.</p>
 <p>Templates from Mike DeCrescenzo, Adam Lauretig, and Steven V. Miller. See <a href="https://mikedecr.github.io/code/">Mike’s LaTeX workshop materials</a></p>
 <hr />
 </div>
