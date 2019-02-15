@@ -1,5 +1,5 @@
 ---
-title: "Data viz"
+title: "Data viz 1"
 author: "Devin Judge-Lord"
 date: 
 # output: 
@@ -34,6 +34,12 @@ source(here("setup.R"))
 
 ## Resources
 - Claus O. Wilke on [Data Visualization](https://serialmentor.com/dataviz/index.html)
+- 
+
+
+---
+## Canada 
+[From Kieran Healy](https://kieranhealy.org/blog/archives/2018/12/09/canada-map/)
 
 
 

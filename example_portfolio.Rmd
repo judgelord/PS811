@@ -69,7 +69,9 @@ Text analysis (reuse, topic models and other Bayesian classifiers, content analy
 
 ---
 
-### Something cool
+## Example: 
+
+## How much ideological diversity is there in U.S. state governments? Which states governments are all conservative, which are all liberal, and which are mixed? 
 
 Using DIME ideology scores (based on campaign donations):
 
@@ -82,9 +84,9 @@ d %<>%
   rename(Governor = gov_cf) %>% 
   rename(Lower = l_cf_median) %>% 
   rename(Upper = u_cf_median) %>%
-  mutate(party = ifelse(dist_1_x_zero == 0 & Governor < 0, "All Liberal", "Mixed")) %>% 
-  mutate(party = ifelse(dist_1_x_zero == 0 & Governor > 0, "All Conservative", party)) %>%
-  mutate(party = ifelse(is.na(dist_1_x_zero) & Governor > 0, "All Conservative", party)) %>%
+  mutate(state_ideology = ifelse(dist_1_x_zero == 0 & Governor < 0, "All Liberal", "Mixed")) %>% 
+  mutate(state_ideology = ifelse(dist_1_x_zero == 0 & Governor > 0, "All Conservative", state_ideology)) %>%
+  mutate(state_ideology = ifelse(is.na(dist_1_x_zero) & Governor > 0, "All Conservative", state_ideology)) %>%
   ## identify min and max DIME scores for each state (each row is a state)
   mutate(min = pmin(Governor, Lower, Upper, na.rm = T), 
          max = pmax(Governor, Lower, Upper, na.rm = T) )
@@ -117,7 +119,7 @@ DIMEplot <- function(d){
   scale_x_continuous(breaks = c(-1, 0, 1)) + 
   scale_colour_gradient2(low = "blue", mid = "black", high = "red") +
     # facet by liberal, conservative, or mixed
-  facet_grid(party ~ ., scales = "free_y", space = "free_y") + 
+  facet_grid(state_ideology ~ ., scales = "free_y", space = "free_y") + 
     # adjust text size and drop legend
   theme(axis.text.y = element_text(size = 5), 
         title = element_text(size = 7), 
@@ -136,6 +138,305 @@ d %>%
   filter(year == 2008) %>%
   DIMEplot()
 ```     
+
+
+### Step by step
+
+### 1. Load trimmed-down DIME data from URL:
+
+```{r data}
+## load data from a web address
+load(url("https://github.com/judgelord/state-level-DIME/raw/master/data/BonicaStateLevel.Rdata"))
+```
+
+### 2. Give variables better names
+with `rename()`
+```{r namethings}
+d %<>%
+  ## naming things! 
+  rename(Governor = gov_cf) %>% 
+  rename(Lower = l_cf_median) %>% 
+  rename(Upper = u_cf_median) 
+```
+
+### 3. Make new variables 
+with `mutate()`
+```{r minandmax}
+  ## identify min and max DIME scores for each state (each row is a state)
+d %<>%
+  mutate(min = pmin(Governor, Lower, Upper, na.rm = T), 
+         max = pmax(Governor, Lower, Upper, na.rm = T),
+         distance = pmax(
+           abs(Governor-Lower),
+           abs(Governor-Upper),
+           abs(Upper-Lower)
+           ) )
+```
+
+### 4. Make an new variable indicating "All Liberal," "All Conservative," or "Mixed"
+with `mutate()` and `ifelse()`
+```{r state_ideologyvar}
+d %<>%
+  mutate(state_ideology = ifelse(min < 0 & max < 0,
+                                 "All Liberal",
+                                 ifelse(min > 0 & max > 0,
+                                        "All Conservative",
+                                        "Mixed") 
+                                 )) %>%
+  mutate(state_ideology = ifelse(
+    (min > 0 & max < 0) | (min > 0 & max < 0), 
+    "Mixed", state_ideology)) 
+```
+
+
+### 5. Plot
+
+A `geom_point()` layer (x = Governor, y = State):
+```{r point, fig.height = 5, fig.width = 3.1}
+d %>%
+  ggplot() +
+  geom_point() + 
+  aes(y = state, x = Governor)
+```
+
+`aes()` = "aesthetic" mapping --- i.e. how to show some kind of *variation*
+- position (e.g. along the x or y-axis)
+- color
+- shape
+- size
+- opacity
+
+### Add the positions of legislatures:
+```{r points, fig.height = 5, fig.width = 3.1}
+## with more layers of `geom_point`
+d %>%
+  ggplot() +
+  # define y = state for all layers
+  aes(y = state) +
+  # x = points for each actor
+  geom_point( aes(x = Governor) ) + 
+  geom_point( aes(x = Lower) ) + 
+  geom_point( aes(x = Upper) )
+```
+
+### Add axis labels:
+```{r labs, fig.height = 5, fig.width = 3.1}
+## with  `labs()`
+d %>%
+  ggplot() +
+  # define y = state for all layers
+  aes(y = state) +
+  # x = points for each actor
+  geom_point( aes(x = Governor) ) + 
+  geom_point( aes(x = Lower) ) + 
+  geom_point( aes(x = Upper) ) + 
+  # axis labels! 
+  labs(y = "States", 
+       x = "Mean Ideology Score")
+```
+
+### Adjust shape of points:
+```{r shape, fig.height = 5, fig.width = 3.1}
+## with `shape =`
+d %>%
+  ggplot() +
+  # define y = state for all layers
+  aes(y = state) +
+  # x = points for each actor
+  geom_point(aes(x = Governor), shape = "G") + 
+  geom_point(aes(x = Lower), shape = "L") + 
+  geom_point(aes(x = Upper), shape = "U") + 
+  # axis labels! 
+  labs(y = "States", 
+       x = "Mean Ideology Score")
+```
+
+### Add a distance line :
+```{r segment, fig.height = 5, fig.width = 3.1}
+## with `geom_segment`
+d %>%
+  ggplot() +
+  # define y = state for all layers
+  aes(y = state) +
+  # x = points for each actor
+  geom_point(aes(x = Governor), shape = "G") + 
+  geom_point(aes(x = Lower), shape = "L") + 
+  geom_point(aes(x = Upper), shape = "U") + 
+  # axis labels! 
+  labs(y = "States", 
+       x = "Mean Ideology Score",
+       color = "") + 
+  # x = lines for the distance between max and min actors' DIME scores
+  geom_segment(aes(x = min, 
+                   xend = max, 
+                   y = state,
+                   yend = state))
+```
+
+### Adjust the color, size, line end shape, and opacity of the distance line:
+```{r linetyle, fig.height = 5, fig.width = 3.1}
+## `color`, `size`, line end shape (`lineend`), and opacity (`alpha`)
+  d %>%
+  ggplot() +
+  # define y = state for all layers
+  aes(y = state) +
+    # x = points for each actor
+  geom_point(aes(x = Governor), shape = "G") + 
+  geom_point(aes(x = Lower), shape = "L") + 
+  geom_point(aes(x = Upper), shape = "U") +
+  # labels 
+  labs(y = "States", 
+       x = "Mean Ideology Score") +
+  # x = lines for the distance between max and min actors
+  geom_segment(aes(x = min, 
+                   xend = max, 
+                   yend = state), 
+               color = "grey", 
+               size = 2.1, 
+               lineend = "round", 
+               alpha = .3) 
+```
+
+### Break out ("facet") by groups of interest:
+```{r facet, fig.height = 5, fig.width = 3.1}
+###  with `facet_grid()` or `facet_wrap()`
+  d %>%
+  ggplot() +
+  # define y = state for all layers
+  aes(y = state) +
+  # x = points for each actor
+  geom_point(aes(x = Governor), shape = "G") + 
+  geom_point(aes(x = Lower), shape = "L") + 
+  geom_point(aes(x = Upper), shape = "U") +
+  # labels 
+  labs(y = "States", 
+       x = "Mean Ideology Score") + 
+  # x = lines for the distance between max and min actors
+  geom_segment(aes(x = min, 
+                   xend = max, 
+                   yend = state), 
+               color = "grey", 
+               size = 2.1, 
+               lineend = "round", 
+               alpha = .3) +
+  # facet by liberal, conservative, or mixed
+  facet_grid(state_ideology ~ ., scales = "free_y", space = "free_y") 
+```
+
+### Adjust x axis and color scales:
+```{r scales, fig.height = 5, fig.width = 3.1}
+### with `scale_x` and `scale_color`
+  d %>%
+  ggplot() +
+  # define y = state for all layers
+  aes(y = state) +
+  # x = points for each actor
+  geom_point(aes(x = Governor, color = Governor), shape = "G") + 
+  geom_point(aes(x = Lower, color = Lower), shape = "L") + 
+  geom_point(aes(x = Upper, color = Upper), shape = "U") +
+  # labels 
+  labs(y = "States", 
+       x = "Mean Ideology Score",
+       color = "") + 
+  # x = lines for the distance between max and min actors
+  geom_segment(aes(x = min, 
+                   xend = max, 
+                   yend = state), 
+               color = "grey", 
+               size = 2.1, 
+               lineend = "round", 
+               alpha = .3) +
+    # facet by liberal, conservative, or mixed
+  facet_grid(state_ideology ~ ., scales = "free_y", space = "free_y") +
+  # scales
+  scale_x_continuous(breaks = c(-1, 0, 1)) + 
+  scale_color_gradient2(low = "blue", mid = "black", high = "red")
+```
+
+
+
+### Adjust axis text size and legend:
+```{r theme, fig.height = 5, fig.width = 3.1}
+## with `theme()`
+  d %>%
+  ggplot() +
+  # define y = state for all layers
+  aes(y = state) +
+  # x = points for each actor
+  geom_point(aes(x = Governor, color = Governor), shape = "G") + 
+  geom_point(aes(x = Lower, color = Lower), shape = "L") + 
+  geom_point(aes(x = Upper, color = Upper), shape = "U") +
+  # labels 
+  labs(y = "States", 
+       x = "Mean Ideology Score",
+       color = "") + 
+  # x = lines for the distance between max and min actors
+  geom_segment(aes(x = min, 
+                   xend = max, 
+                   yend = state), 
+               color = "grey", 
+               size = 2.1, 
+               lineend = "round", 
+               alpha = .3) +
+  # scales
+  scale_x_continuous(breaks = c(-1, 0, 1)) + 
+  scale_color_gradient2(low = "blue", mid = "black", high = "red") + 
+  # facet by liberal, conservative, or mixed
+  facet_grid(state_ideology ~ ., scales = "free_y", space = "free_y") + 
+  # adjust text size and drop legend
+  theme(axis.text.y = element_text(size = 5), 
+        legend.position = "none") 
+```
+
+
+### Make all of that a function:
+```{r function, fig.height = 5, fig.width = 3.1}
+## Define a function for plotting state-level DIME data with ggplot
+DIMEplot <- function(d){ 
+  d %>%
+    # define y as state for all layers
+  ggplot(aes(y = reorder(state, distance))) +
+    # x = points for each actor
+  geom_point(aes(x = Governor, color = Governor), shape = "G") + 
+  geom_point(aes(x = Lower, color = Lower), shape = "L") + 
+  geom_point(aes(x = Upper, color = Upper), shape = "U") + 
+  # x = lines for the distance between max and min actors
+  geom_segment(aes(x = min, 
+                   xend = max, 
+                   yend = reorder(state, distance)), 
+               color = "grey", 
+               size = 2.1, 
+               lineend = "round", 
+               alpha = .3) + 
+    # labels 
+  labs(y = "States by Preference Divergence", 
+       x = "Mean Ideology Score",
+       title = paste("Preference Divergence of Political Principals,", unique(d$year) ), 
+       color = "") + 
+  # scales
+  scale_x_continuous(breaks = c(-1, 0, 1)) + 
+  scale_colour_gradient2(low = "blue", mid = "black", high = "red") +
+    # facet by liberal, conservative, or mixed
+  facet_grid(state_ideology ~ ., scales = "free_y", space = "free_y") + 
+    # adjust text size and drop legend
+  theme(axis.text.y = element_text(size = 5), 
+        title = element_text(size = 7), 
+        legend.position = "none") 
+}
+
+```   
+
+So we can easily can compare alignment among governors (G) and upper (U) and lower (L) chambers of state legislatures between 2004 and 2008:
+```{r plotfinal, fig.height = 5, fig.width = 3.1, fig.show='hold'}
+d %>% 
+  filter(year == 2004) %>% 
+  DIMEplot()
+
+d %>% 
+  filter(year == 2008) %>%
+  DIMEplot()
+```     
+
 
 
 

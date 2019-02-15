@@ -1,5 +1,81 @@
+---
+title: "Reproducable scripts"
+author: "Devin Judge-Lord"
+date: 
+# output: 
+#   html_document:
+#   toc: true
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"
+    css: "templates/xaringan-themer.css"
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+## Sets defaults for R chunks
+knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
+                      warning=FALSE,
+                      message=FALSE,
+                      fig.retina = 2,
+                      fig.align = "center", 
+                      dpi = 100,
+                      # fig.path='Figs/', ## where to save figures
+                      fig.height = 3,
+                      fig.width = 3)
+
+library(here)
+source(here("setup.R"))
+```
+
 
 
 ![](https://imgs.xkcd.com/comics/exploits_of_a_mom.png)
 
+---
+
+## source(here("setup.R"))
+
+If you are working with text:
+```
+options(stringsAsFactors = F)
+```
+
+## I don't have your packages
+
+```
+## Add any R packages you require. 
+## Here are some we will use in 811:
+requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
+              "magrittr",
+              "foreign",
+              "readstata13",
+              "here")
+
+## Install any you don't have
+to_install <- c(requires %in% rownames(installed.packages()) == FALSE)
+install.packages(c(requires[to_install], "NA"), repos = "https://cloud.r-project.org/" )
+```
+
+## Set global ggplot theme
+```
+## Load all required R packages
+library(tidyverse)
+library(ggplot2); theme_set(theme_bw())
+library(magrittr)
+library(here)
+```
+
+
+
+
+
+
+## Advanced
 Have long scripts [send you a text or email](https://github.com/jennybc/send-email-with-r) when they are done.
+
+

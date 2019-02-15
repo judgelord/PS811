@@ -6,6 +6,7 @@ requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
               "magrittr",
               "foreign",
               "readstata13",
+              "sf",
               "here")
 
 ## Install any you don't have
@@ -16,6 +17,9 @@ install.packages(c(requires[to_install], "NA"), repos = "https://cloud.r-project
 library(tidyverse)
 library(ggplot2); theme_set(theme_bw())
 library(magrittr)
+library(foreign)
+library(readstata13)
+library(sf)
 library(here)
 
 # Xaringan settings
