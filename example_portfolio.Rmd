@@ -71,7 +71,7 @@ Text analysis (reuse, topic models and other Bayesian classifiers, content analy
 
 ## Example: 
 
-## How much ideological diversity is there in U.S. state governments? Which states governments are all conservative, which are all liberal, and which are mixed? 
+## How much ideological diversity is there in U.S. state governments? Which state governments are all conservative? Which are all liberal. Which are mixed? 
 
 Using DIME ideology scores (based on campaign donations):
 
