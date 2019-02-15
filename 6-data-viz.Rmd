@@ -31,10 +31,16 @@ knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
 library(here)
 source(here("setup.R"))
 ```
+![](Figs/plot-type.png)
 
+---
 ## Resources
 - Claus O. Wilke on [Data Visualization](https://serialmentor.com/dataviz/index.html)
-- 
+- sf package(https://github.com/rstudio/cheatsheets/blob/master/sf.pdf)
+
+---
+
+
 
 
 ---

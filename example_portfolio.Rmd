@@ -69,7 +69,7 @@ Text analysis (reuse, topic models and other Bayesian classifiers, content analy
 
 ---
 
-## Example: 
+## Example data viz: 
 
 ## How much ideological diversity is there in U.S. state governments? Which state governments are all conservative? Which are all liberal. Which are mixed? 
 
@@ -150,8 +150,9 @@ load(url("https://github.com/judgelord/state-level-DIME/raw/master/data/BonicaSt
 ```
 
 ### 2. Give variables better names
-with `rename()`
+
 ```{r namethings}
+## with `rename()`
 d %<>%
   ## naming things! 
   rename(Governor = gov_cf) %>% 
@@ -160,10 +161,11 @@ d %<>%
 ```
 
 ### 3. Make new variables 
-with `mutate()`
+
 ```{r minandmax}
-  ## identify min and max DIME scores for each state (each row is a state)
+## with `mutate()`
 d %<>%
+  ## identify min and max DIME scores for each state (each row is a state)
   mutate(min = pmin(Governor, Lower, Upper, na.rm = T), 
          max = pmax(Governor, Lower, Upper, na.rm = T),
          distance = pmax(
@@ -174,8 +176,9 @@ d %<>%
 ```
 
 ### 4. Make an new variable indicating "All Liberal," "All Conservative," or "Mixed"
-with `mutate()` and `ifelse()`
+
 ```{r state_ideologyvar}
+## with `mutate()` and `ifelse()`
 d %<>%
   mutate(state_ideology = ifelse(min < 0 & max < 0,
                                  "All Liberal",
