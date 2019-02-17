@@ -32,11 +32,14 @@ library(here)
 source(here("setup.R"))
 ```
 
+## Resources 
+- (Tidy text class by Andrew Heiss)(https://datavizf18.classes.andrewheiss.com/class/11-class/)
 [`tidytext`](https://cran.r-project.org/web/packages/tidytext/tidytext.pdf) packate
 
 [A tidy approach to text analysis](https://www.tidytextmining.com/) including
 [topic modeling](https://www.tidytextmining.com/topicmodeling.html) and
 [tidy() for Structural Topic Models from the `stm` package](https://juliasilge.github.io/tidytext/reference/stm_tidiers.html). More [here](https://rdrr.io/cran/tidytext/man/stm_tidiers.html).
 
-
+## Reading 
 [Introduction to cluster analysis](https://eight2late.wordpress.com/2015/07/22/a-gentle-introduction-to-cluster-analysis-using-r/)
+- Tidy Natural Language Processing with [`cleanNLP`](https://scholarship.richmond.edu/cgi/viewcontent.cgi?article=1195&context=mathcs-faculty-publications)

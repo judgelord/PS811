@@ -8,7 +8,7 @@ JudgeLord@wisc.edu | 715.204.4287
 
 Fridays 9-10 AM Soc Sci 6125, Jan. 25 - May 3
 
-*No class March 22 (spring break)
+*No class March 8 (visit day) or March 22 (spring break)
 
 **Office hours:** Fridays 10-12 AM in the North Hall computer lab.
 

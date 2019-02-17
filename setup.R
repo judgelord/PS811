@@ -1,3 +1,5 @@
+## Run this script with `source(here("setup.R"))`
+
 options(stringsAsFactors = F)
 
 ## Add any R packages you require. 
@@ -27,3 +29,14 @@ library(here)
 # remotes::install_github('yihui/xaringan')
 library("xaringan")
 library("xaringanthemer")
+
+## Sets defaults for R chunks
+knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
+                      warning=FALSE,
+                      message=FALSE,
+                      fig.retina = 2,
+                      fig.align = "center", 
+                      dpi = 100,
+                      # fig.path='Figs/', ## where to save figures
+                      fig.height = 3,
+                      fig.width = 3)

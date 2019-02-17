@@ -35,12 +35,42 @@ source(here("setup.R"))
 
 ---
 ## Resources
-- Claus O. Wilke on [Data Visualization](https://serialmentor.com/dataviz/index.html)
-- sf package(https://github.com/rstudio/cheatsheets/blob/master/sf.pdf)
+- Andrew Heiss's [phenominal data viz class](https://datavizf18.classes.andrewheiss.com/schedule/)
+- Claus E. Wilke on [Data Visualization](https://serialmentor.com/dataviz/index.html)
+- [Basic principles of data viz](https://www.geckoboard.com/learn/data-literacy/data-visualization-tips/)
+
+## Reading
+- [Data Visualization, Chapter 1 by Kieran Healy](http://socviz.co/lookatdata.html)
+- Charts change hearts and minds better than words do](https://www.washingtonpost.com/news/wonk/wp/2018/06/15/study-charts-change-hearts-and-minds-better-than-words-do/?utm_term=.89d85fd285ba)
+
+## Data viz in R
+- [R for Data Science: Import, Tidy, Transform, Visualize, and Model Data](https://r4ds.had.co.nz/data-visualisation.html)
+- Maps with `map_data()` from the `maps` package
+- More advanced maps with `r-spatial` and `sf` [cheatsheat](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf) and [tutorial](https://r-spatial.github.io/sf/articles/sf5.html)
 
 ---
 
+# Why we plot 
+## To not lie
+- Avoid statistical fallicies
 
+### To be clear
+- Our brains see patterns (distance, color, shape)
+
+---
+## Summary plots
+
+[Anscombe’s Quartet](https://www.geckoboard.com/learn/data-literacy/statistical-fallacies/danger-of-summary-metrics/)
+
+![](figs/stats-dangers-metrics.png)
+
+---
+
+## Model results
+
+---
+
+## Maps
 
 
 ---
