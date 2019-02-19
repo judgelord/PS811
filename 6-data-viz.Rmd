@@ -1,3 +1,4 @@
+
 ---
 title: "Data viz 1"
 author: "Devin Judge-Lord"
@@ -34,31 +35,36 @@ source(here("setup.R"))
 ![](Figs/plot-type.png)
 
 ---
-## Resources
-- Andrew Heiss's [phenominal data viz class](https://datavizf18.classes.andrewheiss.com/schedule/)
+### Resources
+- Andrew Heiss's [phenomenal data viz class](https://datavizf18.classes.andrewheiss.com/schedule/)
 - Claus E. Wilke on [Data Visualization](https://serialmentor.com/dataviz/index.html)
-- [Basic principles of data viz](https://www.geckoboard.com/learn/data-literacy/data-visualization-tips/)
+<!-- [Basic principles of data viz](https://www.geckoboard.com/learn/data-literacy/data-visualization-tips/) -->
+- A plot that looks like ____? What is it called? -> look 
+[here](https://datavizcatalogue.com/) and
+[here](https://datavizproject.com/)
 
-## Reading
+### Reading
 - [Data Visualization, Chapter 1 by Kieran Healy](http://socviz.co/lookatdata.html)
-- Charts change hearts and minds better than words do](https://www.washingtonpost.com/news/wonk/wp/2018/06/15/study-charts-change-hearts-and-minds-better-than-words-do/?utm_term=.89d85fd285ba)
+- [Charts change hearts and minds better than words do](https://www.washingtonpost.com/news/wonk/wp/2018/06/15/study-charts-change-hearts-and-minds-better-than-words-do/?utm_term=.89d85fd285ba)
 
-## Data viz in R
+### Data viz in R
 - [R for Data Science: Import, Tidy, Transform, Visualize, and Model Data](https://r4ds.had.co.nz/data-visualisation.html)
-- Maps with `map_data()` from the `maps` package
-- More advanced maps with `r-spatial` and `sf` [cheatsheat](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf) and [tutorial](https://r-spatial.github.io/sf/articles/sf5.html)
+- Examples from [data-to-viz.com](https://www.data-to-viz.com/) and in this [catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/) including [xkcd](http://shinyapps.stat.ubc.ca/r-graph-catalog/#0003_xkcd-and-direct-labelling)
+- `ggplot2` [cheatsheet](https://www.rstudio.com/resources/cheatsheets/#ggplot2)
+- Maps with `map_data()` from the `maps` package. Advanced maps: `r-spatial` [tutorial](https://r-spatial.github.io/sf/articles/sf5.html), `sf` [cheatsheat](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf)  and `cartogrphy` [cheatsheet](https://github.com/riatelab/cartography)
 
 ---
 
 # Why we plot 
-## To not lie
+## 1. To not lie
 - Avoid statistical fallicies
 
-### To be clear
-- Our brains see patterns (distance, color, shape)
+## 2. To be clear
+- Our brains see patterns in distance, size, color, shape more easily than in numerals
 
 ---
-## Summary plots
+
+## Summary Plots
 
 [Anscombe’s Quartet](https://www.geckoboard.com/learn/data-literacy/statistical-fallacies/danger-of-summary-metrics/)
 
@@ -66,19 +72,51 @@ source(here("setup.R"))
 
 ---
 
-## Model results
+## `tidy()` model output with `broom`
+See [these slides](https://opr.princeton.edu/workshops/Downloads/2016Jan_BroomRobinson.pdf),
+[this vignette](https://cran.r-project.org/web/packages/broom/vignettes/broom.html), and 
+[this example](http://varianceexplained.org/r/broom-intro/).
+
+```{r notbroom}
+lm(height ~ mass, data = starwars)
+```
+
+```{r broom}
+library(broom)
+tidy(
+  lm(height ~ mass, data = starwars),
+  conf.int = TRUE
+  )
+```
+
+```{}
+"The p-value for coefficient 2 is ` r m1$p.value[2]`."
+```
 
 ---
 
-## Maps
+## `tidy()` model output with `broom`
 
 
----
+```{r tidy-coef-plot, fig.width=6, fig.height=2}
+m1 <- tidy(
+  lm(height ~ mass, data = starwars),
+  conf.int = TRUE
+  ) 
+
+
+m1 %>% ggplot( aes(x = estimate, y = term, color = term) ) +
+    geom_point(size = 5) + 
+    geom_errorbarh(aes(xmin = conf.low, xmax = conf.high)) +
+    ## (or use geom_pointrange or geom_linerange() + coord_flip()--see cheatsheet)
+    geom_vline(xintercept = 0)
+```
+
+<!--
+
 ## Canada 
 [From Kieran Healy](https://kieranhealy.org/blog/archives/2018/12/09/canada-map/)
 
 
-
-
-
+-->
 

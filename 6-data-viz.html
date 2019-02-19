@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Data viz 1</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Devin Judge-Lord" />
+    <link rel="stylesheet" href="templates/xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data viz 1
+### Devin Judge-Lord
+
+---
+
+
+
+![](Figs/plot-type.png)
+
+---
+### Resources
+- Andrew Heiss's [phenomenal data viz class](https://datavizf18.classes.andrewheiss.com/schedule/)
+- Claus E. Wilke on [Data Visualization](https://serialmentor.com/dataviz/index.html)
+&lt;!-- [Basic principles of data viz](https://www.geckoboard.com/learn/data-literacy/data-visualization-tips/) --&gt;
+- A plot that looks like ____? What is it called? -&gt; look 
+[here](https://datavizcatalogue.com/) and
+[here](https://datavizproject.com/)
+
+### Reading
+- [Data Visualization, Chapter 1 by Kieran Healy](http://socviz.co/lookatdata.html)
+- [Charts change hearts and minds better than words do](https://www.washingtonpost.com/news/wonk/wp/2018/06/15/study-charts-change-hearts-and-minds-better-than-words-do/?utm_term=.89d85fd285ba)
+
+### Data viz in R
+- [R for Data Science: Import, Tidy, Transform, Visualize, and Model Data](https://r4ds.had.co.nz/data-visualisation.html)
+- Examples from [data-to-viz.com](https://www.data-to-viz.com/) and in this [catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/) including [xkcd](http://shinyapps.stat.ubc.ca/r-graph-catalog/#0003_xkcd-and-direct-labelling)
+- `ggplot2` [cheatsheet](https://www.rstudio.com/resources/cheatsheets/#ggplot2)
+- Maps with `map_data()` from the `maps` package. Advanced maps: `r-spatial` [tutorial](https://r-spatial.github.io/sf/articles/sf5.html), `sf` [cheatsheat](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf)  and `cartogrphy` [cheatsheet](https://github.com/riatelab/cartography)
+
+---
+
+# Why we plot 
+## 1. To not lie
+- Avoid statistical fallicies
+
+## 2. To be clear
+- Our brains see patterns in distance, size, color, shape more easily than in numerals
+
+---
+
+## Summary Plots
+
+[Anscombe’s Quartet](https://www.geckoboard.com/learn/data-literacy/statistical-fallacies/danger-of-summary-metrics/)
+
+![](figs/stats-dangers-metrics.png)
+
+---
+
+## `tidy()` model output with `broom`
+See [these slides](https://opr.princeton.edu/workshops/Downloads/2016Jan_BroomRobinson.pdf),
+[this vignette](https://cran.r-project.org/web/packages/broom/vignettes/broom.html), and 
+[this example](http://varianceexplained.org/r/broom-intro/).
+
+
+```r
+lm(height ~ mass, data = starwars)
+```
+
+```
+## 
+## Call:
+## lm(formula = height ~ mass, data = starwars)
+## 
+## Coefficients:
+## (Intercept)         mass  
+##   171.28536      0.02807
+```
+
+
+```r
+library(broom)
+tidy(
+  lm(height ~ mass, data = starwars),
+  conf.int = TRUE
+  )
+```
+
+```
+## # A tibble: 2 x 7
+##   term        estimate std.error statistic  p.value  conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept) 171.        5.34       32.1  3.73e-38  161.      182.    
+## 2 mass          0.0281    0.0275      1.02 3.12e- 1   -0.0270    0.0832
+```
+
+```{}
+"The p-value for coefficient 2 is ` r m1$p.value[2]`."
+```
+
+---
+
+## `tidy()` model output with `broom`
+
+
+
+```r
+m1 &lt;- tidy(
+  lm(height ~ mass, data = starwars),
+  conf.int = TRUE
+  ) 
+
+
+m1 %&gt;% ggplot( aes(x = estimate, y = term, color = term) ) +
+    geom_point(size = 5) + 
+    geom_errorbarh(aes(xmin = conf.low, xmax = conf.high)) +
+    ## (or use geom_pointrange or geom_linerange() + coord_flip()--see cheatsheet)
+    geom_vline(xintercept = 0)
+```
+
+&lt;img src="6-data-viz_files/figure-html/tidy-coef-plot-1.png" width="600" style="display: block; margin: auto;" /&gt;
+
+&lt;!--
+
+## Canada 
+[From Kieran Healy](https://kieranhealy.org/blog/archives/2018/12/09/canada-map/)
+
+
+--&gt;
+    </textarea>
+<style data-target="print-only">.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

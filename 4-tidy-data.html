@@ -38,20 +38,21 @@ class: center, middle, inverse, title-slide
 
 ---
 
-## "Environment" = your objects
-- Data, functions, etc.
-- Do not "attach" data!
+## "Environment" = your current objects (data, functions, etc.)
+Do not "attach" data!
 
 --
 
-## Read in data
+## [Read in data](https://github.com/rstudio/cheatsheets/blob/master/data-import.pdf)
 #### Loading saved R objects
 `load()` works for objects saved as .Rdata from a local file or the web
 
-#### New R objects
-`d &lt;- read.csv()` loads comma seperated values (a plain text spreadsheet)
+#### New R objects with `readr`
+`d &lt;- read_csv()` loads comma seperated values (a plain text spreadsheet)
 
-`d &lt;- read.dta13()` loads STATA data files int r
+`d &lt;- read_dta()` loads STATA data files into R (see [`haven`](https://cran.r-project.org/web/packages/haven/haven.pdf))
+
+See this [cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-import.pdf) for more data types and options.
 
 ---
 # Naming things!
@@ -72,7 +73,7 @@ d &lt;- regulations
 
 `m1` or `model.1` for model output, corresponding to how you discuss them the text:
 
-"The p-value for coefficient 2 is \` r m1$p.value[2]\`."
+"The p-value for coefficient 2 is \` r m1$p.value[2]\`." (for tidy model output)
 
 ---
 
@@ -152,7 +153,7 @@ filter(starwars, species == "Droid")
 
 ---
 
-### `summarize` by group (`n()`, `mean()`, `max()`, etc.)
+### `summarize()` by group (`n()`, `mean()`, `max()`, etc.)
 
 ```r
 starwars %&gt;% 
@@ -180,7 +181,7 @@ starwars %&gt;%
 
 ---
 
-### New variables with `mutate`
+### New variables with `mutate()`
 
 ```r
 starwars %&gt;% 
@@ -212,7 +213,10 @@ starwars %&gt;%
 
 ---
 
-## Tidy model output with `broom`
+## `tidy()` model output with `broom`
+See [these slides](https://opr.princeton.edu/workshops/Downloads/2016Jan_BroomRobinson.pdf),
+[this vignette](https://cran.r-project.org/web/packages/broom/vignettes/broom.html), and 
+[this example](http://varianceexplained.org/r/broom-intro/).
 
 
 ```r
