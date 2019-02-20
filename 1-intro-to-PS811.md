@@ -133,7 +133,7 @@ Here is an [example portfolio](https://judgelord.github.io/PS811/1-intro-to-PS81
 
 ---
 
-### 7. Data viz workshop - MARCH 16
+### 7. Data viz workshop - MARCH 15
 
 
 - Bonus (optional): convert your 811 web page to a slideshow with `xaringan` (When you have to make a conference presentation, you'll be glad you did!)
