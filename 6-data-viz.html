@@ -81,10 +81,8 @@ lm(height ~ mass, data = starwars)
 
 
 ```r
-tidy(
-  lm(height ~ mass, data = starwars),
-  conf.int = TRUE
-  )
+lm(height ~ mass, data = starwars) %&gt;%
+  tidy(conf.int = TRUE)
 ```
 
 ```
@@ -95,9 +93,11 @@ tidy(
 ## 2 mass          0.0281    0.0275      1.02 3.12e- 1   -0.0270    0.0832
 ```
 
-```{}
-"The p-value for coefficient 2 is ` r m1$p.value[2]`."
+
+```r
+"The p-value for `r m1$term[2]` is `r m1$p.value[2]`."
 ```
+
 
 ---
 
@@ -106,20 +106,24 @@ tidy(
 
 
 ```r
-m1 &lt;- tidy(
-  lm(height ~ mass, data = starwars),
-  conf.int = TRUE
-  ) 
-
+m1 &lt;- lm(height ~ mass, data = starwars) %&gt;% 
+  tidy(conf.int = TRUE) 
 
 m1 %&gt;% ggplot( aes(x = estimate, y = term, color = term) ) +
     geom_point(size = 5) + 
     geom_errorbarh(aes(xmin = conf.low, xmax = conf.high)) +
     ## (or use geom_pointrange or geom_linerange() + coord_flip()--see cheatsheet)
-    geom_vline(xintercept = 0)
+    geom_vline(xintercept = 0) # vertical line at 0
 ```
 
 &lt;img src="Figs/tidy-coef-plot-1.png" width="600" style="display: block; margin: auto;" /&gt;
+
+
+```r
+"The p-value for `r m1$term[2]` is `r round( m1$p.value[2], 3)`."
+```
+"The p-value for mass is 0.312."
+
 
 &lt;!--
 
