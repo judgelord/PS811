@@ -54,11 +54,12 @@ source(here("setup.R"))
 
 ---
 
-## Summary Plots
+## [Anscombe’s Quartet](https://www.geckoboard.com/learn/data-literacy/statistical-fallacies/danger-of-summary-metrics/)
 
-[Anscombe’s Quartet](https://www.geckoboard.com/learn/data-literacy/statistical-fallacies/danger-of-summary-metrics/)
+![](Figs/stats-dangers-metrics.png)
 
-![](figs/stats-dangers-metrics.png)
+
+
 
 ---
 
