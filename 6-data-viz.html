@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Data viz 1</title>
+    <title>Data Viz 1</title>
     <meta charset="utf-8">
     <meta name="author" content="Devin Judge-Lord" />
     <link rel="stylesheet" href="templates/xaringan-themer.css" type="text/css" />
@@ -10,16 +10,18 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Data viz 1
+# Data Viz 1
 ### Devin Judge-Lord
 
 ---
 
 
 
+
 ![](Figs/plot-type.png)
 
 ---
+
 ### Resources
 - Andrew Heiss's [phenomenal data viz class](https://datavizf18.classes.andrewheiss.com/schedule/)
 - Claus E. Wilke on [Data Visualization](https://serialmentor.com/dataviz/index.html)
@@ -79,7 +81,6 @@ lm(height ~ mass, data = starwars)
 
 
 ```r
-library(broom)
 tidy(
   lm(height ~ mass, data = starwars),
   conf.int = TRUE
@@ -118,7 +119,7 @@ m1 %&gt;% ggplot( aes(x = estimate, y = term, color = term) ) +
     geom_vline(xintercept = 0)
 ```
 
-&lt;img src="6-data-viz_files/figure-html/tidy-coef-plot-1.png" width="600" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/tidy-coef-plot-1.png" width="600" style="display: block; margin: auto;" /&gt;
 
 &lt;!--
 
