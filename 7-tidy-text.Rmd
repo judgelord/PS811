@@ -1,5 +1,5 @@
 ---
-title: "Tidy text analysis 1 - Preprocessing and features"
+title: "Tidy text analysis"
 author: "Devin Judge-Lord"
  # output:
  #   html_document:
@@ -31,6 +31,7 @@ source(here::here("setup.R"))
 
 # 2. Matching
 
+![](Figs/same.jpg)
 
 ---
 
@@ -40,7 +41,7 @@ source(here::here("setup.R"))
 
 # 3. Classifying
 
-
+![](Figs/different.jpg)
 
 ---
 
@@ -64,6 +65,7 @@ source(here::here("setup.R"))
 - Tidy Natural Language Processing with [`cleanNLP`](https://scholarship.richmond.edu/cgi/viewcontent.cgi?article=1195&context=mathcs-faculty-publications)
 
 ---
+
 ## Word frequency
 
 
