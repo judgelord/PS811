@@ -40,7 +40,7 @@ library(grid)
 library(foreign)
 library(readstata13)
 library(maps)
-library(sf)
+# library(sf)
 library(here)
 library(knitr)
 
@@ -51,7 +51,7 @@ library(knitr)
 knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
                       warning=FALSE,
                       message=FALSE,
-                      cache = TRUE,
+                      cache = FALSE,
                       fig.retina = 2,
                       fig.align = "center", 
                       dpi = 100,
@@ -59,12 +59,11 @@ knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
                       fig.height = 3,
                       fig.width = 3)
 
-require()
 # Xaringan
-if(require("xaringan")){
+if(!"xaringan" %in% rownames(installed.packages() ) ){
   remotes::install_github('yihui/xaringan')
 }
-if(require("xaringanthemer")){
+if(!"xaringanthemer" %in% rownames(installed.packages() ) ){
   remotes::install_github('gadenbuie/xaringanthemer')
 }
 

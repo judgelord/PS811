@@ -55,13 +55,13 @@ source(here::here("setup.R"))
 
 ## Resources 
 - [Tidy text class by Andrew Heiss](https://datavizf18.classes.andrewheiss.com/class/11-class/)
-- [`tidytext`](https://cran.r-project.org/web/packages/tidytext/tidytext.pdf) packate
-- [A tidy approach to text analysis](https://www.tidytextmining.com/) including
+- [`tidytext`](https://cran.r-project.org/web/packages/tidytext/tidytext.pdf) package
+- [Tidy text analysis](https://www.tidytextmining.com/) including
 [topic modeling](https://www.tidytextmining.com/topicmodeling.html) and
-[tidy() for Structural Topic Models from the `stm` package](https://juliasilge.github.io/tidytext/reference/stm_tidiers.html). More [here](https://rdrr.io/cran/tidytext/man/stm_tidiers.html).
+[tidy() for Structural Topic Models](https://juliasilge.github.io/tidytext/reference/stm_tidiers.html) from the `stm` package. More [here](https://rdrr.io/cran/tidytext/man/stm_tidiers.html).
 
 ## Reading 
-[Introduction to cluster analysis](https://eight2late.wordpress.com/2015/07/22/a-gentle-introduction-to-cluster-analysis-using-r/)
+- [Introduction to cluster analysis](https://eight2late.wordpress.com/2015/07/22/a-gentle-introduction-to-cluster-analysis-using-r/)
 - Tidy Natural Language Processing with [`cleanNLP`](https://scholarship.richmond.edu/cgi/viewcontent.cgi?article=1195&context=mathcs-faculty-publications)
 - [Text from audio](https://www.cambridge.org/core/journals/political-analysis/article/testing-the-validity-of-automatic-speech-recognition-for-political-text-analysis/E375085D96331A47E810C01AA6DB0A46)
 
@@ -85,18 +85,15 @@ head(words)
 ```{r count, cache = FALSE}
 words %<>%
   anti_join(stop_words) %>% ## Replace meaningless words 
-  filter(!str_detect("people|just|dont|like|about|democrat|republican|party|[0-9]", word) ) %>%
+  filter(!str_detect("people|just|dont|like|about|democrat.|republican.|party|[0-9]", word) ) %>%
   group_by(question) %>%
   count(word) # Count the number of times each word occurs in each group
 ```
 
 ---
 
-## Word frequency
-
 ```{r ANESfrequency, fig.height=4, fig.width=6}
-words %>%
-  top_n(10) %>% ## Top 10 words in each group
+top_n(words, 10) %>% ## Top 10 words in each group
   ggplot( aes(x = reorder(word, n), y = n) ) +
   geom_col() + 
   coord_flip() +
@@ -106,22 +103,22 @@ words %>%
 
 ---
 
-
-```{r ANES-wordcloud, fig.height=2, fig.width=2, eval=FALSE, fig.show = 'hide'}
+```{r ANES-wordcloud, eval=FALSE}
 words %>%
   filter(question == "dislike_about_GOP") %>% 
   with(wordcloud(word, n, max.words = 50))
 ```
 
-![DEM](Figs/ANES-wordcloud-1.png) ![GOP](Figs/ANES-wordcloud-2.png)
-
-
+![GOP](Figs/ANES-wordcloud-2.png)
 
 ---
 
 class: center inverse
 
 ![](https://media.giphy.com/media/14kkd3gt5FJt3a/giphy.gif)
+
+---
+class: inverse
 
 
 
