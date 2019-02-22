@@ -166,6 +166,48 @@ Word clouds only show word frequency, and font size is hard to visually compare.
 
 ---
 
+Tokenize by word pair ("bi-gram")
+
+```r
+bigrams &lt;-  unnest_tokens(d, bigram, response, token = "ngrams", n = 2) 
+head(bigrams)
+```
+
+```
+## # A tibble: 6 x 3
+##   V160001 question          bigram     
+##     &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;      
+## 1  300001 dislike_about_DEM i see      
+## 2  300001 dislike_about_DEM see them   
+## 3  300001 dislike_about_DEM them trying
+## 4  300001 dislike_about_DEM trying take
+## 5  300001 dislike_about_DEM take to    
+## 6  300001 dislike_about_DEM to much
+```
+
+
+```r
+bigrams %&lt;&gt;%
+  group_by(question) %&gt;%
+  count(bigram) # Count the number of times each word occurs in each group
+```
+
+---
+
+
+```r
+top_n(bigrams, 10) %&gt;% ## Top 10 words in each group
+  ggplot( aes(x = reorder(bigram, n), y = n) ) +
+  geom_col() + 
+  coord_flip() +
+  facet_wrap("question", scales = "free_y", strip.position="top") + 
+  labs(x = "Bigram", y = "Count")
+```
+
+&lt;img src="Figs/ANESfrequency-b-1.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
 class: center inverse
 
 ![](https://media.giphy.com/media/14kkd3gt5FJt3a/giphy.gif)
