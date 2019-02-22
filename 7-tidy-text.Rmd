@@ -63,11 +63,11 @@ source(here::here("setup.R"))
 ## Reading 
 [Introduction to cluster analysis](https://eight2late.wordpress.com/2015/07/22/a-gentle-introduction-to-cluster-analysis-using-r/)
 - Tidy Natural Language Processing with [`cleanNLP`](https://scholarship.richmond.edu/cgi/viewcontent.cgi?article=1195&context=mathcs-faculty-publications)
+- [Text from audio](https://www.cambridge.org/core/journals/political-analysis/article/testing-the-validity-of-automatic-speech-recognition-for-political-text-analysis/E375085D96331A47E810C01AA6DB0A46)
 
 ---
 
 ## Word frequency
-
 
 Responses to ANES question "What do you dislike about [Democrats/Republicans]?" (V161101, V161106)
 ```{r ANES-data}
@@ -82,26 +82,25 @@ words <-  unnest_tokens(d, word, response)
 head(words)
 ```
 
-```{r count}
+```{r count, cache = FALSE}
 words %<>%
   anti_join(stop_words) %>% ## Replace meaningless words 
   filter(!str_detect("people|just|dont|like|about|democrat|republican|party|[0-9]", word) ) %>%
   group_by(question) %>%
-  count(word) # Count words per groups
+  count(word) # Count the number of times each word occurs in each group
 ```
 
 ---
 
 ## Word frequency
 
-```{r ANESfrequency}
+```{r ANESfrequency, fig.height=4, fig.width=6}
 words %>%
   top_n(10) %>% ## Top 10 words in each group
-  ggplot() +
-  aes(x = reorder(word, n), y = n) + 
+  ggplot( aes(x = reorder(word, n), y = n) ) +
   geom_col() + 
   coord_flip() +
-  facet_grid(question ~., scales = "free_y") + 
+  facet_wrap("question", scales = "free_y", strip.position="top") + 
   labs(x = "Word", y = "Count")
 ```
 
@@ -119,6 +118,8 @@ words %>%
 
 
 ---
+
+class: center inverse
 
 ![](https://media.giphy.com/media/14kkd3gt5FJt3a/giphy.gif)
 

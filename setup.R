@@ -18,7 +18,8 @@ requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
               "maps",
               "sf",
               "here",
-              "remotes")
+              "remotes",
+              "knitr")
 
 ## Install any you don't have
 to_install <- c(requires %in% rownames(installed.packages()) == FALSE)
@@ -41,6 +42,7 @@ library(readstata13)
 library(maps)
 library(sf)
 library(here)
+library(knitr)
 
 
 
@@ -57,12 +59,12 @@ knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
                       fig.height = 3,
                       fig.width = 3)
 
-
+require()
 # Xaringan
-if(!"xaringan" %in% rownames(installed.packages()) ){
+if(require("xaringan")){
   remotes::install_github('yihui/xaringan')
 }
-if(!"xaringanthemer" %in% rownames(installed.packages()) ){
+if(require("xaringanthemer")){
   remotes::install_github('gadenbuie/xaringanthemer')
 }
 
