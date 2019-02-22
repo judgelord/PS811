@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tidy text analysis</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Devin Judge-Lord" />
+    <link rel="stylesheet" href="templates/xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Tidy text analysis
+### Devin Judge-Lord
+
+---
+
+
+
+
+
+## 1. Counting
+![](https://media.giphy.com/media/3o7TKu5aIDY4tU3SXm/giphy.gif)
+
+--
+
+- text features `\(\in\)`\{all* words, some words, phrases, etc.\} 
+
+---
+
+## 1. Counting
+
+- text features `\(\in\)`\{all* words, some words, phrases, etc.\} 
+
+## 2. Matching
+![](Figs/same.jpg)
+
+--
+
+- Exactly* the same string ("regular expressions", text reuse)
+
+---
+
+## 1. Counting
+- text features `\(\in\)`\{all* words, some words, phrases, etc.\} 
+
+## 2. Matching
+- Exactly* the same string ("regular expressions", text reuse)
+
+## 3. Classifying
+![](Figs/different.jpg)
+
+---
+
+## 1. Counting
+- text features `\(\in\)`\{all* words, some words, phrases, etc.\}
+
+## 2. Matching
+- Exactly* the same string ("regular expressions", text reuse)
+
+## 3. Classifying
+- Rules vs. probability
+
+---
+
+## Resources 
+- [Tidy text class by Andrew Heiss](https://datavizf18.classes.andrewheiss.com/class/11-class/)
+- [`tidytext`](https://cran.r-project.org/web/packages/tidytext/tidytext.pdf) package
+- [Tidy text analysis](https://www.tidytextmining.com/) including
+[topic modeling](https://www.tidytextmining.com/topicmodeling.html) and
+[tidy() for Structural Topic Models](https://juliasilge.github.io/tidytext/reference/stm_tidiers.html) from the `stm` package. More [here](https://rdrr.io/cran/tidytext/man/stm_tidiers.html).
+
+## Reading 
+- [Introduction to cluster analysis](https://eight2late.wordpress.com/2015/07/22/a-gentle-introduction-to-cluster-analysis-using-r/)
+- Tidy Natural Language Processing with [`cleanNLP`](https://scholarship.richmond.edu/cgi/viewcontent.cgi?article=1195&amp;context=mathcs-faculty-publications)
+- [Text from audio](https://www.cambridge.org/core/journals/political-analysis/article/testing-the-validity-of-automatic-speech-recognition-for-political-text-analysis/E375085D96331A47E810C01AA6DB0A46)
+- Here is an [ok blog post on visualizing qualitative data](https://depictdatastudio.com/how-to-visualize-qualitative-data/)--lmk if you find a better resource. 
+
+---
+
+## Cool applications:
+- [Gender tropes in film](https://pudding.cool/2017/08/screen-direction/)
+- [Analysis of Trump's tweets confirms he writes only the (angrier) Android half](http://varianceexplained.org/r/trump-tweets/)
+
+---
+
+class: inverse center
+
+# Counting things in fancy ways.
+
+---
+
+## Word frequency
+
+Responses to ANES question "What do you dislike about [Democrats/Republicans]?" (V161101, V161106)
+
+```r
+load(here("data/ANESdislikes.Rdata"))
+d &lt;- ANESdislikes
+d[1,]
+```
+
+```
+## # A tibble: 1 x 3
+##   V160001 question       response                                          
+##     &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;                                             
+## 1  300001 dislike_about… i see them trying take to much and give to the ho…
+```
+
+Tokenize by word
+
+```r
+words &lt;-  unnest_tokens(d, word, response)
+head(words)
+```
+
+```
+## # A tibble: 6 x 3
+##   V160001 question          word  
+##     &lt;int&gt; &lt;chr&gt;             &lt;chr&gt; 
+## 1  300001 dislike_about_DEM i     
+## 2  300001 dislike_about_DEM see   
+## 3  300001 dislike_about_DEM them  
+## 4  300001 dislike_about_DEM trying
+## 5  300001 dislike_about_DEM take  
+## 6  300001 dislike_about_DEM to
+```
+
+
+```r
+words %&lt;&gt;%
+  anti_join(stop_words) %&gt;% ## Replace meaningless words 
+  filter(!str_detect("people|just|dont|like|about|democrat.|republican.|party|[0-9]", word) ) %&gt;%
+  group_by(question) %&gt;%
+  count(word) # Count the number of times each word occurs in each group
+```
+
+---
+
+
+```r
+top_n(words, 10) %&gt;% ## Top 10 words in each group
+  ggplot( aes(x = reorder(word, n), y = n) ) +
+  geom_col() + 
+  coord_flip() +
+  facet_wrap("question", scales = "free_y", strip.position="top") + 
+  labs(x = "Word", y = "Count")
+```
+
+&lt;img src="Figs/ANESfrequency-1.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+words %&gt;%
+  filter(question == "dislike_about_GOP") %&gt;% 
+  with(wordcloud(word, n, max.words = 50))
+```
+
+![GOP](Figs/ANES-wordcloud-2.png)
+
+---
+
+Word clouds only show word frequency, and font size is hard to visually compare. Nevertheless, [they may be useful](https://www.vis4.net/blog/2015/01/when-its-ok-to-use-word-clouds/) if all you care about is frequency.
+
+---
+
+class: center inverse
+
+![](https://media.giphy.com/media/14kkd3gt5FJt3a/giphy.gif)
+    </textarea>
+<style data-target="print-only">.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

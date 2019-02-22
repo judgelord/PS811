@@ -22,15 +22,47 @@ source(here::here("setup.R"))
 ```
 
 
+## 1. Counting
+![](https://media.giphy.com/media/3o7TKu5aIDY4tU3SXm/giphy.gif)
+
+--
+
+- text features $\in$\{all* words, some words, phrases, etc.\} 
+
+---
+
+## 1. Counting
+
+- text features $\in$\{all* words, some words, phrases, etc.\} 
+
+## 2. Matching
+![](Figs/same.jpg)
+
+--
+
+- Exactly* the same string ("regular expressions", text reuse)
+
+---
+
+## 1. Counting
+- text features $\in$\{all* words, some words, phrases, etc.\} 
+
+## 2. Matching
+- Exactly* the same string ("regular expressions", text reuse)
+
+## 3. Classifying
 ![](Figs/different.jpg)
 
 ---
 
-# 1. **Counting**
+## 1. Counting
+- text features $\in$\{all* words, some words, phrases, etc.\}
 
-# 2. Matching
+## 2. Matching
+- Exactly* the same string ("regular expressions", text reuse)
 
-# 3. Classifying
+## 3. Classifying
+- Rules vs. probability
 
 ---
 
@@ -45,6 +77,19 @@ source(here::here("setup.R"))
 - [Introduction to cluster analysis](https://eight2late.wordpress.com/2015/07/22/a-gentle-introduction-to-cluster-analysis-using-r/)
 - Tidy Natural Language Processing with [`cleanNLP`](https://scholarship.richmond.edu/cgi/viewcontent.cgi?article=1195&context=mathcs-faculty-publications)
 - [Text from audio](https://www.cambridge.org/core/journals/political-analysis/article/testing-the-validity-of-automatic-speech-recognition-for-political-text-analysis/E375085D96331A47E810C01AA6DB0A46)
+- Here is an [ok blog post on visualizing qualitative data](https://depictdatastudio.com/how-to-visualize-qualitative-data/)--lmk if you find a better resource. 
+
+---
+
+## Cool applications:
+- [Gender tropes in film](https://pudding.cool/2017/08/screen-direction/)
+- [Analysis of Trump's tweets confirms he writes only the (angrier) Android half](http://varianceexplained.org/r/trump-tweets/)
+
+---
+
+class: inverse center
+
+# Counting things in fancy ways.
 
 ---
 
@@ -94,12 +139,10 @@ words %>%
 
 ---
 
+Word clouds only show word frequency, and font size is hard to visually compare. Nevertheless, [they may be useful](https://www.vis4.net/blog/2015/01/when-its-ok-to-use-word-clouds/) if all you care about is frequency.
+
+---
+
 class: center inverse
 
 ![](https://media.giphy.com/media/14kkd3gt5FJt3a/giphy.gif)
-
----
-class: inverse
-
-
-
