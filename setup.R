@@ -9,6 +9,11 @@ requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
               "magrittr",
               "foreign",
               "readstata13",
+              "tidytext",
+              "stm",
+              "topicmodels",
+              "textfeatures",
+              "cleanNLP", ## https://statsmaths.github.io/cleanNLP/
               "maps",
               "sf",
               "here")
@@ -24,6 +29,10 @@ library(ggplot2); theme_set(theme_bw())
 library(magrittr)
 library(foreign)
 library(readstata13)
+library(tidytext)
+library(stm)
+library(topicmodels)
+library(textfeatures)
 library(maps)
 library(sf)
 library(here)

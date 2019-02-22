@@ -34,7 +34,7 @@ source(here("setup.R"))
 
 ## Resources 
 - (Tidy text class by Andrew Heiss)(https://datavizf18.classes.andrewheiss.com/class/11-class/)
-[`tidytext`](https://cran.r-project.org/web/packages/tidytext/tidytext.pdf) packate
+[`tidytext`](https://cran.r-project.org/web/packages/tidytext/tidytext.pdf) package
 
 [A tidy approach to text analysis](https://www.tidytextmining.com/) including
 [topic modeling](https://www.tidytextmining.com/topicmodeling.html) and

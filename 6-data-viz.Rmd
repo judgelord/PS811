@@ -58,9 +58,6 @@ source(here("setup.R"))
 
 ![](Figs/stats-dangers-metrics.png)
 
-
-
-
 ---
 
 ## `tidy()` model output with `broom`
