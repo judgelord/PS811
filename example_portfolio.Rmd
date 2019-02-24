@@ -9,8 +9,10 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-source(here::here("setup.R"))
+## Run a setup.R script to load R packages and set defaults
+source(here::here("setup.R")) ## Alternatively: source("https://raw.githubusercontent.com/judgelord/PS811/master/setup.R")
 
+## Modify some defaults for this example
 knitr::opts_chunk$set(fig.height = 4,
                       fig.width = 8)
 ```

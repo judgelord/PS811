@@ -1,4 +1,4 @@
-## Run this script with `source(here("setup.R"))`
+## Run this script with `source(here::here("setup.R"))`
 
 options(stringsAsFactors = F)
 
@@ -48,6 +48,7 @@ library(tidytext)
 library(stm)
 library(topicmodels)
 library(textfeatures)
+library(cleanNLP) ## https://statsmaths.github.io/cleanNLP/ 
 library(maps)
 # library(sf)
 library(here)
@@ -58,12 +59,9 @@ library(knitr)
 
 ## Sets defaults for R chunks
 knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
-                      warning=FALSE,
-                      message=FALSE,
-                      cache = FALSE,
-                      fig.retina = 2,
+                      warning = FALSE,
+                      message = FALSE,
                       fig.align = "center", 
-                      dpi = 100,
                       fig.path='Figs/', ## where to save figures
                       fig.height = 3,
                       fig.width = 3)

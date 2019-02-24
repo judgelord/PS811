@@ -9,8 +9,10 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-source(here::here("setup.R"))
+## Run a setup.R script to load R packages and set defaults
+source(here::here("setup.R")) ## Alternatively: source("https://raw.githubusercontent.com/judgelord/PS811/master/setup.R")
 
+## Modify some defaults for this example
 knitr::opts_chunk$set(fig.height = 4,
                       fig.width = 8)
 ```
@@ -51,21 +53,15 @@ d$SUBJECT %<>%
   str_replace_all("[0-9]", "")
 ```
 
-```{r clean-text-extra, echo=FALSE}
-d$SUBJECT %<>% str_replace_all(stopwords, " ")
-d$SUBJECT %<>% str_replace_all(stopwords, " ")
-d$SUBJECT %<>% str_replace_all("[0-9]", "")
-```
-
 
 ## Tokens and word counts
 
 ### Single words
 
 With tidy text, counting words is simple:
-- `unnest_tokens()` splits each response into separate words.
-- `anti_join(stop_words)` removes all the common stop words like "a" and "the". You can do the same thing with `filter()` like so: `filter(!(word %in% stop_words$word))` 
-- `count()` how many times each word appears and sort the list (`count(word)` is like `group_by(word) %>% summarize(n = n()) %>% ungroup()` )
+- `unnest_tokens()` splits each response into tokens (by word by defult, but we can also tokenize by phrases of length n, called n-grams).
+- `anti_join(stop_words)` removes words that often have little meaning, like "a" and "the", called stop words. We can also do this with with `filter(!(word %in% stop_words$word))` 
+- `count()` how many times each word appears (`count(word)` is like `group_by(word) %>% summarize(n = n()) %>% ungroup()` )
 - Plot the top 10 words with `geom_col()`
 
 ```{r single-words, fig.width=10, fig.height=4}
@@ -87,7 +83,7 @@ ggplot(words, aes(x = fct_rev(word), y = n)) +
 
 ### Bigrams
 
-We can also look at the frequency of **pairs of words**. First we'll look at common bigrams, filtering out stop words again (since we don't want things like "of the" and "in the"):
+We can also look at the frequency of **pairs of words**. First, we'll look at common bigrams, filtering out stop words again (since we don't want things like "of the" and "in the"):
 
 ```{r bigrams-all, fig.width=10, fig.height=4}
 bigrams <- d %>% 
@@ -298,7 +294,7 @@ tf_idf <- words %>%
  bind_tf_idf(word, Department, n) %>% 
  arrange(desc(tf_idf))
 
-# Get the top 10 uniquest words
+# Get the top 10 most unique words
 tf_idf %>% 
   group_by(Department) %>% 
   top_n(10) %>% 
@@ -325,12 +321,11 @@ Words are only one of many features of text.
 # For textfeatures() to work, the column with the text in it has to be named text
 features <- d %>% 
  rename(text = SUBJECT) %>% 
- # Don't calculate sentiment because it takes a little longer. Also don't
- # calculate word2vec dimensions, since these take longer to do and they're
- # kinda weird and uninterpretable. Also don't normalize the final
- # numbers---keep them as raw numbers
- textfeatures(sentiment = FALSE, word_dims = 0, normalize = FALSE) %>% 
- # Add the text back to the data frame, since textfeatures wiped it out
+ ## Don't calculate sentiment because it takes longer. 
+## Also, don't calculate word2vec dimensions, since these take longer to do and they're kinda weird and uninterpretable. 
+## Also, don't normalize the final numbers---keep them as raw numbers
+textfeatures(sentiment = FALSE, word_dims = 0, normalize = FALSE) %>% 
+ # Add the text back to the data frame since textfeatures wiped it out
  bind_cols(d)
 # Look at all these columns you can work with now!
 glimpse(features)
@@ -374,7 +369,7 @@ top_terms <- topics %>%
   ungroup() %>%
   arrange(topic, -beta)
 
-# Make a comma separated list of the top terms in each topic
+# Make a comma-separated list of the top terms in each topic
 top_terms %>% 
   group_by(topic) %>% 
   nest(term) %>% 
@@ -447,7 +442,7 @@ From "Measuring Change and Influence in Budget Texts" (APSA 2017)
 
 Topic models generally require one to set the number of topics. There are a number of approaches to topic selection, including algorithms, but none are objective \citep{Roberts2014}. @{Chuang2014} argue that topic modeling is done best with a "human-in-the-loop" approach where researchers review multiple candidate models. However, the $k$ can be estimated using the methods described in @{Lee2014}, which selects the number of topics based on t-distributed stochastic neighbor embedding.
 
-The two core types of topic models, single-member models and mixed-member models, emerge from distinct assumptions about the texts. Single-member models are a classical mixture model where each document is assumed to belong a single topic. Single member models are best suited to classifying texts as belonging to one type or another. Mixed-member models assume that documents are generated from a latent distribution of topics\citep{Blei2009}. The most prominent approach to estimating topic distributions, the *Latent Dirichlet Allocation* (LDA) model \citep{Blei2003}.
+The two core types of topic models, single-member models and mixed-member models, emerge from distinct assumptions about the texts. Single-member models are a classical mixture model where each document is assumed to belong to a single topic. Single member models are best suited to classifying texts as belonging to one type or another. Mixed-member models assume that documents are generated from a latent distribution of topics\citep{Blei2009}. The most prominent approach to estimating topic distributions, the *Latent Dirichlet Allocation* (LDA) model \citep{Blei2003}.
 
 
 
@@ -491,41 +486,41 @@ Another variation on LDA that may help measure influence is Structural Topic Mod
 Whereas lexical priors include word-level information and STM includes document-level information, @{Kang2014} propose what they call a Hereto-Labeled LDA, which is able to incorporate both document and feature labels, even when only some document and feature types are known. 
 
 
-Finally, a variety of approaches have built of the Dynamic Topic Model proposed by @{Blei2006}. This version allows topic content to change over time. @{Brookhart2015}  use a version of this model in their analysis of the emergence of political issues. In their model, an autoregressive latent variable allows the words used to discuss the same issue to change over time. 
+Finally, a variety of approaches have built of the Dynamic Topic Model proposed by @{Blei2006}. This version allows the topic content to change over time. @{Brookhart2015}  use a version of this model in their analysis of the emergence of political issues. In their model, an autoregressive latent variable allows the words used to discuss the same issue to change over time. 
 
 
 ### Computation of LDA
 
-The basic inferential task for for LDA is computing the posterior distribution of latent variables for topics over documents, $\pi$, and words over topic, $z$. 
+The basic inferential task for LDA is computing the posterior distribution of latent variables for topics over documents, $\pi$, and words over topic, $z$. 
 
 
-Because the likelihood function contains latent variables, $p(w|\alpha, \beta)$ cannot be estimated exactly for LDA (unlike many hierarchical models where there are direct links between estimated and observed parameters). A lower bound on the log likelihood function can be estimated deterministically with variational inference \citep{Blei2003}, but many prefer to estimate LDA stochastically with Gibbs sampling and many extensions require Gibbs sampling. Additionally, Gibbs sampling allows the algorithm to jump out of local optima and does not require the assumption that all documents are independent as variational Bayes does (because the likelihood of seeing the corpus is the product of the likelihood for each document). 
+Because the likelihood function contains latent variables, $p(w|\alpha, \beta)$ cannot be estimated exactly for LDA (unlike many hierarchical models where there are direct links between estimated and observed parameters). A lower bound on the log-likelihood function can be estimated deterministically with variational inference \citep{Blei2003}, but many prefer to estimate LDA stochastically with Gibbs sampling and many extensions require Gibbs sampling. Additionally, Gibbs sampling allows the algorithm to jump out of local optima and does not require the assumption that all documents are independent as variational Bayes does (because the likelihood of seeing the corpus is the product of the likelihood for each document). 
 
 
 ## Applications of Topic Models in Political Science
 
 Most studies in the social sciences and humanities using topic models, especially LDA, rely on observational data and focus on descriptive findings, often called text mining \citep{Srivastava2009}.
 
-Single-member models are often used to classify texts in order to create a variable. In one of the most well-know examples,@{Grimmer2010} analyzed over 100,000 press releases to identify policy agendas, characterize representational style, and predict voting behavior. Similarly, @{Quinn2010} use a single-member model to identify the topics of floor speeches and @{Wilkerson2016} use a range of LDA models to identify metatopics in one-minute floor speeches, finding support for the theory of issue ownership. 
-@{Boussalis2016} describe discourse around climate change denial, focusing on the relationship between topics that focus on politics and science and how discourse has changed over time. They find increased proportion of text focusing on scientific integrity. While not explicitly an independent-dependent variable setup, they conclude that the observed discourse is often a reaction to scientific claims. 
+Single-member models are often used to classify texts in order to create a variable. In one of the most well-known examples,@{Grimmer2010} analyzed over 100,000 press releases to identify policy agendas, characterize representational style, and predict voting behavior. Similarly, @{Quinn2010} use a single-member model to identify the topics of floor speeches and @{Wilkerson2016} use a range of LDA models to identify meta topics in one-minute floor speeches, finding support for the theory of issue ownership. 
+@{Boussalis2016} describe discourse around climate change denial, focusing on the relationship between topics that focus on politics and science and how discourse has changed over time. They find an increased proportion of text focusing on scientific integrity. While not explicitly an independent-dependent variable setup, they conclude that the observed discourse is often a reaction to scientific claims. 
 
-While Structural Topic Models (STMs) have potential to estimate differences in policy content across types of texts, they have not been widely applied in this area. Notable recent contributions on this front include @{Bagozzi2016} who use an STM to examine attention to different issues vary over time in State Department Reports and @{Genovese2017SectorsFrom} who uses an STM to study country positions on international climate change negotiations. 
+While Structural Topic Models (STMs) have the potential to estimate differences in policy content across types of texts, they have not been widely applied in this area. Notable recent contributions on this front include @{Bagozzi2016} who use an STM to examine attention to different issues vary over time in State Department Reports and @{Genovese2017SectorsFrom} who uses an STM to study country positions on international climate change negotiations. 
 
-The concept of influence implies a change from a baseline condition or counter factual. In the case of topic models this means a significantly different distribution of words than was observed previously or than would be expected given some external information. If the hypothesized cause of change is also observed as a text (e.g. a survey experiment vignette or an interest group letter), influence will often mean that the outcome text changed significantly toward using a distribution of words more similar to the origin text. 
+The concept of influence implies a change from a baseline condition or counterfactual. In the case of topic models, this means a significantly different distribution of words than was observed previously or than would be expected given some external information. If the hypothesized cause of change is also observed as a text (e.g. a survey experiment vignette or an interest group letter), influence will often mean that the outcome text changed significantly toward using a distribution of words more similar to the original text. 
 
-Model setup and interpretation depends on whether the texts are theorized to each contain a single topic or a mixture of several topics. If texts represent actor positions, a single-member models may be used to capture the coalition to which a text belongs and the distribution of topics from a mixed-member model may represent the distribution of priorities. The difference between influencing which cluster an actor is in and influencing the distribution of topic an actor emphasizes could be seen as a form of the distinction @{Carsey2006} make between changing sides and changing minds.
+Model setup and interpretation depend on whether the texts are theorized to each contain a single topic or a mixture of several topics. If texts represent actor positions, single-member models may be used to capture the coalition to which a text belongs and the distribution of topics from a mixed-member model may represent the distribution of priorities. The difference between influencing which cluster an actor is in and influencing the distribution of topic an actor emphasizes could be seen as a form of the distinction @{Carsey2006} make between changing sides and changing minds.
 
 ### Text as the DV: Survey Experiments
-A few studies using structural topic models have aimed at measuring influence by measuring treatment effects on survey experiment responses \citep{Roberts2014,Mildenberger2015,Fong2016}. The text of an open response question is the dependent variable. @{Mildenberger2015} find that framing climate change in different ways affects the topics discussed by survey respondents.
+A few studies using structural topic models have aimed at measuring influence by measuring treatment effects on survey experiment responses \citep{Roberts2014, Mildenberger2015, Fong2016}. The text of an open response question is the dependent variable. @{Mildenberger2015} find that framing climate change in different ways affects the topics discussed by survey respondents.
 
-In an experimental context, inference is based on finding a credible difference in word distributions between treatment conditions. A naive mixed-member model can estimate the content of a given number of topics and the differences between treatment conditions on each topic. Treatments are almost often text, but these texts are not generally used in modeling. 
+In an experimental context, the inference is based on finding a credible difference in word distributions between treatment conditions. A naive mixed-member model can estimate the content of a given number of topics and the differences between treatment conditions on each topic. Treatments are almost often text, but these texts are not generally used in modeling. 
 
-In survey experiments, treatment texts (e.g. the text of vignettes) could be used to improve topic estimation and inference in several ways.  First, the topic model could include priors over the words in the treatments such that each word is expected to be assigned to the same topic as other words unique to the same condition and not the same topic as words from different conditions. This would improve model estimation and make it more likely that topics reflect treatments. This may be helpful, for instance, when when studying framing effects and the same words used in the treatment appear in responses it may indicate successful manipulation or cuing. In other contexts, words repeated may represent uninformative parroting of the vignette.
+In survey experiments, treatment texts (e.g. the text of vignettes) could be used to improve topic estimation and inference in several ways.  First, the topic model could include priors over the words in the treatments such that each word is expected to be assigned to the same topic as other words unique to the same condition and not the same topic as words from different conditions. This would improve model estimation and make it more likely that topics reflect treatments. This may be helpful, for instance, when studying framing effects and the same words used in the treatment appear in responses it may indicate successful manipulation or cueing. In other contexts, words repeated may represent uninformative parroting of the vignette.
 
 ### Text as the DV: Observational Data
 
-Recent scholarship has begun to use mixed-member models to describe political relationships using the relative emphasis of different topics in text as the dependent variable. 
-@{Genovese2017SectorsFrom} uses a Structural Topic Model to investigate the relationship between statements made by businesses and governments regarding climate change and sectoral levels of pollution and trade. She finds that high-polluting sectors with more exposure to trade are less likely to support international cooperation on climate change, and low-polluting sectors with high exposure to trade are more supportive. Importantly, government statements mirror domestic industry positions suggesting that industry preferences influence government's approach to climate change.
+Recent scholarship has begun to use mixed-member models to describe political relationships using the relative emphasis of different topics in texts as the dependent variable. 
+@{Genovese2017SectorsFrom} uses a Structural Topic Model to investigate the relationship between statements made by businesses and governments regarding climate change and sectoral levels of pollution and trade. She finds that high-polluting sectors with more exposure to trade are less likely to support international cooperation on climate change, and low-polluting sectors with high exposure to trade are more supportive. Importantly, government statements mirror domestic industry positions suggesting that industry preferences influence the government's approach to climate change.
 
 Instead of a topic model,
 @{Kluver2015} use a two-step process that first classifies interest groups with k-means clustering and then uses multidimensional scaling to identify the latent dimensions that best distinguish them, thus identifying multiple dimensions of disagreement. An alternative approach would be to use a single-member model to identify interest group coalitions and then use a version of LDA incorporating elements of the Structural Topic Model and Relational Topic Model to identify the dimensions of policy disagreement given this coalition structure. Though they do not use topic models, @{Kluver2015} make an important contribution by including the text of the outcome policy in the analysis. As discussed in the final section, placing policy outputs in the space of policy debate (whether measured through multidimensional scaling or latent topics) should be a priority for researchers aiming to estimate influence over policy. 
@@ -540,18 +535,18 @@ Political scientists may especially benefit from computer science work developin
 ## Validation
 Given the arbitrariness of the number of topics selected and the potential instability in estimation, one key validation step is to demonstrate that topics make sense \citep{Grimmer2013}. There is no guarantee that an unsupervised model will identify meaningful topics. As noted modeling strategies can help but are still no guarantee that meaningful latent topics will be recovered. 
 
-When topic models are used to generate independent variables, interpretation of topic content naturally receives attention. However, if scholarship moves more in the direction of hypothesis testing where theories focus on the similarity, difference, or change in topic distribution between documents, there is a risk that topic content could become hidden behind correlations of topic proportion means. To avoid this, two validations strategies have been suggested: (1) demonstrate that different algorithms produce similar topics and (2) establish that variations in topic emphasis across time or venues correlate with real-world events \citep{Grimmer2011,Roberts2014,Blei2009,Quinn2010,Wilkerson2016}.  @{Beauchamp2017PredictingData} validates his topic model of political opinions on Twitter against opinion polls. 
-@{Quinn2010} validate their classification of Senate speeches against previous findings from hand-coding approaches. @{Wilkerson2016} call attention that, because topic selection is arbitrary, reporting and validating a single model is insufficient. They argue that topic selection and validation should explicitly address the robustness of topics across specifications. Beyond validation, they illustrate that focusing on topic robustness can help interpret results by grouping potential topics into robust metatopics. Thus, in addition to interpretability and face validity, reliability across model specifications is an important standard for unsupervised approaches.
+When topic models are used to generate independent variables, interpretation of topic content naturally receives attention. However, if scholarship moves more in the direction of hypothesis testing where theories focus on the similarity, difference, or change in topic distribution between documents, there is a risk that topic content could become hidden behind correlations of topic proportion means. To avoid this, two validations strategies have been suggested: (1) demonstrate that different algorithms produce similar topics and (2) establish that variations in topic emphasis across time or venues correlate with real-world events \citep{Grimmer2011, Roberts2014, Blei2009, Quinn2010, Wilkerson2016}.  @{Beauchamp2017PredictingData} validates his topic model of political opinions on Twitter against opinion polls. 
+@{Quinn2010} validate their classification of Senate speeches against previous findings from hand-coding approaches. @{Wilkerson2016} call attention that, because topic selection is arbitrary, reporting and validating a single model is insufficient. They argue that topic selection and validation should explicitly address the robustness of topics across specifications. Beyond validation, they illustrate that focusing on topic robustness can help interpret results by grouping potential topics into robust meta topics. Thus, in addition to interpretability and face validity, reliability across model specifications is an important standard for unsupervised approaches.
 
 # Text Reuse
 In contrast to classification methods like topic models, recent advances in text reuse and semantic analysis has received less attention in political science. 
-For text reuse, the unit of analysis is a pair of texts. Text reuse methods produce at least one of two statistics, a global alignment score and local alignment scores. Global alignment is a measure of how well documents align overall. Some methods are based on word frequencies and others are based on sequence. Local alignment methods identify and often score matching portions of two documents and are necessarily based on sequence. Global alignment is measured many ways but generally aims to reflect the amount of content they share. Local alignment identifies specific matching sequences of words. 
+For text reuse, the unit of analysis is a pair of texts. Text reuse methods produce at least one of two statistics, a global alignment score, and local alignment scores. Global alignment is a measure of how well documents align overall. Some methods are based on word frequencies and others are based on sequence. Local alignment methods identify and often score matching portions of two documents and are necessarily based on sequence. Global alignment is measured in many ways but generally aims to reflect the amount of content they share. Local alignment identifies specific matching sequences of words. 
 
 
 If affecting which words people use is a measure of influence, then affecting the distribution *and* sequence of words may be even stronger evidence. Thus I focus on local alignment and only briefly discuss global alignment and semantic methods \citep{Wilkerson2016}.
 Additionally, for measuring influence, global alignment has a major disadvantage compared to both topic modeling and local alignment: results are much less informative about the content that is similar. Whereas topic models share the bag-of-words assumption with methods like cosine similarity, they can identify specific distributions of words on which documents are similar or dissimilar. Local alignment methods identify specific sequences of words on which documents are similar or dissimilar. Whereas @{Acree2016} suggest that if cosine similarity is to be used to estimate document similarity, it should be weighted with local alignment, incorporating local alignment into topic modeling strategies could accomplish the same aim with more interpretable results. 
 
-Text reuse and semantic attributes are usually discovered using deterministic matching. Text reuse methods identify matching strings and often score these matches based on defined criteria, for example, the relative priority a researcher places on the exactness and the length of the matching sequence. Semantic attributes, such as tone or verb tense, are usually captured using dictionary-based methods. Words (or occasionally phrases) are compared against a dictionary of terms determined to have that attribute. One may use an existing dictionary or create a custom one for the research purpose, either by hand or with a learning algorithm. For example, @{Acree2014} hand-codes texts into ideological categories and then uses an algorithm to create a dictionary of phrases reflective of each group of texts, allowing him to measure the proportion different ideological phrases used by candidates. 
+Text reuse and semantic attributes are usually discovered using deterministic matching. Text reuse methods identify matching strings and often score these matches based on defined criteria, for example, the relative priority a researcher places on the exactness and the length of the matching sequence. Semantic attributes, such as the tone or verb tense, are usually captured using dictionary-based methods. Words (or occasionally phrases) are compared against a dictionary of terms determined to have that attribute. One may use an existing dictionary or create a custom one for the research purpose, either by hand or with a learning algorithm. For example, @{Acree2014} hand-codes texts into ideological categories and then uses an algorithm to create a dictionary of phrases reflective of each group of texts, allowing him to measure the proportion different ideological phrases used by candidates. 
 
 Matching algorithms loop over strings of words to identify words or sequences of words (or characters) that match align with a reference pattern. For dictionary-based methods, this is a simple set operation; a word or phrase is in the dictionary or it is not. For text reuse methods this is often much more difficult. There are often multiple ways that two texts with shared sequences can be aligned. Algorithms generate alignment scores based on user-defined points and penalties for the length and exactness of a match. 
 
@@ -560,7 +555,7 @@ Matching algorithms loop over strings of words to identify words or sequences of
 
 Early work on alignment algorithms was advanced in the field of genetic sequencing. One common algorithm was developed by @{Smith1981} for matching gene sequence. 
 
-The Smith-Waterman (SW) algorithm goes up when the next character is a match and down when it is not. One must set the size of the increase when the next character in a string is a match, the decrease when it is not, the size of the penalty for inserting a gap, and a condition for when the algorithm will terminate. Penalties for mismatches or gaps allow one to be more or less tolerant of differences in local alignments. Finally, if the goal is to identify a subset of the text pairs that match, one must set a minimum threshold score for inclusion of each local alignment in the output dataset. 
+The Smith-Waterman (SW) algorithm goes up when the next character is a match and down when it is not. One must set the size of the increase when the next character in a string is a match, the decrease when it is not, the size of the penalty for inserting a gap, and a condition for when the algorithm will terminate. Penalties for mismatches or gaps allow one to be more or less tolerant of differences in local alignments. Finally, if the goal is to identify a subset of the text pairs that match, one must set a minimum threshold score for the inclusion of each local alignment in the output dataset. 
 
 Given these values, the SW algorithm identifies optimal local alignment by selecting the highest score from the various ``paths'' through a matrix of possible word pairs in the two documents, generally maximizing the inclusion of matching tokens and minimizing the inclusion of mismatches. It does this in a three-step process. First, given two documents of length $a$ and $b$, a $a+1$ by $b+1$ matrix is initialized with its first row and column equal to 0. Second, the matrix is scored based on matches, nonmatches, and gaps. If matches and mismatches are assigned scores of 1 and -1, respectively, the substitution matrix can be described as
 
@@ -582,9 +577,9 @@ Finally,  a traceback algorithm starts at the highest value in the matrix and fo
 ### Computation
 Compared to topic modeling approaches, text reuse algorithms tend to involve more straightforward computations but in greater numbers. Because text alignment algorithms involve multiple operations on all possible word pairs in all possible document pairs these methods can quickly become computationally expensive larger numbers of longer documents. Thus, one of the key ways to reduce computational cost is to cut down the number of document pairs considered. 
 
-If many documents in a corpus do not share any content, these pairs can be excluded. One way to do this is to filter out pairs that do not meet a matching criteria that is easier to compute. For example, @{Wilkerson2015} exclude pairs that do not share at least five 10-grams, greatly reducing the number of pairs considered. As noted, comparing n-grams is a simple set operation and is cheap to compute. Similarly, pairs that do not share a baseline level of similarity can be eliminated by converting text strings to hash codes, whereby duplicate strings are given a common index and are thus easy to detect \citep{Huston2011}. @{Collins2015} and @{Eshbaugh-Soha2013} use popular plagiarism detection program *WCopyfind*, which uses hashing to detect exact matches between texts, but, unlike *Smith-Waterman*, the algorithm it uses is only able to skip over non-matching segments of near-identical length and does not attempt to optimize alignment \citep{Bloomfield2011}. 
+If many documents in a corpus do not share any content, these pairs can be excluded. One way to do this is to filter out pairs that do not meet matching criteria that is easier to compute. For example, @{Wilkerson2015} exclude pairs that do not share at least five 10-grams, greatly reducing the number of pairs considered. As noted, comparing n-grams is a simple set operation and is cheap to compute. Similarly, pairs that do not share a baseline level of similarity can be eliminated by converting text strings to hash codes, whereby duplicate strings are given a common index and are thus easy to detect \citep{Huston2011}. @{Collins2015} and @{Eshbaugh-Soha2013} use popular plagiarism detection program *WCopyfind*, which uses hashing to detect exact matches between texts, but, unlike *Smith-Waterman*, the algorithm it uses is only able to skip over non-matching segments of near-identical length and does not attempt to optimize alignment \citep{Bloomfield2011}. 
 
-Local alignment calculations can also be sped up by requiring that alignments include certain exact n-gram matches. If these anchoring n-gram matches are long enough, it is unlikely to lead to suboptimal matches. @{Wilkerson2015} find that 10 word matches worked well for identifying matching strings in sections of bills
+Local alignment calculations can also be sped up by requiring that alignments include certain exact n-gram matches. If these anchoring n-gram matches are long enough, it is unlikely to lead to suboptimal matches. @{Wilkerson2015} find that 10-word matches worked well for identifying matching strings in sections of bills
 
 
 ## Applications of Text Reuse in Political Science
@@ -592,8 +587,8 @@ Local alignment calculations can also be sped up by requiring that alignments in
 Few studies focus directly on the concept of influence. 
 @{Collins2015} uses *WCopyfind* to assess the influence of *amicus curiae* briefs on Supreme Court opinions and @{Eshbaugh-Soha2013} uses it to measure the influence of White House press conferences on news coverage. These inferences depend on the assumption that text matching that in *amicus* briefs or press secretaries means it originated there, which requires information about how those documents are created. 
 
-@{Hertel-Fernandez} use text reuse to detect the proposal and adoption of legislative language proposed by the American Legislative Exchange Council (ALEC), a group that drafts model state legislation and advocates for it. They find that states with less legislative professionalism are more likely to introduce and pass bills that contain ALEC language. Because they have external information about the document generating process,they know that ALEC plays a major role in writing and disseminating model legislation to state legislators, @{Hertel-Fernandez} can infer that the similarities they find are evidence of ALEC influence. Even if some state legislators are copying other states, ALEC is influential if it is the originator *or* dissemination of the policy text, a plausible assumption for many of these texts.
+@{Hertel-Fernandez} use text reuse to detect the proposal and adoption of legislative language proposed by the American Legislative Exchange Council (ALEC), a group that drafts model state legislation and advocates for it. They find that states with less legislative professionalism are more likely to introduce and pass bills that contain ALEC language. Because they have external information about the document generating process, they know that ALEC plays a major role in writing and disseminating model legislation to state legislators, @{Hertel-Fernandez} can infer that the similarities they find are evidence of ALEC influence. Even if some state legislators are copying other states, ALEC is influential if it is the originator *or* dissemination of the policy text, a plausible assumption for many of these texts.
 
-Recent research has begun to incorporate information about the network of relationships among actors, greatly improving the plausibility that text similarity reflects influence .
+Recent research has begun to incorporate information about the network of relationships among actors, greatly improving the plausibility that text similarity reflects influence.
 @{Linder2017} find that state legislators with similar voting behavior introduce bills with matching text and that text reuse reflects policy diffusion networks found by other scholars. 
 @{Garrett2015} assess the relative influence of interest groups and early adopting states on policy diffusion using text similarity as an attribute of a network model. They note that ``Knowing which states adopted similar policies does not inform our understanding of interest groups' impact on policy adoption and emulation...studies cannot distinguish the influence of interest group model legislation from the impact of other state and national actors'' (pg. 7). Using a network model allows them to measure the centrality of different texts.  However, because they use global alignment scores rather than local alignment or topics, their model cannot describe the nature of copied content. 
