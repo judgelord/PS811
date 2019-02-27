@@ -85,14 +85,54 @@ lm(height ~ mass, data = starwars) %>%
 
 
 ```{r tidy-coef-plot, fig.width=6, fig.height=2}
-m1 <- lm(height ~ mass, data = starwars) %>% 
+m1 <- lm(birth_year ~ height + mass, data = starwars) %>% 
   tidy(conf.int = TRUE) 
 
 m1 %>% ggplot( aes(x = estimate, y = term, color = term) ) +
-    geom_point(size = 5) + 
+    geom_point() + 
     geom_errorbarh(aes(xmin = conf.low, xmax = conf.high)) +
-    ## (or use geom_pointrange or geom_linerange() + coord_flip()--see cheatsheet)
     geom_vline(xintercept = 0) # vertical line at 0
+```
+
+```{r eval = FALSE, echo = TRUE}
+"The p-value for `r m1$term[2]` is `r round( m1$p.value[2], 3)`."
+```
+"The p-value for `r m1$term[2]` is `r round(m1$p.value[2], 3)`."
+
+---
+
+
+```{r tidy-pointrange-plot, fig.width=6, fig.height=2}
+m1 <- lm(birth_year ~ height + mass, data = starwars) %>% 
+  tidy(conf.int = TRUE) 
+
+m1 %>% 
+  filter(term != "(Intercept)") %>% 
+  ggplot( aes(y = estimate, x = term, color = term) ) +
+  # geom_pointrange() is like geom_point + geom_segment
+  geom_pointrange( aes(ymin = conf.low, ymax = conf.high) ) + 
+  geom_hline(yintercept = 0) # horizontal line at 0
+```
+
+```{r eval = FALSE, echo = TRUE}
+"The p-value for `r m1$term[2]` is `r round( m1$p.value[2], 3)`."
+```
+"The p-value for `r m1$term[2]` is `r round(m1$p.value[2], 3)`."
+
+---
+
+
+```{r tidy-pointrange-flip, fig.width=6, fig.height=2}
+m1 <- lm(birth_year ~ height + mass, data = starwars) %>% 
+  tidy(conf.int = TRUE) 
+
+m1 %>% 
+  filter(term != "(Intercept)") %>% 
+  ggplot( aes(y = estimate, x = term, color = term) ) +
+  # geom_pointrange() is like geom_point + geom_segment
+  geom_pointrange( aes(ymin = conf.low, ymax = conf.high) ) + 
+  geom_hline(yintercept = 0) + # "horizontal" line at 0
+  coord_flip() # flip x and y axes
 ```
 
 ```{r eval = FALSE, echo = TRUE}

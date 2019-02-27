@@ -1,7 +1,7 @@
 ---
 title: "Tidy text analysis example:"
 subtitle: "U.S. Legislators' correspondence with government agencies"
-author: "Devin Judge-Lord"
+author: 
 output:
     html_document:
     toc: true
@@ -40,17 +40,24 @@ d %<>% rename(Party = party_name)
 First, we clean up the text a bit:
 ```{r clean-text, echo=TRUE}
 # Make a single string of stopwards separated by regex "OR" ("|")
-stopwords <- str_c(stop_words$word, collapse = " | ")
+stopwords <- str_c(
+  "[0-9]| [a-z] |^[a-z] | [a-z]$| ", # numbers or single letters
+  str_c(stop_words$word, collapse = " | "), # with a space on either side
+  # str_c(stop_words$word, collapse = "$| "), # at the end of a string
+  # str_c(stop_words$word, collapse = " |^"), # at the start of a string
+  collapse = " | " )
 # Add to the list of things to exclude
-stopwords <- paste("[0-9]|", stopwords, "| senator", "| representative ", "| write", "| writes", "| writing", "| letter ")
+stopwords <- str_c(stopwords, " |senator. |representative. |write. |writing| submit. |submitting|submitted|letter.|signature.")
 
 d$SUBJECT %<>% 
   # To lower case
   tolower() %>% 
-  # Remove stopwords
-  str_replace_all(stopwords, " ") %>%
   # Remove numbers 
-  str_replace_all("[0-9]", "")
+  str_replace_all("[0-9]", "") %>%
+  # Remove stopwords
+  str_replace_all(stopwords, " ")
+
+head(d$SUBJECT)
 ```
 
 
@@ -59,10 +66,13 @@ d$SUBJECT %<>%
 ### Single words
 
 With tidy text, counting words is simple:
-- `unnest_tokens()` splits each response into tokens (by word by defult, but we can also tokenize by phrases of length n, called n-grams).
-- `anti_join(stop_words)` removes words that often have little meaning, like "a" and "the", called stop words. We can also do this with with `filter(!(word %in% stop_words$word))` 
-- `count()` how many times each word appears (`count(word)` is like `group_by(word) %>% summarize(n = n()) %>% ungroup()` )
-- Plot the top 10 words with `geom_col()`
+
+1. `unnest_tokens()` splits each response into tokens (by word by defult, but we can also tokenize by phrases of length n, called n-grams).
+
+2. [optional] `anti_join(stop_words)` removes words that often have little meaning, like "a" and "the", called stop words. We can also do this with with `filter(!(word %in% stop_words$word))` 
+
+3. `count()` how many times each word appears (`count(word)` is like `group_by(word) %>% summarize(n = n()) %>% ungroup()` )
+
 
 ```{r single-words, fig.width=10, fig.height=4}
 words <- d %>% 
@@ -83,7 +93,7 @@ ggplot(words, aes(x = fct_rev(word), y = n)) +
 
 ### Bigrams
 
-We can also look at the frequency of **pairs of words**. First, we'll look at common bigrams, filtering out stop words again (since we don't want things like "of the" and "in the"):
+We can also look at the frequency of **pairs of words** ("bi-grams"). First, we'll look at common bigrams, filtering out stop words again (since we don't want pairs like "of the" and "in the"):
 
 ```{r bigrams-all, fig.width=10, fig.height=4}
 bigrams <- d %>% 
@@ -92,9 +102,9 @@ bigrams <- d %>%
  # Split the bigram column into two columns
   separate(bigram, c("word1", "word2"), sep = " ") %>% 
   filter(!word1 %in% stop_words$word,
-  !word2 %in% stop_words$word) %>% 
+         !word2 %in% stop_words$word) %>% 
   # Put the two word columns back together
-  unite(bigram, word1, word2, sep = " ") %>% 
+  unite(bigram, word1, word2, sep = " ") %>% # (can also use glue::glue_data)
   count(bigram, sort = TRUE) %>% 
   top_n(10)
 
@@ -127,32 +137,19 @@ bigram_binary_counts <- d %>%
   rename(total = n)
 
 word_ratios <- bigram_binary_counts %>%
-  # Look at each of the second words
-  group_by(word2, Party) %>%
-  ungroup() %>%
-  group_by(Party) %>%
   # Spread out the word1 column so that there's a column named "he" and one named "she"
   spread(word1, total, fill = 0) %>%
   # Add 1 to each number so that logs work (just in case any are zero)
   mutate_if(is.numeric, funs((. + 1) / sum(. + 1))) %>%
   # Create a new column that is the logged ratio of the she counts to he counts
   mutate(logratio = log2(she / he)) %>%
-  # Sort by that ratio
-  arrange(desc(logratio))
+  # take the absolute value
+  mutate(abslogratio = abs(logratio))
 
-# Rearrange this data so it's plottable
-  plot_word_ratios <- word_ratios %>%
-  # This gets the words in the right order---we take the absolute value, select
-  # only rows where the log ratio is bigger than 0, and then take the top 15 words
-  mutate(abslogratio = abs(logratio)) %>%
-  group_by(logratio < 0, Party) %>%
+word_ratios %>% 
   top_n(10, abslogratio) %>%
-  ungroup() %>%
-  group_by(Party) %>% 
-  mutate(word = reorder(word2, logratio)) 
-
-# Finally we plot this
-ggplot(plot_word_ratios, aes(word, logratio, color = logratio < 0)) +
+  mutate(word = reorder(word2, logratio)) %>%
+ggplot(aes(word, logratio, color = logratio < 0)) +
   geom_segment(aes(x = word, xend = word,
   y = 0, yend = logratio), 
   size = 1.1, alpha = 0.6) +
@@ -183,11 +180,6 @@ bigram_support_oppose_counts <- d %>%
   rename(total = n)
 
 word_ratios <- bigram_support_oppose_counts %>%
-  # Look at each of the second words
-  group_by(word2, Party) %>%
-  # Only choose rows where the second word appears more than 10 times
-  filter(sum(total) > 10) %>%
-  ungroup() %>%
   group_by(Party) %>%
   # Spread out the word1 column so that there's a column named "support" and one named "oppose"
   spread(word1, total, fill = 0) %>%
@@ -195,34 +187,25 @@ word_ratios <- bigram_support_oppose_counts %>%
   mutate_if(is.numeric, funs((. + 1) / sum(. + 1))) %>%
   # Create a new column that is the logged ratio of the she counts to he counts
   mutate(logratio = log2(support / oppose)) %>%
-  # Sort by that ratio
-  arrange(desc(logratio))
+  # take the absolute value
+  mutate(abslogratio = abs(logratio))
 
-# Rearrange this data so it's plottable
-plot_word_ratios <- word_ratios %>%
-  # This gets the words in the right order---we take the absolute value, select
-  # only rows where the log ratio is bigger than 0, and then take the top 15 words
-  mutate(abslogratio = abs(logratio)) %>%
-  group_by(logratio < 0, Party) %>%
+word_ratios %>%
   top_n(5, abslogratio) %>%
   ungroup() %>%
   group_by(Party) %>% 
   mutate(word = reorder(word2, logratio))  %>% 
-  ungroup()
-
-# Finally we plot this
-ggplot(plot_word_ratios, aes(word, logratio, color = logratio < 0)) +
+ggplot( aes(word, logratio, color = logratio < 0)) +
   geom_segment(aes(x = word, xend = word,
   y = 0, yend = logratio), 
   size = 1.1, alpha = 0.6) +
   geom_point(size = 3.5) +
   coord_flip() +
   labs(y = "How much more/less likely", x = NULL) +
-  scale_color_discrete(name = "", labels = c("More 'support'", "More 'oppose'")) +
+  scale_color_discrete(name = "", labels = c("More 'support ___'", "More 'oppose ___'")) +
   scale_y_continuous(breaks = seq(-3, 3),
   labels = c("8x", "4x", "2x",
   "Same", "2x", "4x", "8x")) +
-  theme_minimal() +
   theme(legend.position = "bottom") + 
   facet_grid(. ~ Party)
 ```
@@ -299,6 +282,7 @@ tf_idf %>%
   group_by(Department) %>% 
   top_n(10) %>% 
   ungroup() %>% 
+  # order by word
   mutate(word = fct_inorder(word)) %>%
   # Plot by tf_idf
   ggplot(aes(x = fct_rev(word), y = tf_idf, fill = Department)) +
@@ -315,7 +299,7 @@ tf_idf %>%
 
 Words are only one of many features of text. 
 - Bi-grams, tri-grams...n-grams can help preserve context. While often impractical to model, matching n-grams are a key method for identifying text reuse.
-- We can capture the number of punctuation marks, hashtags, mentions, etc. using the `textfeatures()` function:
+- We can also capture the number of punctuation marks, hashtags, mentions, etc. using the `textfeatures()` function:
 
 ```{r textfeatures}
 # For textfeatures() to work, the column with the text in it has to be named text
@@ -339,9 +323,11 @@ glimpse(features)
 With topic modeling, we first count the words in each document and then use unsupervised Bayesian machine learning to find clusters of words that tend to hang together.
 
 ```{r lda}
+# pick an agency
 agency <- "EPA"
 
 dtm <- d %>%
+  # subset to that agency
   filter(agency == agency) %>% 
  unnest_tokens(word, SUBJECT) %>%
   # Count words per document ID number
