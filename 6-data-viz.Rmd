@@ -1,5 +1,5 @@
 ---
-title: "Data Viz 1"
+title: "Data Viz"
 author: "Devin Judge-Lord"
 date: 
 # output: 
@@ -25,21 +25,25 @@ source(here("setup.R"))
 
 ---
 
-### Resources
-- Andrew Heiss's [phenomenal data viz class](https://datavizf18.classes.andrewheiss.com/schedule/)
+#### Short required reading
+- [Data Visualization, Chapter 1 by Kieran Healy](http://socviz.co/lookatdata.html)
+- [Charts change hearts and minds better than words do](https://www.washingtonpost.com/news/wonk/wp/2018/06/15/study-charts-change-hearts-and-minds-better-than-words-do/?utm_term=.89d85fd285ba)
+
+#### Resources
+- Andrew Heiss's [data viz class](https://datavizf18.classes.andrewheiss.com/schedule/)
+- `ggplot` tips and tutorials from Dr. Jenny Brian's [stats class]((http://stat545.com/graph00_index.html)
 - Claus E. Wilke on [Data Visualization](https://serialmentor.com/dataviz/index.html)
 <!-- [Basic principles of data viz](https://www.geckoboard.com/learn/data-literacy/data-visualization-tips/) -->
 - A plot that looks like ____? What is it called? -> look 
 [here](https://datavizcatalogue.com/) and
 [here](https://datavizproject.com/)
 
-### Reading
-- [Data Visualization, Chapter 1 by Kieran Healy](http://socviz.co/lookatdata.html)
-- [Charts change hearts and minds better than words do](https://www.washingtonpost.com/news/wonk/wp/2018/06/15/study-charts-change-hearts-and-minds-better-than-words-do/?utm_term=.89d85fd285ba)
+---
 
-### Data viz in R
+#### Data viz in R
 - [R for Data Science: Import, Tidy, Transform, Visualize, and Model Data](https://r4ds.had.co.nz/data-visualisation.html)
-- Examples from [data-to-viz.com](https://www.data-to-viz.com/) and in this [catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/) including [xkcd](http://shinyapps.stat.ubc.ca/r-graph-catalog/#0003_xkcd-and-direct-labelling)
+- [Principles & Practice of Data Visualization] with ggplot2 by Dr. Alison Presmanes Hill](https://cslu.ohsu.edu/~bedricks/courses/cs631/)
+- Examples from [data-to-viz.com](https://www.data-to-viz.com/) and in this [catalog (with R code)](http://shinyapps.stat.ubc.ca/r-graph-catalog/) from Joanna Zhao and Jenny Bryan, including [xkcd](http://shinyapps.stat.ubc.ca/r-graph-catalog/#0003_xkcd-and-direct-labelling)
 - `ggplot2` [cheatsheet](https://www.rstudio.com/resources/cheatsheets/#ggplot2)
 - Maps with `map_data()` from the `maps` package. Advanced maps: `r-spatial` [tutorial](https://r-spatial.github.io/sf/articles/sf5.html), `sf` [cheatsheat](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf)  and `cartogrphy` [cheatsheet](https://github.com/riatelab/cartography)
 
@@ -47,10 +51,20 @@ source(here("setup.R"))
 
 # Why we plot 
 ## 1. To not lie
-- Avoid statistical fallicies
+Avoid statistical fallicies.
 
 ## 2. To be clear
-- Our brains see patterns in distance, size, color, shape more easily than in numerals
+Our brains see patterns in distance, size, color, shape more easily than in numerals. Most analytic claims are about **variation** (**comparisons** and/or **relationships/trends**). Any numeric claim can be visualized.
+
+"A picture is worth a thousand words."
+
+--
+
+*and far, far, far suprior to ten numbers!
+
+--
+
+*"Always, always, always, plot the data"* - Dr. Jenny Brian
 
 ---
 
@@ -81,17 +95,18 @@ lm(height ~ mass, data = starwars) %>%
 
 ---
 
-## `tidy()` model output with `broom`
+## `tidy()` model output is easy to plot
 
 
-```{r tidy-coef-plot, fig.width=6, fig.height=2}
+```{r tidy-coef-plot, fig.width=6}
 m1 <- lm(birth_year ~ height + mass, data = starwars) %>% 
   tidy(conf.int = TRUE) 
 
-m1 %>% ggplot( aes(x = estimate, y = term, color = term) ) +
-    geom_point() + 
-    geom_errorbarh(aes(xmin = conf.low, xmax = conf.high)) +
-    geom_vline(xintercept = 0) # vertical line at 0
+m1 %>% 
+  ggplot( aes(y = term, x = estimate) ) +
+  geom_point() + 
+  geom_errorbarh( aes(xmin = conf.low, xmax = conf.high) ) +
+  geom_vline(xintercept = 0) # vertical line at 0
 ```
 
 ```{r eval = FALSE, echo = TRUE}
@@ -101,15 +116,35 @@ m1 %>% ggplot( aes(x = estimate, y = term, color = term) ) +
 
 ---
 
+### Omit the intercept
 
-```{r tidy-pointrange-plot, fig.width=6, fig.height=2}
+```{r tidy-coef-terms-plot, fig.width=6}
 m1 <- lm(birth_year ~ height + mass, data = starwars) %>% 
   tidy(conf.int = TRUE) 
 
-m1 %>% 
-  filter(term != "(Intercept)") %>% 
-  ggplot( aes(y = estimate, x = term, color = term) ) +
-  # geom_pointrange() is like geom_point + geom_segment
+m1 %>% filter(term != "(Intercept)") %>% 
+  ggplot( aes(y = term, x = estimate) ) +
+  geom_point() + 
+  geom_errorbarh( aes(xmin = conf.low, xmax = conf.high)) +
+  geom_vline(xintercept = 0) # vertical line at 0
+```
+
+```{r eval = FALSE, echo = TRUE}
+"The p-value for `r m1$term[2]` is `r round( m1$p.value[2], 3)`."
+```
+"The p-value for `r m1$term[2]` is `r round(m1$p.value[2], 3)`."
+
+---
+
+### Pointrange
+
+```{r tidy-pointrange-plot, fig.width=6}
+m1 <- lm(birth_year ~ height + mass, data = starwars) %>% 
+  tidy(conf.int = TRUE) 
+
+m1 %>% filter(term != "(Intercept)") %>% 
+  ggplot( aes(x = term, y = estimate) ) +
+  # geom_pointrange() is like geom_point() + geom_segment()
   geom_pointrange( aes(ymin = conf.low, ymax = conf.high) ) + 
   geom_hline(yintercept = 0) # horizontal line at 0
 ```
@@ -121,26 +156,132 @@ m1 %>%
 
 ---
 
+### Pointrange + coord_flip()
 
-```{r tidy-pointrange-flip, fig.width=6, fig.height=2}
+```{r tidy-pointrange-flip, fig.width=6}
 m1 <- lm(birth_year ~ height + mass, data = starwars) %>% 
   tidy(conf.int = TRUE) 
 
-m1 %>% 
-  filter(term != "(Intercept)") %>% 
-  ggplot( aes(y = estimate, x = term, color = term) ) +
+m1 %>% filter(term != "(Intercept)") %>% 
+  ggplot( aes(y = estimate) ) +
   # geom_pointrange() is like geom_point + geom_segment
-  geom_pointrange( aes(ymin = conf.low, ymax = conf.high) ) + 
+  geom_pointrange( aes(x = term, ymin = conf.low, ymax = conf.high) ) + 
   geom_hline(yintercept = 0) + # "horizontal" line at 0
   coord_flip() # flip x and y axes
 ```
 
-```{r eval = FALSE, echo = TRUE}
+```{r eval = FALSE, fig.width=6}
 "The p-value for `r m1$term[2]` is `r round( m1$p.value[2], 3)`."
 ```
 "The p-value for `r m1$term[2]` is `r round(m1$p.value[2], 3)`."
 
+---
 
+class: inverse
+
+## Always plot the data.
+
+--
+
+```{r point, fig.width=8, fig.height = 6}
+starwars %>% 
+ggplot( aes(x = height, y = birth_year) ) + 
+  geom_point( aes(size = mass) ) + 
+  geom_text(aes(label = ifelse(birth_year > 750, name, NA)), hjust = 0)
+```
+
+---
+
+## Ideally, contrast data with claims.
+
+```{r lm, fig.width=8, fig.height = 6}
+starwars %>% 
+ggplot( aes(x = height, y = birth_year) ) + 
+  geom_point( aes(size = mass) ) +  
+  geom_smooth(formula =  "y ~ x", method = "lm")
+```
+
+---
+
+## !
+
+```{r lm-drop-outlier, fig.width=8, fig.height = 6}
+starwars %>% filter(name != "Yoda") %>% 
+ggplot( aes(x = height, y = birth_year) ) + 
+  geom_point( aes(size = mass) ) + 
+  geom_smooth(formula =  "y ~ x", method = "lm")
+```
+
+---
+
+## !!
+
+```{r lm-drop-outlier2, fig.width=8, fig.height = 8}
+starwars %>% filter(!name %in% c("Yoda", "Jabba Desilijic Tiure") ) %>% 
+ggplot( aes(x = height, y = birth_year) ) + 
+  geom_point( aes(size = mass) ) + 
+  geom_smooth(formula =  "y ~ x", method = "lm")
+```
+
+---
+
+## Analysis by group
+
+```{r lm-by-group, fig.width=8, fig.height = 8}
+starwars %>%
+  mutate(Human = species == "Human") %>% 
+ggplot( aes(x = height, y = birth_year) ) + 
+  geom_point( aes(size = mass) ) + 
+  geom_smooth(formula =  "y ~ x", method = "lm", aes(color = Human) )
+```
+
+---
+
+
+# ggplot()
+
+---
+
+**aes**thetics: map variables onto things people can see (position, color, etc.)
+
+**geom**: what to plot (points, lines, etc.)
+
+**scale**: data values to "computer" values (negative = "red", thousands = value/1000, etc.)
+
+**facet**: split into mini-plots comparing subsets ("small multiples")
+
+```{r starwars-height, fig.width=10, fig.height=8}
+starwars %>% unnest(films) %>% filter(films %in% c("Return of the Jedi", "The Force Awakens")) %>% 
+ggplot( aes(x = birth_year, y = height, size = mass, color = species) ) + 
+  geom_point(alpha = .5) + 
+  geom_text(aes(label = name), size = 4, hjust = 0, vjust = 0, check_overlap = T) + 
+  scale_x_continuous(limits = c(0, 1000) ) + 
+  facet_wrap("films") + # facet by film
+  labs(x = "Age", y = "Height (cm)", color = "Species", size = "Mass (kg)")
+  
+  
+
+```
+
+---
+## Mapping
+
+```{r world}
+# library(ggmap)
+library(maptools)
+library(maps)
+
+
+ggplot() +  
+  # A map layer
+  borders("world", colour="gray50", fill="gray50") + 
+  # A point for madison 43.0731° N, 89.4012° W
+  geom_point(aes(x=-89.4012, y=43.0731), size=3, color = "Red") +
+  geom_text(aes(x=-89.4012, y=43.0731) , label = "Madison", size=3) 
+```
+
+---
+  
 <!--
 
 ## Canada 
@@ -148,4 +289,30 @@ m1 %>%
 
 
 -->
+
+---
+## Saving figures
+
+*DO NOT save mouse-y style
+
+![](Figs/save-wrong.png)
+
+---
+
+### ggsave() in .R
+```{r, eval = FALSE}
+ggplot(...) 
+ggsave(here("Figs/figure-name.png"), width = 3, height = 3) # or .pdf etc.
+```
+
+### In .Rmd, figures save when you knit
+```{r, eval = FALSE}
+knitr::opts_chunk$set(here(fig.path="Figs/"),
+                      fig.height = 3,
+                      fig.width = 3)
+```
+### Chunk names = figure names! 
+
+
+
 

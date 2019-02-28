@@ -62,7 +62,7 @@ knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
                       warning = FALSE,
                       message = FALSE,
                       fig.align = "center", 
-                      fig.path='Figs/', ## where to save figures
+                      fig.path= here('Figs/'), ## where to save figures
                       fig.height = 3,
                       fig.width = 3)
 
