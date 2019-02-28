@@ -38,8 +38,6 @@ source(here("setup.R"))
 [here](https://datavizcatalogue.com/) and
 [here](https://datavizproject.com/)
 
----
-
 #### Data viz in R
 - [R for Data Science: Import, Tidy, Transform, Visualize, and Model Data](https://r4ds.had.co.nz/data-visualisation.html)
 - [Principles & Practice of Data Visualization] with ggplot2 by Dr. Alison Presmanes Hill](https://cslu.ohsu.edu/~bedricks/courses/cs631/)
@@ -51,7 +49,7 @@ source(here("setup.R"))
 
 # Why we plot 
 ## 1. To not lie
-Avoid statistical fallicies.
+Avoid statistical fallacies.
 
 ## 2. To be clear
 Our brains see patterns in distance, size, color, shape more easily than in numerals. Most analytic claims are about **variation** (**comparisons** and/or **relationships/trends**). Any numeric claim can be visualized.
@@ -60,7 +58,7 @@ Our brains see patterns in distance, size, color, shape more easily than in nume
 
 --
 
-*and far, far, far suprior to ten numbers!
+*and far, far, far superior to ten numbers!
 
 --
 
@@ -186,7 +184,7 @@ class: inverse
 
 --
 
-```{r point, fig.width=8, fig.height = 6}
+```{r point, fig.width=8, fig.height = 5}
 starwars %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
@@ -197,7 +195,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ## Ideally, contrast data with claims.
 
-```{r lm, fig.width=8, fig.height = 6}
+```{r lm, fig.width=8, fig.height = 5}
 starwars %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) +  
@@ -206,9 +204,9 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ---
 
-## !
+# #!
 
-```{r lm-drop-outlier, fig.width=8, fig.height = 6}
+```{r lm-drop-outlier, fig.width=8, fig.height = 5}
 starwars %>% filter(name != "Yoda") %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
@@ -219,7 +217,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ## !!
 
-```{r lm-drop-outlier2, fig.width=8, fig.height = 6}
+```{r lm-drop-outlier2, fig.width=8, fig.height = 5}
 starwars %>% filter(!name %in% c("Yoda", "Jabba Desilijic Tiure") ) %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
@@ -230,7 +228,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ## Regression fit by group
 
-```{r lm-by-group, fig.width=8, fig.height = 6}
+```{r lm-by-group, fig.width=8, fig.height = 5}
 starwars %>%
   mutate(Human = species == "Human") %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
@@ -253,14 +251,16 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 **facet**: split into mini-plots comparing subsets ("small multiples")
 
-```{r starwars-height, fig.width=10, fig.height= 5.5}
-starwars %>% unnest(films) %>% filter(films %in% c("Return of the Jedi", "The Force Awakens")) %>% 
+```{r starwars-height, fig.width=8, fig.height= 3.5}
+starwars %>% 
+  unnest(films) %>% 
+  filter(films %in% c("Return of the Jedi", "The Force Awakens")) %>% 
 ggplot( aes(x = birth_year, y = height, size = mass, color = species) ) + 
   geom_point(alpha = .5) + 
   geom_text(aes(label = name), size = 4, hjust = 0, vjust = 0, check_overlap = T) + 
   scale_x_continuous(limits = c(0, 1000) ) + 
   facet_wrap("films") + # facet by film
-  labs(x = "Age", y = "Height (cm)", color = "Species", size = "Mass (kg)")
+  labs(x = "Age", y = "Height (cm)", color = "Species", size = "Mass")
   
   
 
@@ -269,30 +269,36 @@ ggplot( aes(x = birth_year, y = height, size = mass, color = species) ) +
 ---
 ## Mapping
 
-```{r map-world, fig.width=8, fig.height=4}
-# library(maptools)
-# library(maps)
+```{r map-world-data, fig.width=8, fig.height=4}
+world <- map_data("world")
 
-ggplot() +  
-  # A map layer
-  borders("world", colour="gray50", fill="gray50") + 
-  # A point for madison 43.0731° N, 89.4012° W
-  geom_point(aes(x=-89.4012, y=43.0731), color = "Red") +
-  geom_text(aes(x=-89.4012, y=43.0731) , label = "Madison", size=3) 
+head(world)
+```
+---
+
+```{r map-world, fig.width=10, fig.height=6}
+world %>% 
+ggplot( aes(x = long, y = lat) ) +  
+  # A map layer of country shapes
+  geom_polygon( aes(group = group), fill = NA, color = "grey") +
+  # We are here: 43.0731° N, 89.4012° W
+  geom_point(aes(x=-89.4012, y=43.0731), color = "Red") 
 ```
 
 ---
 
-ia <- map_data("county", "iowa")
 
-```{r map-wi, fig.width=8, fig.height=4}
+```{r map-wi, fig.width=6, fig.height=6}
 wi <- map_data("county", "wisconsin")
-mid_range <- function(x) mean(range(x))
-seats <- plyr::ddply(wi, "subregion", plyr::colwise(mid_range, c("lat", "long")))
-ggplot(wi, aes(long, lat)) +
-  geom_polygon(aes(group = group), fill = NA, colour = "grey60") +
-  geom_text(aes(label = subregion), data = seats, size = 2, angle = 45)
 
+wi %>% 
+  group_by(subregion) %>%
+  # Find the center of each subregion
+  mutate(center_lat = mean(range(lat) ),
+         center_long = mean(range(long) ) ) %>%
+ggplot( ) +
+  geom_polygon(aes(x = long, y = lat, group = group), fill = NA, color = "grey60") +
+  geom_text(aes(x = center_long, y = center_lat, label = subregion), size = 2, angle = 45, check_overlap = T)
 ```
   
 <!--
@@ -307,11 +313,13 @@ ggplot(wi, aes(long, lat)) +
 
 ## Distributions with `geom_density`
 
-```{r, fig.height=6, fig.width=8}
+```{r, fig.height=3, fig.width=8}
 lincoln_weather %>% 
 ggplot( aes(x = `Mean Temperature [F]`) ) +
   geom_density() +
   facet_wrap("Month")
+
+glimpse(lincoln_weather)
 ```
 
 ---
@@ -320,6 +328,7 @@ ggplot( aes(x = `Mean Temperature [F]`) ) +
 
 ```{r dist, fig.height=6, fig.width=8}
 library(ggridges)
+
 lincoln_weather %>% 
 ggplot( aes(x = `Mean Temperature [F]`, y = Month, fill = ..x..) ) +
   geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
