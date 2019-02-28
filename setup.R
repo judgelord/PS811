@@ -51,7 +51,7 @@ library(topicmodels)
 library(textfeatures)
 library(cleanNLP) ## https://statsmaths.github.io/cleanNLP/ 
 library(maps)
-# library(sf)
+library(sf)
 library(here)
 library(knitr)
 library(ggridges)
