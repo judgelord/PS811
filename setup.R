@@ -5,6 +5,7 @@ options(stringsAsFactors = F)
 ## Add any R packages you require. 
 ## Here are some we will use in 811:
 requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
+              "ggridges",
               "broom",
               "tidytext",
               "tm",
@@ -53,7 +54,7 @@ library(maps)
 # library(sf)
 library(here)
 library(knitr)
-
+library(ggridges)
 
 
 

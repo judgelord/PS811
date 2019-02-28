@@ -145,7 +145,8 @@ m1 %&gt;%
 m1 &lt;- lm(birth_year ~ height + mass, data = starwars) %&gt;% 
   tidy(conf.int = TRUE) 
 
-m1 %&gt;% filter(term != "(Intercept)") %&gt;% 
+m1 %&gt;%
+  filter(term != "(Intercept)") %&gt;% 
   ggplot( aes(y = term, x = estimate) ) +
   geom_point() + 
   geom_errorbarh( aes(xmin = conf.low, xmax = conf.high)) +
@@ -169,7 +170,8 @@ m1 %&gt;% filter(term != "(Intercept)") %&gt;%
 m1 &lt;- lm(birth_year ~ height + mass, data = starwars) %&gt;% 
   tidy(conf.int = TRUE) 
 
-m1 %&gt;% filter(term != "(Intercept)") %&gt;% 
+m1 %&gt;% 
+  filter(term != "(Intercept)") %&gt;% 
   ggplot( aes(x = term, y = estimate) ) +
   # geom_pointrange() is like geom_point() + geom_segment()
   geom_pointrange( aes(ymin = conf.low, ymax = conf.high) ) + 
@@ -193,7 +195,8 @@ m1 %&gt;% filter(term != "(Intercept)") %&gt;%
 m1 &lt;- lm(birth_year ~ height + mass, data = starwars) %&gt;% 
   tidy(conf.int = TRUE) 
 
-m1 %&gt;% filter(term != "(Intercept)") %&gt;% 
+m1 %&gt;% 
+  filter(term != "(Intercept)") %&gt;% 
   ggplot( aes(y = estimate) ) +
   # geom_pointrange() is like geom_point + geom_segment
   geom_pointrange( aes(x = term, ymin = conf.low, ymax = conf.high) ) + 
@@ -222,7 +225,7 @@ class: inverse
 starwars %&gt;% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
-  geom_text(aes(label = ifelse(birth_year &gt; 750, name, NA)), hjust = 0)
+  geom_text(aes(label = ifelse(birth_year &gt; 750, name, NA)), size =4, hjust = 0)
 ```
 
 &lt;img src="/Users/judgelord/811/Figs/point-1.png" style="display: block; margin: auto;" /&gt;
@@ -240,6 +243,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 ```
 
 &lt;img src="/Users/judgelord/811/Figs/lm-1.png" style="display: block; margin: auto;" /&gt;
+
 ---
 
 ## !
@@ -253,6 +257,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 ```
 
 &lt;img src="/Users/judgelord/811/Figs/lm-drop-outlier-1.png" style="display: block; margin: auto;" /&gt;
+
 ---
 
 ## !!
@@ -266,10 +271,26 @@ ggplot( aes(x = height, y = birth_year) ) +
 ```
 
 &lt;img src="/Users/judgelord/811/Figs/lm-drop-outlier2-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Regression fit by group
+
+
+```r
+starwars %&gt;%
+  mutate(Human = species == "Human") %&gt;% 
+ggplot( aes(x = height, y = birth_year) ) + 
+  geom_point( aes(size = mass) ) + 
+  geom_smooth(formula =  "y ~ x", method = "lm", aes(color = Human) )
+```
+
+&lt;img src="/Users/judgelord/811/Figs/lm-by-group-1.png" style="display: block; margin: auto;" /&gt;
+
 ---
 
 
-# ggplot()
+# `ggplot()`
 
 ---
 
@@ -295,7 +316,38 @@ ggplot( aes(x = birth_year, y = height, size = mass, color = species) ) +
 &lt;img src="/Users/judgelord/811/Figs/starwars-height-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
+## Mapping
 
+
+```r
+# library(maptools)
+# library(maps)
+
+ggplot() +  
+  # A map layer
+  borders("world", colour="gray50", fill="gray50") + 
+  # A point for madison 43.0731° N, 89.4012° W
+  geom_point(aes(x=-89.4012, y=43.0731), color = "Red") +
+  geom_text(aes(x=-89.4012, y=43.0731) , label = "Madison", size=3) 
+```
+
+&lt;img src="/Users/judgelord/811/Figs/map-world-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+ia &lt;- map_data("county", "iowa")
+
+
+```r
+ia &lt;- map_data("county", "wisconsin")
+mid_range &lt;- function(x) mean(range(x))
+seats &lt;- plyr::ddply(ia, "subregion", plyr::colwise(mid_range, c("lat", "long")))
+ggplot(ia, aes(long, lat)) +
+  geom_polygon(aes(group = group), fill = NA, colour = "grey60") +
+  geom_text(aes(label = subregion), data = seats, size = 2, angle = 45)
+```
+
+&lt;img src="/Users/judgelord/811/Figs/map-wi-1.png" style="display: block; margin: auto;" /&gt;
   
 &lt;!--
 
@@ -306,6 +358,36 @@ ggplot( aes(x = birth_year, y = height, size = mass, color = species) ) +
 --&gt;
 
 ---
+
+## Distributions with `geom_density`
+
+
+```r
+lincoln_weather %&gt;% 
+ggplot( aes(x = `Mean Temperature [F]`) ) +
+  geom_density() +
+  facet_wrap("Month")
+```
+
+&lt;img src="/Users/judgelord/811/Figs/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+`ggridges`, lets us use a `y` scale instead of facets:
+
+
+```r
+library(ggridges)
+lincoln_weather %&gt;% 
+ggplot( aes(x = `Mean Temperature [F]`, y = Month, fill = ..x..) ) +
+  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
+  scale_fill_viridis_c() +
+  labs(title = "Temperatures in Lincoln NE in 2016", fill = "Temp. [F]")
+```
+
+&lt;img src="/Users/judgelord/811/Figs/dist-1.png" style="display: block; margin: auto;" /&gt;
+
+---
 ## Saving figures
 
 *DO NOT save mouse-y style
@@ -314,7 +396,7 @@ ggplot( aes(x = birth_year, y = height, size = mass, color = species) ) +
 
 ---
 
-### ggsave() in .R
+### `ggsave()` in .R
 
 ```r
 ggplot(...) 
