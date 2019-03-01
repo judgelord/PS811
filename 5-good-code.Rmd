@@ -60,6 +60,7 @@ class: center inverse
 ## If you are working with text (and really, just always), begin with:
 ## `options(stringsAsFactors = F)`
 ## Let R coerce strings to factors as needed.
+Eventually learn to master factors with [`forcats`](https://forcats.tidyverse.org/) (Key if you want to plot things in a certian order.)
 
 ---
 ## 3 
@@ -119,6 +120,12 @@ knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
 
 ---
 
+## But don't go overboard
+Simpler is often stronger
+![](Figs/data_pipeline.png)
+
+---
+
 ## `filter()`
 
 ![](https://media.giphy.com/media/rwsDkSEQyTxPW/giphy.gif)
@@ -131,6 +138,9 @@ https://r4ds.had.co.nz/functions.html#functions
 
 ---
 
+
+
+---
 
 ## Advanced
 Have long scripts [send you a text or email](https://github.com/jennybc/send-email-with-r) when they are done.

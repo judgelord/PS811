@@ -178,9 +178,7 @@ m1 %>%
 
 ---
 
-class: inverse
-
-## Always plot the data.
+## Always plot your data.
 
 --
 
@@ -188,7 +186,7 @@ class: inverse
 starwars %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
-  geom_text(aes(label = ifelse(birth_year > 750, name, NA)), size =4, hjust = 0)
+  geom_text(aes(label = ifelse(birth_year > 750, name, NA)), color = "red")
 ```
 
 ---
@@ -204,7 +202,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ---
 
-# #!
+## !
 
 ```{r lm-drop-outlier, fig.width=8, fig.height = 5}
 starwars %>% filter(name != "Yoda") %>% 
@@ -238,50 +236,52 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ---
 
+![](Figs/curve_fitting.png)
+---
 
-# `ggplot()`
+# Truth, beauty, `ggplot()`
 
 ---
 
-**aes**thetics: map variables onto things people can see (position, color, etc.)
+`aes`thetics map variables onto things people can see (position, color, etc.)
 
-**geom**: what to plot (points, lines, etc.)
+`geom`s are plot layers (points, lines, etc.)
 
-**scale**: data values to "computer" values (negative = "red", thousands = value/1000, etc.)
+`scale`s are how we show variation (negative = "red", thousands = value/1000, etc.)
 
-**facet**: split into mini-plots comparing subsets ("small multiples")
+`facet`s are mini-plots comparing subsets ("small multiples")
 
 ```{r starwars-height, fig.width=8, fig.height= 3.5}
 starwars %>% 
   unnest(films) %>% 
   filter(films %in% c("Return of the Jedi", "The Force Awakens")) %>% 
-ggplot( aes(x = birth_year, y = height, size = mass, color = species) ) + 
-  geom_point(alpha = .5) + 
-  geom_text(aes(label = name), size = 4, hjust = 0, vjust = 0, check_overlap = T) + 
+ggplot( aes(x = birth_year, y = height, color = species) ) + 
+  geom_point( aes(size = mass), alpha = .5) + 
+  geom_text(aes(label = name),  hjust = 0, vjust = 0, check_overlap = T) + 
   scale_x_continuous(limits = c(0, 1000) ) + 
   facet_wrap("films") + # facet by film
-  labs(x = "Age", y = "Height (cm)", color = "Species", size = "Mass")
-  
-  
-
+  labs(x = "Age", y = "Height", color = "Species", size = "Mass")
 ```
 
 ---
 ## Mapping
 
-```{r map-world-data, fig.width=8, fig.height=4}
+```{r map-world-data, fig.width=8, fig.height=3}
 world <- map_data("world")
 
 head(world)
+
+world %>% filter(region == "Aruba") %>% 
+ggplot( aes(x = long, y = lat) ) + geom_point()
 ```
 ---
 
 ```{r map-world, fig.width=10, fig.height=6}
 world %>% 
 ggplot( aes(x = long, y = lat) ) +  
-  # A map layer of country shapes
+  # A map layer of country shapes (geom_polygon connects the dots)
   geom_polygon( aes(group = group), fill = NA, color = "grey") +
-  # We are here: 43.0731° N, 89.4012° W
+  # We are here: 
   geom_point(aes(x=-89.4012, y=43.0731), color = "Red") 
 ```
 
@@ -313,15 +313,19 @@ ggplot( aes(x = long, y = lat, group = group) ) +
 ```
 
 ---
-Ysing GIS data with `sf` (see [full example](https://github.com/judgelord/PS811/example_map_canada.Rmd), adapted [from Kieran Healy](https://kieranhealy.org/blog/archives/2018/12/09/canada-map/)).
+## `scale`
+
+![](Figs/scales.png)
+
+---
+Using GIS data with `sf` (see [full example](https://github.com/judgelord/PS811/example_map_canada.Rmd), adapted [from Kieran Healy](https://kieranhealy.org/blog/archives/2018/12/09/canada-map/)).
 
 ```{r canada, fig.width=10, fig.height=6}
 canada_cd <- st_read("data/canada_cd_sim.geojson", quiet = TRUE) 
 
 canada_cd %>% 
 ggplot() + 
-  geom_sf(mapping = aes(fill = PRUID)) + # provence ID
-  guides(fill = FALSE)
+  geom_sf(mapping = aes(fill = PRNAME)) 
 ```
 
 ---
@@ -332,31 +336,42 @@ canada_cd %>%
   # Lambert Conformal Conic projection
   st_transform(crs = "+proj=lcc +lat_1=49 +lat_2=77 +lon_0=-91.52 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs") %>%
 ggplot() + 
-  geom_sf(mapping = aes(fill = PRUID)) + # provence ID
-  guides(fill = FALSE)
+  geom_sf(mapping = aes(fill = PRNAME)) 
 ```
 
 ---
 
 # Transformations
-`stat` $\in$ \{count, density, etc.\} (nothing you could not wrangle)
+Summary stats with `stat`= \{`count`, `bin`, `density`, `smooth`, `ecdf`, `quantile`, etc.\}. `stat` applies some function to make a new variable (besides regression, nothing you could not have wrangled with `dplyr` `summary` or `mutate`).
+
+---
+## Distributions with `geom_histogram`
+
+```{r hist, fig.height=6, fig.width=8}
+lincoln_weather %>% 
+ggplot( aes(x = `Mean Temperature [F]`) ) +
+  geom_histogram(binwidth = 10) + # i.e. geom_bar(stat = count, binwidth = 10)
+  facet_grid(Month ~ .) + 
+  theme(strip.text.y = element_text(angle = 0))
+```
+
+---
 
 ## Distributions with `geom_density`
 
-```{r, fig.height=3, fig.width=8}
+```{r density, fig.height=6, fig.width=8}
 lincoln_weather %>% 
 ggplot( aes(x = `Mean Temperature [F]`) ) +
   geom_density() +
-  facet_wrap("Month")
-
-glimpse(lincoln_weather)
+  facet_grid(Month ~ .) + 
+  theme(strip.text.y = element_text(angle = 0))
 ```
 
 ---
 
 `ggridges`, lets us use a `y` scale instead of facets:
 
-```{r dist, fig.height=6, fig.width=8}
+```{r density-ggridges, fig.height=6, fig.width=8}
 library(ggridges)
 
 lincoln_weather %>% 
