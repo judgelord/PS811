@@ -195,16 +195,35 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ```{r lm, fig.width=8, fig.height = 5}
 starwars %>% 
+  mutate(height_estimate = m1$estimate[1] + height*m1$estimate[2] )  %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) +  
-  geom_smooth(formula =  "y ~ x", method = "lm")
+  geom_line( aes(y = height_estimate) ) + 
+  geom_ribbon( aes( ymax = height_estimate + 1.96*sum(m1$std.error) ,
+                    ymin = height_estimate - 1.96*sum(m1$std.error)),
+               alpha =.2)
 ```
+
+*Note, for simplicity, I set mass equal to 0. What would be a better approach?
+
+---
+
+## `geom_smooth()` conditional mean
+
+```{r smooth, fig.width=8, fig.height = 5}
+starwars %>% 
+ggplot( aes(x = height, y = birth_year) ) + 
+  geom_point( aes(size = mass) ) +  
+  geom_smooth(formula =  "y ~ x", method = lm)
+```
+
+(quick & dirty bivariate regression)
 
 ---
 
 ## !
 
-```{r lm-drop-outlier, fig.width=8, fig.height = 5}
+```{r smooth-drop-outlier, fig.width=8, fig.height = 5}
 starwars %>% filter(name != "Yoda") %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
@@ -215,7 +234,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ## !!
 
-```{r lm-drop-outlier2, fig.width=8, fig.height = 5}
+```{r smooth-drop-outlier2, fig.width=8, fig.height = 5}
 starwars %>% filter(!name %in% c("Yoda", "Jabba Desilijic Tiure") ) %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
@@ -226,7 +245,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ## Regression fit by group
 
-```{r lm-by-group, fig.width=8, fig.height = 5}
+```{r smooth-by-group, fig.width=8, fig.height = 5}
 starwars %>%
   mutate(Human = species == "Human") %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
@@ -347,7 +366,7 @@ Summary stats with `stat`= \{`count`, `bin`, `density`, `smooth`, `ecdf`, `quant
 ---
 ## Distributions with `geom_histogram`
 
-```{r hist, fig.height=6, fig.width=8}
+```{r hist, fig.height=5, fig.width=8}
 lincoln_weather %>% 
 ggplot( aes(x = `Mean Temperature [F]`) ) +
   geom_histogram(binwidth = 10) + # i.e. geom_bar(stat = count, binwidth = 10)
@@ -359,7 +378,7 @@ ggplot( aes(x = `Mean Temperature [F]`) ) +
 
 ## Distributions with `geom_density`
 
-```{r density, fig.height=6, fig.width=8}
+```{r density, fig.height=5, fig.width=8}
 lincoln_weather %>% 
 ggplot( aes(x = `Mean Temperature [F]`) ) +
   geom_density() +

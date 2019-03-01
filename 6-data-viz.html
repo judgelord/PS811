@@ -233,12 +233,34 @@ ggplot( aes(x = height, y = birth_year) ) +
 
 ```r
 starwars %&gt;% 
+  mutate(height_estimate = m1$estimate[1] + height*m1$estimate[2] )  %&gt;% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) +  
-  geom_smooth(formula =  "y ~ x", method = "lm")
+  geom_line( aes(y = height_estimate) ) + 
+  geom_ribbon( aes( ymax = height_estimate + 1.96*sum(m1$std.error) ,
+                    ymin = height_estimate - 1.96*sum(m1$std.error)),
+               alpha =.2)
 ```
 
 &lt;img src="/Users/judgelord/811/Figs/lm-1.png" style="display: block; margin: auto;" /&gt;
+
+*Note, for simplicity, I set mass equal to 0. What would be a better approach?
+
+---
+
+## `geom_smooth()` conditional mean
+
+
+```r
+starwars %&gt;% 
+ggplot( aes(x = height, y = birth_year) ) + 
+  geom_point( aes(size = mass) ) +  
+  geom_smooth(formula =  "y ~ x", method = lm)
+```
+
+&lt;img src="/Users/judgelord/811/Figs/smooth-1.png" style="display: block; margin: auto;" /&gt;
+
+(quick &amp; dirty bivariate regression)
 
 ---
 
@@ -252,7 +274,7 @@ ggplot( aes(x = height, y = birth_year) ) +
   geom_smooth(formula =  "y ~ x", method = "lm")
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/lm-drop-outlier-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="/Users/judgelord/811/Figs/smooth-drop-outlier-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -266,7 +288,7 @@ ggplot( aes(x = height, y = birth_year) ) +
   geom_smooth(formula =  "y ~ x", method = "lm")
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/lm-drop-outlier2-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="/Users/judgelord/811/Figs/smooth-drop-outlier2-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -281,7 +303,7 @@ ggplot( aes(x = height, y = birth_year) ) +
   geom_smooth(formula =  "y ~ x", method = "lm", aes(color = Human) )
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/lm-by-group-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="/Users/judgelord/811/Figs/smooth-by-group-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
