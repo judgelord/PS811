@@ -359,7 +359,7 @@ head(world)
 
 ```r
 world %&gt;% filter(region == "Aruba") %&gt;% 
-ggplot( aes(x = long, y = lat) ) + geom_point()
+ggplot( aes(x = long, y = lat, label = order) ) + geom_label()
 ```
 
 &lt;img src="/Users/judgelord/811/Figs/map-world-data-1.png" style="display: block; margin: auto;" /&gt;

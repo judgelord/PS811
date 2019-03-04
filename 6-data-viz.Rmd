@@ -186,7 +186,7 @@ m1 %>%
 starwars %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
-  geom_text( aes(label = ifelse(birth_year > 750, name, NA)), color = "red")
+  geom_label( aes(label = ifelse(birth_year > 750, name, NA)), color = "red")
 ```
 
 ---
@@ -291,7 +291,7 @@ world <- map_data("world")
 head(world)
 
 world %>% filter(region == "Aruba") %>% 
-ggplot( aes(x = long, y = lat) ) + geom_point()
+ggplot( aes(x = long, y = lat, label = order) ) + geom_label()
 ```
 ---
 
