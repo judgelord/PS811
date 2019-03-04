@@ -17,8 +17,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-library(here)
-source(here("setup.R"))
+if(!"here" %in% rownames(installed.packages() ) ){install.packages("here", repos = "https://cloud.r-project.org/" ) }
+source(here::here("setup.R"))
 ```
 
 ![](Figs/plot-type.png)
@@ -164,9 +164,9 @@ m1 <- lm(birth_year ~ height + mass, data = starwars) %>%
 
 m1 %>% 
   filter(term != "(Intercept)") %>% 
-  ggplot( aes(y = estimate) ) +
+  ggplot( aes(x = term, y = estimate) ) +
   # geom_pointrange() is like geom_point + geom_segment
-  geom_pointrange( aes(x = term, ymin = conf.low, ymax = conf.high) ) + 
+  geom_pointrange( aes(ymin = conf.low, ymax = conf.high) ) + 
   geom_hline(yintercept = 0) + # "horizontal" line at 0
   coord_flip() # flip x and y axes
 ```
@@ -186,7 +186,7 @@ m1 %>%
 starwars %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
-  geom_text(aes(label = ifelse(birth_year > 750, name, NA)), color = "red")
+  geom_text( aes(label = ifelse(birth_year > 750, name, NA)), color = "red")
 ```
 
 ---

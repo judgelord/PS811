@@ -195,9 +195,9 @@ m1 &lt;- lm(birth_year ~ height + mass, data = starwars) %&gt;%
 
 m1 %&gt;% 
   filter(term != "(Intercept)") %&gt;% 
-  ggplot( aes(y = estimate) ) +
+  ggplot( aes(x = term, y = estimate) ) +
   # geom_pointrange() is like geom_point + geom_segment
-  geom_pointrange( aes(x = term, ymin = conf.low, ymax = conf.high) ) + 
+  geom_pointrange( aes(ymin = conf.low, ymax = conf.high) ) + 
   geom_hline(yintercept = 0) + # "horizontal" line at 0
   coord_flip() # flip x and y axes
 ```
@@ -221,7 +221,7 @@ m1 %&gt;%
 starwars %&gt;% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
-  geom_text(aes(label = ifelse(birth_year &gt; 750, name, NA)), color = "red")
+  geom_text( aes(label = ifelse(birth_year &gt; 750, name, NA)), color = "red")
 ```
 
 &lt;img src="/Users/judgelord/811/Figs/point-1.png" style="display: block; margin: auto;" /&gt;

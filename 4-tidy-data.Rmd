@@ -17,8 +17,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-library(here)
-source(here("setup.R"))
+source(here::here("setup.R"))
 ```
 
 ![](https://imgs.xkcd.com/comics/code_quality.png)
