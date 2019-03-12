@@ -25,7 +25,7 @@ source(here::here("setup.R"))
 
 ---
 
-#### Short required reading
+#### Required reading
 - [Data Visualization, Chapter 1 by Kieran Healy](http://socviz.co/lookatdata.html)
 - [Charts change hearts and minds better than words do](https://www.washingtonpost.com/news/wonk/wp/2018/06/15/study-charts-change-hearts-and-minds-better-than-words-do/?utm_term=.89d85fd285ba)
 
@@ -44,6 +44,8 @@ source(here::here("setup.R"))
 - Examples from [data-to-viz.com](https://www.data-to-viz.com/) and in this [catalog (with R code)](http://shinyapps.stat.ubc.ca/r-graph-catalog/) from Joanna Zhao and Jenny Bryan, including [xkcd](http://shinyapps.stat.ubc.ca/r-graph-catalog/#0003_xkcd-and-direct-labelling)
 - `ggplot2` [cheatsheet](https://www.rstudio.com/resources/cheatsheets/#ggplot2)
 - Maps with `map_data()` from the `maps` package. Advanced maps: `r-spatial` [tutorial](https://r-spatial.github.io/sf/articles/sf5.html), `sf` [cheatsheat](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf)  and `cartogrphy` [cheatsheet](https://github.com/riatelab/cartography)
+- [A tutorial on minimalist, Tufte-style plots in R](http://motioninsocial.com/tufte/)
+- [A 7 min video on the role of data viz in science](https://flowingdata.com/2013/05/24/the-art-of-data-visualization/)
 
 ---
 
@@ -178,7 +180,7 @@ m1 %>%
 
 ---
 
-## Always plot your data.
+## Always plot the data.
 
 --
 
@@ -194,7 +196,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 ## Ideally, contrast data with claims.
 
 ```{r lm, fig.width=8, fig.height = 5}
-starwars %>% 
+starwars %>%   
   mutate(height_estimate = m1$estimate[1] + height*m1$estimate[2] )  %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) +  
@@ -211,7 +213,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 ## `geom_smooth()` conditional mean
 
 ```{r smooth, fig.width=8, fig.height = 5}
-starwars %>% 
+starwars %>%   
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) +  
   geom_smooth(formula =  "y ~ x", method = lm)
@@ -227,7 +229,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 starwars %>% filter(name != "Yoda") %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
-  geom_smooth(formula =  "y ~ x", method = "lm")
+  geom_smooth(formula =  "y ~ x", method = "lm")  
 ```
 
 ---
@@ -238,7 +240,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 starwars %>% filter(!name %in% c("Yoda", "Jabba Desilijic Tiure") ) %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
-  geom_smooth(formula =  "y ~ x", method = "lm")
+  geom_smooth(formula =  "y ~ x", method = "lm")  
 ```
 
 ---
@@ -250,7 +252,7 @@ starwars %>%
   mutate(Human = species == "Human") %>% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
-  geom_smooth(formula =  "y ~ x", method = "lm", aes(color = Human) )
+  geom_smooth(formula =  "y ~ x", method = "lm", aes(color = Human) )  
 ```
 
 ---
@@ -271,7 +273,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 `facet`s are mini-plots comparing subsets ("small multiples")
 
 ```{r starwars-height, fig.width=8, fig.height= 3.5}
-starwars %>% 
+starwars %>%   
   unnest(films) %>% 
   filter(films %in% c("Return of the Jedi", "The Force Awakens")) %>% 
 ggplot( aes(x = birth_year, y = height, color = species) ) + 
@@ -286,17 +288,17 @@ ggplot( aes(x = birth_year, y = height, color = species) ) +
 ## Mapping
 
 ```{r map-world-data, fig.width=8, fig.height=3}
-world <- map_data("world")
+world <- map_data("world")  
 
 head(world)
 
 world %>% filter(region == "Aruba") %>% 
-ggplot( aes(x = long, y = lat, label = order) ) + geom_label()
+ggplot( aes(x = long, y = lat, label = order) ) + geom_label()  
 ```
 ---
 
 ```{r map-world, fig.width=10, fig.height=6}
-world %>% 
+world %>%   
 ggplot( aes(x = long, y = lat) ) +  
   # A map layer of country shapes (geom_polygon connects the dots)
   geom_polygon( aes(group = group), fill = NA, color = "grey") +
