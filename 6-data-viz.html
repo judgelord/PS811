@@ -221,7 +221,7 @@ m1 %&gt;%
 starwars %&gt;% 
 ggplot( aes(x = height, y = birth_year) ) + 
   geom_point( aes(size = mass) ) + 
-  geom_text( aes(label = ifelse(birth_year &gt; 750, name, NA)), color = "red")
+  geom_label( aes(label = ifelse(birth_year &gt; 750, name, NA)), color = "red")
 ```
 
 &lt;img src="/Users/judgelord/811/Figs/point-1.png" style="display: block; margin: auto;" /&gt;
