@@ -99,7 +99,7 @@ Attendance: If you are solid on a week's topic and want to skip, this is fine, j
 
 **Assignment 2:** Publish your 811 webpage/portfolio on [GitHub](http://GitHub.com): Your research interests + potential questions, data, & methods
 
-### 4. [Tidy data + readable code]((https://judgelord.github.io/PS811/4-tidy-data.html)) 
+### 4. [Tidy data + readable code](https://judgelord.github.io/PS811/4-tidy-data.html)
 
 - Nameing things
 - Manipulating data with [`dplyr`](https://dplyr.tidyverse.org/) (See this [cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)) & getting the most out of other [`tidyverse`](https://www.tidyverse.org/learn/) tools
@@ -122,7 +122,7 @@ Attendance: If you are solid on a week's topic and want to skip, this is fine, j
 
 ---
 
-### 6. Summary analysis
+### 6. [Summary analysis + data viz](https://judgelord.github.io/PS811/6-data-viz.html)
 
 - Presenting model results 
 - More `ggplot` --- choosing layers (lines, intervals, colors, labels, facets, maps)
@@ -133,12 +133,14 @@ Here is an [example portfolio](https://judgelord.github.io/PS811/1-intro-to-PS81
 
 ---
 
-### 7. Data viz workshop - MARCH 15
+### Data viz workshop - MARCH 15
 
 
 - Bonus (optional): convert your 811 web page to a slideshow with `xaringan` (When you have to make a conference presentation, you'll be glad you did!)
 
 ---
+
+### 7. [Tidy text analysis](https://judgelord.github.io/PS811/7-tidy-text.html)
 
 ### 8-(n-1). TBD
 
