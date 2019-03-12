@@ -126,7 +126,7 @@ m1 %&gt;%
   geom_vline(xintercept = 0) # vertical line at 0
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/tidy-coef-plot-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/tidy-coef-plot-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ```r
@@ -151,7 +151,7 @@ m1 %&gt;%
   geom_vline(xintercept = 0) # vertical line at 0
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/tidy-coef-terms-plot-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/tidy-coef-terms-plot-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ```r
@@ -176,7 +176,7 @@ m1 %&gt;%
   geom_hline(yintercept = 0) # horizontal line at 0
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/tidy-pointrange-plot-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/tidy-pointrange-plot-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ```r
@@ -202,7 +202,7 @@ m1 %&gt;%
   coord_flip() # flip x and y axes
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/tidy-pointrange-flip-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/tidy-pointrange-flip-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ```r
@@ -224,7 +224,7 @@ ggplot( aes(x = height, y = birth_year) ) +
   geom_label( aes(label = ifelse(birth_year &gt; 750, name, NA)), color = "red")
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/point-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/point-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -242,7 +242,7 @@ ggplot( aes(x = height, y = birth_year) ) +
                alpha =.2)
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/lm-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/lm-1.png" style="display: block; margin: auto;" /&gt;
 
 *Note, for simplicity, I set mass equal to 0. What would be a better approach?
 
@@ -258,7 +258,7 @@ ggplot( aes(x = height, y = birth_year) ) +
   geom_smooth(formula =  "y ~ x", method = lm)
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/smooth-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/smooth-1.png" style="display: block; margin: auto;" /&gt;
 
 (quick &amp; dirty bivariate regression)
 
@@ -274,7 +274,7 @@ ggplot( aes(x = height, y = birth_year) ) +
   geom_smooth(formula =  "y ~ x", method = "lm")
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/smooth-drop-outlier-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/smooth-drop-outlier-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -288,7 +288,7 @@ ggplot( aes(x = height, y = birth_year) ) +
   geom_smooth(formula =  "y ~ x", method = "lm")
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/smooth-drop-outlier2-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/smooth-drop-outlier2-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -303,7 +303,7 @@ ggplot( aes(x = height, y = birth_year) ) +
   geom_smooth(formula =  "y ~ x", method = "lm", aes(color = Human) )
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/smooth-by-group-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/smooth-by-group-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -335,7 +335,7 @@ ggplot( aes(x = birth_year, y = height, color = species) ) +
   labs(x = "Age", y = "Height", color = "Species", size = "Mass")
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/starwars-height-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/starwars-height-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 ## Mapping
@@ -362,7 +362,7 @@ world %&gt;% filter(region == "Aruba") %&gt;%
 ggplot( aes(x = long, y = lat, label = order) ) + geom_label()
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/map-world-data-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/map-world-data-1.png" style="display: block; margin: auto;" /&gt;
 ---
 
 
@@ -375,7 +375,7 @@ ggplot( aes(x = long, y = lat) ) +
   geom_point(aes(x=-89.4012, y=43.0731), color = "Red") 
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/map-world-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/map-world-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -389,7 +389,7 @@ ggplot( aes(x = long, y = lat, group = group) ) +
   geom_polygon(fill = NA, color = "grey60")
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/map-wi-points-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/map-wi-points-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -407,7 +407,7 @@ ggplot( aes(x = long, y = lat, group = group) ) +
   geom_text( aes(x = center_long, y = center_lat, label = subregion), size = 2, angle = 45, check_overlap = T)
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/map-wi-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/map-wi-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 ## `scale`
@@ -426,7 +426,7 @@ ggplot() +
   geom_sf(mapping = aes(fill = PRNAME)) 
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/canada-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/canada-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 Change projection with `st_transform`: 
@@ -440,7 +440,7 @@ ggplot() +
   geom_sf(mapping = aes(fill = PRNAME)) 
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/canada- projection-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/canada- projection-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -459,7 +459,7 @@ ggplot( aes(x = `Mean Temperature [F]`) ) +
   theme(strip.text.y = element_text(angle = 0))
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/hist-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/hist-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -474,7 +474,7 @@ ggplot( aes(x = `Mean Temperature [F]`) ) +
   theme(strip.text.y = element_text(angle = 0))
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/density-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/density-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -491,7 +491,7 @@ ggplot( aes(x = `Mean Temperature [F]`, y = Month, fill = ..x..) ) +
   labs(title = "Temperatures in Lincoln NE in 2016", fill = "Temp. [F]")
 ```
 
-&lt;img src="/Users/judgelord/811/Figs/density-ggridges-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/density-ggridges-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 ## Saving figures
