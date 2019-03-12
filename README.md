@@ -16,7 +16,7 @@ This course builds core skills for reproducible research.
 
 [3 - Reproducable & collaborative research with git](https://judgelord.github.io/PS811/3-git.html)
 
-[4 - Tidy data & readable code](https://judgelord.github.io/PS811/3-tidy-data.html)
+[4 - Tidy data & readable code](https://judgelord.github.io/PS811/4-tidy-data.html)
 
 5 - Efficient code that does not break
 
