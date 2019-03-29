@@ -17,7 +17,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, echo= FALSE}
 source("setup.R")
 ```
 
@@ -40,7 +40,7 @@ source("setup.R")
 
 --
 
-- Exactly* the same string ("regular expressions", text reuse)
+- Exactly* the same string ("regular expressions," text reuse)
 
 ---
 
@@ -48,7 +48,7 @@ source("setup.R")
 - text features $\in$\{all* words, some words, phrases, etc.\} 
 
 ## 2. Matching
-- Exactly* the same string ("regular expressions", text reuse)
+- Exactly* the same string ("regular expressions," text reuse)
 
 ## 3. Classifying
 ![](Figs/different.jpg)
@@ -59,8 +59,8 @@ source("setup.R")
 - Text features $\in$\{all* words, some words, phrases, etc.\}
 
 ## 2. Matching
-- Exactly* the same string ("regular expressions", text reuse)
-- "Fuzzy"" matching is really exact matching a set of variants
+- Exactly* the same string ("regular expressions," text reuse)
+- "Fuzzy" matching is exact matching a set of variants
 
 ## 3. Classifying
 - Rules vs. probability
@@ -160,7 +160,7 @@ words %>%
 
 ---
 
-Word clouds only show word frequency, and font size is hard to visually compare. Nevertheless, [they may be useful](https://www.vis4.net/blog/2015/01/when-its-ok-to-use-word-clouds/) if all you care about is frequency.
+Word clouds only show word frequency, and font size is hard to compare visually. Nevertheless, [they may be useful](https://www.vis4.net/blog/2015/01/when-its-ok-to-use-word-clouds/) if all you care about is frequency.
 
 ---
 
@@ -204,7 +204,7 @@ Used in: overall document similarity
 - Patterns (Regular expressions,  `stringr`)
 - Fuzzy patterns
 
-Used in: text-reuse/plagerism, web scraping, data cleaning
+Used in: text-reuse/plagiarism, web scraping, data cleaning
 
 ---
 
@@ -310,14 +310,14 @@ class: inverse center
 ---
 
 ## Measuring similarity:
-- Percent copied words, ngrams, sentences
-- Percent unaligned (e.g. Smith-Waterman Local Alignment)
+- Percent copied words, n-grams, sentences
+- Percent unaligned (e.g., Smith-Waterman Local Alignment)
 - Global alignment scores
 - Change in topic proportions ($\sum (\theta_d - \theta_{d'})$)
 
 ## Measuring change across versions:
-- Percent new words, ngrams, sentences
-- Percent unaligned (e.g. Smith-Waterman Local Alignment)
+- Percent new words, n-grams, sentences
+- Percent unaligned (e.g., Smith-Waterman Local Alignment)
 - Global Alignment Scores
 - Change in topic proportions ($\sum (\theta_d - \theta_{d'})$)
 
@@ -336,7 +336,7 @@ class: inverse center
 
 ---
 
-### Edits may introduce new ideas in otherwise aligned text:
+### Edits may introduce new ideas in otherwise aligned texts:
 
 2017: `"When the Subcommittee heard from the FDA it focused on preventing burdensome regulations for producers and the American people in addition to ongoing discussions of how the FDA is implementing the Food Safety Modernization Act FSMA `and the  XXXXXXXXX motivation XXXXXX for XXXXX the generic drug labeling rule `and regulation of tobacco products"`
 

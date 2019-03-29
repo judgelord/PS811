@@ -25,7 +25,7 @@ This course builds core skills for reproducible research.
 [7 - Tidy text analysis](https://judgelord.github.io/PS811/7-tidy-text.html)
 
 - Counting <[example]()>
-- Matching <[web scraping example](), <[text reuse example]()>
+- Matching <[web scraping text example]()>, <[web scraping documents and tables example]()>, <[text reuse example]()>
 - Classification <[example]()>
     + Unsupervised <[example]()>
     + Supervised Learning <[content tagging example](), <[learning example]()>>
