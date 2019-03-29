@@ -45,6 +45,7 @@ source(here::here("setup.R"))
 - `ggplot2` [cheatsheet](https://www.rstudio.com/resources/cheatsheets/#ggplot2)
 - Maps with `map_data()` from the `maps` package. Advanced maps: `r-spatial` [tutorial](https://r-spatial.github.io/sf/articles/sf5.html), `sf` [cheatsheat](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf)  and `cartogrphy` [cheatsheet](https://github.com/riatelab/cartography)
 - [A tutorial on minimalist, Tufte-style plots in R](http://motioninsocial.com/tufte/)
+- Advanced images and gifs in R with [`magick`](https://cran.r-project.org/web/packages/magick/vignettes/intro.html)
 - [A 7 min video on the role of data viz in science](https://flowingdata.com/2013/05/24/the-art-of-data-visualization/)
 
 ---

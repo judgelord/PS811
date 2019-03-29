@@ -24,6 +24,7 @@ requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
               "maps",
               "sf",
               "here",
+              "rvest",
               "remotes",
               "knitr")
 
@@ -55,6 +56,7 @@ library(sf)
 library(here)
 library(knitr)
 library(ggridges)
+library(rvest)
 
 
 

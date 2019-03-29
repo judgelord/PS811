@@ -53,19 +53,22 @@ class: center, middle, inverse, title-slide
 ---
 
 ## 1. Counting
-- text features `\(\in\)`\{all* words, some words, phrases, etc.\}
+- Text features `\(\in\)`\{all* words, some words, phrases, etc.\}
 
 ## 2. Matching
 - Exactly* the same string ("regular expressions", text reuse)
+- "Fuzzy"" matching is really exact matching a set of variants
 
 ## 3. Classifying
 - Rules vs. probability
+- Supervised vs. unsupervised
 
 ---
 
 ## Resources 
 - [Tidy text class by Andrew Heiss](https://datavizf18.classes.andrewheiss.com/class/11-class/)
 - [`tidytext`](https://cran.r-project.org/web/packages/tidytext/tidytext.pdf) package
+- Regular expressions with `stringr`--[cheasheet](http://edrub.in/CheatSheets/cheatSheetStringr.pdf)
 - [Tidy text analysis](https://www.tidytextmining.com/) including
 [topic modeling](https://www.tidytextmining.com/topicmodeling.html) and
 [tidy() for Structural Topic Models](https://juliasilge.github.io/tidytext/reference/stm_tidiers.html) from the `stm` package. More [here](https://rdrr.io/cran/tidytext/man/stm_tidiers.html).
@@ -178,7 +181,7 @@ top_n(words, 10) %&gt;% ## Top 10 words in each group
   labs(x = "Word", y = "Count")
 ```
 
-&lt;img src="Figs/ANESfrequency-1.png" width="600" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/ANESfrequency-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -238,11 +241,218 @@ top_n(bigrams, 10) %&gt;%
   labs(x = "Bigram", y = "Count")
 ```
 
-&lt;img src="Figs/ANESfrequency-b-1.png" width="600" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/ANESfrequency-b-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-class: center inverse
+# 2 Matching
+
+## Global alignment 
+(more counting than matching)
+
+Used in: overall document similarity
+
+## Local alignment 
+- Exact (`==`)
+- Patterns (Regular expressions,  `stringr`)
+- Fuzzy patterns
+
+Used in: text-reuse/plagerism, web scraping, data cleaning
+
+---
+
+(not propensity score matching, probably don’t do that.)
+
+&lt;blockquote class="twitter-tweet" data-lang="en"&gt;&lt;p lang="en" dir="ltr"&gt;Page proofs from the important new King &amp;amp; Neilsen paper. This is one of those times. Many of us have had this conversation before, perhaps many times. But none of us wrote the paper up. &lt;br&gt;&lt;br&gt;tl;dr propensity score matching is dead.&lt;br&gt;&lt;br&gt;Ungated: &lt;a href="https://t.co/dmiJaLkFj4"&gt;https://t.co/dmiJaLkFj4&lt;/a&gt; &lt;a href="https://t.co/RRschUXSuE"&gt;pic.twitter.com/RRschUXSuE&lt;/a&gt;&lt;/p&gt;&amp;mdash; Jake M. Grumbach (@JakeMGrumbach) &lt;a href="https://twitter.com/JakeMGrumbach/status/1108480915095896066?ref_src=twsrc%5Etfw"&gt;March 20, 2019&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+
+---
+
+## Resources
+
+Matching usually involve doing the same thing lots of times, so we use [functions](https://nicercode.github.io/guides/functions/)
+- [`purrr`](https://www.rstudio.com/resources/cheatsheets/#purrr) offers tools to apply functions to data (instead of writing loops where we have to index everything) 
+
+Web scraping also requires manipulating HTML. 
+- [Khan Academy intro to HTML.](https://www.khanacademy.org/computing/computer-programming/html-css/intro-to-html/pt/html-basics)
+- `rvest` offers tools for web scraping. Here is a [tutorial on Data Camp](https://www.datacamp.com/community/tutorials/r-web-scraping-rvest0)
+
+Once we have scraped text, we need to clean it and extract the things we care about, both task for [RegEx]( https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf)
+- For tools to manipulate text, see the stringr cheatsheet: https://www.rstudio.com/resources/cheatsheets/#stringr
+- Matt Denny has a [nice tutorial on cleaning text](http://www.mjdenny.com/Text_Processing_In_R.html)
+
+---
+
+## Global alignment 
+
+How similar are pairs of texts are overall (i.e. statistically)
+
+1. Count things, usually word frequencies.
+    - Recall the [congressional letters example](https://judgelord.github.io/PS811/text-legislator-letters.html)
+    - The result is a high-dimension object. (If each word is a variable, we may have thousands of variables!)
+2. Compare distributions
+    - Cosign similarity scores (pairwise similarity score)
+    - Dimensional scaling (reduce variation to one or two spatial dimensions)
+    
+---
+
+## Global alignment 
+
+&lt;img src="/Users/judgelord/811/Figs/seuss.jpg" width="400px" style="display: block; margin: auto;" /&gt;&lt;img src="/Users/judgelord/811/Figs/samedifferent.jpg" width="400px" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Local alignment  
+
+![](Figs/different.jpg) ![](Figs/things.jpg)
+
+
+---
+
+Exact (`==`) vs. patterns (RegEx + `str_detect()`)
+
+
+```r
+strings &lt;- c("Zoe", "Elmo", "Thing 1", "Thing 2", "are your politics more like Sesame Streat or Dr Suess?")
+
+strings == "Zoe"
+```
+
+```
+## [1]  TRUE FALSE FALSE FALSE FALSE
+```
+
+```r
+strings == "Thing [0-9]"
+```
+
+```
+## [1] FALSE FALSE FALSE FALSE FALSE
+```
+
+```r
+str_detect(strings, "Thing [0-9]")
+```
+
+```
+## [1] FALSE FALSE  TRUE  TRUE FALSE
+```
+
+```r
+str_extract_all(strings, "[A-Z][a-z]*",simplify = TRUE)
+```
+
+```
+##      [,1]     [,2]     [,3] [,4]   
+## [1,] "Zoe"    ""       ""   ""     
+## [2,] "Elmo"   ""       ""   ""     
+## [3,] "Thing"  ""       ""   ""     
+## [4,] "Thing"  ""       ""   ""     
+## [5,] "Sesame" "Streat" "Dr" "Suess"
+```
+
+---
+
+&lt;img src="/Users/judgelord/811/Figs/regex-animal.jpg" width="600px" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Web scraping
+
+99% of web scraping is finding the information we want and wrangling it into a data frame. 
+
+`rvest`
+`read_html("http://google.com", encoding = "ISO-8859-1")`
+
+`rvest` + `httr`
+`google2 &lt;- read_html(httr::GET("http://google.com"))`
+
+
+```r
+html &lt;- read_html("https://www.UN.org/")
+links &lt;- html_nodes(html, "a")
+html_text(links)[2:7]
+```
+
+```
+## [1] "اليوم العالمي للمياه\r\n\r\n22 آذار/مارس\r\n"
+## [2] "\r\n世界水日，2019年3月22日"                 
+## [3] "World Water Day – 22 March"                  
+## [4] "Journée mondiale de l'eau - 22 mars"         
+## [5] "Всемирный день водных ресурсов — 22 марта"   
+## [6] "Día Mundial del Agua, 22 de marzo"
+```
+
+[Example: A list of companies lobbying the U.S. Federal Energy Regulatory Commission]()
+
+[Example: A **table** including the **text of scanned pdf** letters from Members of Congress]()
+
+---
+class: inverse center
+
+## Text-reuse/plagerism
+
+---
+
+## Measuring similarity:
+- Percent copied words, ngrams, sentences
+- Percent unaligned (e.g. Smith-Waterman Local Alignment)
+- Global alignment scores
+- Change in topic proportions ($\sum (\theta_d - \theta_{d'})$)
+
+## Measuring change across versions:
+- Percent new words, ngrams, sentences
+- Percent unaligned (e.g. Smith-Waterman Local Alignment)
+- Global Alignment Scores
+- Change in topic proportions ($\sum (\theta_d - \theta_{d'})$)
+
+---
+
+### For example, changes in budget text and committee reports [[see more]()]:
+
+![](Figs/reports.png)
+
+---
+### When similar words mean different things, edits matter:
+
+2010: `"CLIMATE CHANGE The Committee continues to support the Administration's efforts to address climate change. Funding for its voluntary climate change programs are continued through this bill."`
+
+2012: `"CLIMATE CHANGE This Committee remains skeptical of the Administration's efforts to re-package existing programs and to fund new ones in the name of climate change."`
+
+---
+
+### Edits may introduce new ideas in otherwise aligned text:
+
+2017: `"When the Subcommittee heard from the FDA it focused on preventing burdensome regulations for producers and the American people in addition to ongoing discussions of how the FDA is implementing the Food Safety Modernization Act FSMA `and the  XXXXXXXXX motivation XXXXXX for XXXXX the generic drug labeling rule `and regulation of tobacco products"`
+
+2018: `"When the Subcommittee heard from the FDA it focused on preventing burdensome regulations for producers and the American people in addition to ongoing discussions of how the FDA is implementing the Food Safety Modernization Act FSMA `XXX XXX addressing XXXXXXXXX opioid XXX abuse XXX XXXXXXX XXXX XXXXXXXX XXXX `and regulation of tobacco products"`
+
+---
+
+## Smith-Waterman
+Tracing a path through the matrics of the two documents, maximizing matches (technically, giving points for sequences of matches and mismatches)
+
+&lt;img src="/Users/judgelord/811/Figs/smith-waterman.png" width="500px" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## N-gram window
+Finding all exact matches of n-grams or more
+
+With a 5-gram window:
+
+2010: "CLIMATE CHANGE The Committee continues to support `the Administration's efforts to address climate change. Funding for its voluntary climate change programs are continued through this bill."`
+
+2012: "CLIMATE CHANGE This Committee remains skeptical of `the Administration's efforts to re-package existing programs and to fund new ones in the name of climate change."`
+
+From this example: [Change and influence in budget texts]()
+
+Another example: [Public comments on proposed regulations]()
+
+---
+
 
 ![](https://media.giphy.com/media/14kkd3gt5FJt3a/giphy.gif)
     </textarea>
