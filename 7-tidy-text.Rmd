@@ -298,9 +298,9 @@ links <- html_nodes(html, "a")
 html_text(links)[2:7]
 ```
 
-[Example: A list of companies lobbying the U.S. Federal Energy Regulatory Commission]()
+[Example: A list of companies lobbying the U.S. Federal Energy Regulatory Commission](https://judgelord.github.io/correspondence/functions/DOE_FERC-company-scraper.html)
 
-[Example: A **table** including the **text of scanned pdf** letters from Members of Congress]()
+[Example: A **table** including the **text of scanned pdf** letters from Members of Congress](https://judgelord.github.io/correspondence/functions/DOE_FERC-scraper.html)
 
 ---
 class: inverse center
