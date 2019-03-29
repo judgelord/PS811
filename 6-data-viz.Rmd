@@ -259,6 +259,7 @@ ggplot( aes(x = height, y = birth_year) ) +
 ---
 
 ![](Figs/curve_fitting.png)
+
 ---
 
 # Truth, beauty, `ggplot()`
@@ -286,6 +287,7 @@ ggplot( aes(x = birth_year, y = height, color = species) ) +
 ```
 
 ---
+
 ## Mapping
 
 ```{r map-world-data, fig.width=8, fig.height=3}
@@ -296,6 +298,7 @@ head(world)
 world %>% filter(region == "Aruba") %>% 
 ggplot( aes(x = long, y = lat, label = order) ) + geom_label()  
 ```
+
 ---
 
 ```{r map-world, fig.width=10, fig.height=6}
@@ -308,6 +311,7 @@ ggplot( aes(x = long, y = lat) ) +
 ```
 
 ---
+
 ```{r map-wi-points, fig.width=6, fig.height=6}
 wi <- map_data("county", "wisconsin")
 
@@ -335,11 +339,13 @@ ggplot( aes(x = long, y = lat, group = group) ) +
 ```
 
 ---
+
 ## `scale`
 
 ![](Figs/scales.png)
 
 ---
+
 Using GIS data with `sf` (see [full example](https://github.com/judgelord/PS811/example_map_canada.Rmd), adapted [from Kieran Healy](https://kieranhealy.org/blog/archives/2018/12/09/canada-map/)).
 
 ```{r canada, fig.width=10, fig.height=6}
@@ -351,6 +357,7 @@ ggplot() +
 ```
 
 ---
+
 Change projection with `st_transform`: 
 
 ```{r canada- projection, fig.height=6, fig.width=10}
@@ -367,6 +374,7 @@ ggplot() +
 Summary stats with `stat`= \{`count`, `bin`, `density`, `smooth`, `ecdf`, `quantile`, etc.\}. `stat` applies some function to make a new variable (besides regression, nothing you could not have wrangled with `dplyr` `summary` or `mutate`).
 
 ---
+
 ## Distributions with `geom_histogram`
 
 ```{r hist, fig.height=5, fig.width=8}
@@ -404,6 +412,7 @@ ggplot( aes(x = `Mean Temperature [F]`, y = Month, fill = ..x..) ) +
 ```
 
 ---
+
 ## Saving figures
 
 *DO NOT save mouse-y style
