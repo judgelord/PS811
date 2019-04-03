@@ -93,7 +93,7 @@ source("setup.R")
 
 class: inverse
 
-# Counting things in fancy ways.
+# 1 Counting things in fancy ways.
 
 --
 
@@ -127,9 +127,9 @@ head(words)
 ```{r count, cache = FALSE}
 words %<>%
   ## Two ways to replace meaningless words: 
-  ## 1. anti-join() a data frame with a column of words you don't want called 'word'
+  ## 1. anti-join() a data frame with a column of unwanted words called 'word'
   anti_join(stop_words) %>% 
-  ## 2. Simply filter out a strings you don't want separated with "|" (the regular expression for "or")
+  ## 2. Filter out a strings you don't want separated with "|" (RegEx "or")
   filter(!str_detect(word, "people|just|dont|like|about|democrat.|republican.|party|[0-9]") ) %>%
   group_by(question) %>%
   ## Count the number of times each word occurs in each group
@@ -139,7 +139,7 @@ head(words)
 
 ---
 
-```{r ANESfrequency, fig.height=4, fig.width=6}
+```{r ANESfrequency, fig.height=6, fig.width=8}
 top_n(words, 10) %>% ## Top 10 words in each group
   ggplot( aes(x = reorder(word, n), y = n) ) +
   geom_col() + 
@@ -180,7 +180,7 @@ bigrams %<>%
 
 ---
 
-```{r ANESfrequency-b, fig.height=4, fig.width=6}
+```{r ANESfrequency-b, fig.height=6, fig.width=8}
 ## Top 10 bigrams in each group
 top_n(bigrams, 10) %>% 
   ggplot( aes(x = reorder(bigram, n), y = n) ) +
@@ -191,6 +191,8 @@ top_n(bigrams, 10) %>%
 ```
 
 ---
+
+class: inverse 
 
 # 2 Matching
 
@@ -205,13 +207,6 @@ Used in: overall document similarity
 - Fuzzy patterns
 
 Used in: text-reuse/plagiarism, web scraping, data cleaning
-
----
-
-(not propensity score matching, probably don’t do that.)
-
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Page proofs from the important new King &amp; Neilsen paper. This is one of those times. Many of us have had this conversation before, perhaps many times. But none of us wrote the paper up. <br><br>tl;dr propensity score matching is dead.<br><br>Ungated: <a href="https://t.co/dmiJaLkFj4">https://t.co/dmiJaLkFj4</a> <a href="https://t.co/RRschUXSuE">pic.twitter.com/RRschUXSuE</a></p>&mdash; Jake M. Grumbach (@JakeMGrumbach) <a href="https://twitter.com/JakeMGrumbach/status/1108480915095896066?ref_src=twsrc%5Etfw">March 20, 2019</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ---
 
@@ -243,9 +238,7 @@ How similar are pairs of texts are overall (i.e. statistically)
     
 ---
 
-## Global alignment 
-
-```{r, out.width = "400px", echo=FALSE}
+```{r, out.width = "500px", echo=FALSE}
 knitr::include_graphics("Figs/seuss.jpg")
 knitr::include_graphics("Figs/samedifferent.jpg")
 ```
@@ -305,7 +298,8 @@ html_text(links)[2:7]
 [Example: A **table** including the **text of scanned pdf** letters from Members of Congress](https://judgelord.github.io/correspondence/functions/DOE_FERC-scraper.html)
 
 ---
-class: inverse center
+
+class: inverse center middle
 
 ## Text-reuse/plagerism
 
@@ -313,13 +307,13 @@ class: inverse center
 
 ## Measuring similarity:
 - Percent copied words, n-grams, sentences
-- Percent aligned (e.g., Smith-Waterman local alignment)
-- Global alignment (word frequencies) or topic proportions ($\sum (\theta_d - \theta_{d'})$)
+- Percent aligned
+- Global alignment (word frequencies) or relative topic proportions 
 
 ## Measuring change across versions:
 - Percent new words, n-grams, sentences
-- Percent unaligned (e.g., Smith-Waterman local alignment)
-- Change in global alignment (word frequencies) or topic proportions ($\sum (\theta_d - \theta_{d'})$)
+- Percent unaligned
+- Change in global alignment (word frequencies) or topic proportions 
 
 ---
 
@@ -346,8 +340,8 @@ The Smith-Waterman local alignment algorithm:
 
 ---
 
-## Smith-Waterman
-Tracing a path through the matrics of the two documents, maximizing matches (technically, giving points for sequences of matches and mismatches). [[More on Smith-Waterman for text](http://fridolin-linder.com/resources/2016/03/30/local-alignment.html)]
+## [Smith-Waterman](http://fridolin-linder.com/resources/2016/03/30/local-alignment.html)
+Tracing a path through the matrix of the two documents, maximizing matches (technically, points for sequences of matches and mismatches). 
 
 ```{r, out.width = "500px", echo=FALSE}
 knitr::include_graphics("Figs/smith-waterman.png")
