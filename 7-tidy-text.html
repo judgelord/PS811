@@ -298,7 +298,7 @@ How similar are pairs of texts are overall (i.e. statistically)
 
 ## Global alignment 
 
-&lt;img src="/Users/judgelord/811/Figs/seuss.jpg" width="400px" style="display: block; margin: auto;" /&gt;&lt;img src="/Users/judgelord/811/Figs/samedifferent.jpg" width="400px" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/seuss.jpg" width="400px" style="display: block; margin: auto;" /&gt;&lt;img src="Figs/samedifferent.jpg" width="400px" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -354,19 +354,21 @@ str_extract_all(strings, "[A-Z][a-z]*",simplify = TRUE)
 
 ---
 
-&lt;img src="/Users/judgelord/811/Figs/regex-animal.jpg" width="600px" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/regex-animal.jpg" width="500px" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Web scraping
 
-99% of web scraping is finding the information we want and wrangling it into a data frame. 
-
 `rvest`
-`read_html("http://google.com", encoding = "ISO-8859-1")`
+`read_html()`
+
+or
 
 `rvest` + `httr`
-`google2 &lt;- read_html(httr::GET("http://google.com"))`
+`read_html( httr::GET() )`
+
+99% of web scraping is finding the information we want and wrangling it into a data frame. 
 
 
 ```r
@@ -376,12 +378,12 @@ html_text(links)[2:7]
 ```
 
 ```
-## [1] "اليوم العالمي للمياه\r\n\r\n22 آذار/مارس\r\n"
-## [2] "\r\n世界水日，2019年3月22日"                 
-## [3] "World Water Day – 22 March"                  
-## [4] "Journée mondiale de l'eau - 22 mars"         
-## [5] "Всемирный день водных ресурсов — 22 марта"   
-## [6] "Día Mundial del Agua, 22 de marzo"
+## [1] "国际提高地雷意识和协助地雷行动日－4月4日"                                                                                             
+## [2] "International Mine Awareness Day - 4 April"                                                                                           
+## [3] "Journée internationale pour la sensibilisation au problème des mines et l’assistance à la lutte antimines - 4 avril"                  
+## [4] "Международный день просвещения по вопросам минной опасности и помощи в деятельности, связанной с разминированием — 4 апреля"          
+## [5] "Día Internacional de información sobre el peligro de las minas y de asistencia para las actividades relativas a las minas, 4 de abril"
+## [6] "اليوم الدولي للتوعية بخطر الألغام\r\n\r\n4 نيسان/أبريل\r\n"
 ```
 
 [Example: A list of companies lobbying the U.S. Federal Energy Regulatory Commission](https://judgelord.github.io/correspondence/functions/DOE_FERC-company-scraper.html)
@@ -397,15 +399,13 @@ class: inverse center
 
 ## Measuring similarity:
 - Percent copied words, n-grams, sentences
-- Percent unaligned (e.g., Smith-Waterman Local Alignment)
-- Global alignment scores
-- Change in topic proportions ($\sum (\theta_d - \theta_{d'})$)
+- Percent aligned (e.g., Smith-Waterman local alignment)
+- Global alignment (word frequencies) or topic proportions ($\sum (\theta_d - \theta_{d'})$)
 
 ## Measuring change across versions:
 - Percent new words, n-grams, sentences
-- Percent unaligned (e.g., Smith-Waterman Local Alignment)
-- Global Alignment Scores
-- Change in topic proportions ($\sum (\theta_d - \theta_{d'})$)
+- Percent unaligned (e.g., Smith-Waterman local alignment)
+- Change in global alignment (word frequencies) or topic proportions ($\sum (\theta_d - \theta_{d'})$)
 
 ---
 
@@ -422,30 +422,32 @@ class: inverse center
 
 ---
 
-### Edits may introduce new ideas in otherwise aligned texts:
+### Edits may introduce new ideas in otherwise aligned texts.
 
-2017: `"When the Subcommittee heard from the FDA it focused on preventing burdensome regulations for producers and the American people in addition to ongoing discussions of how the FDA is implementing the Food Safety Modernization Act FSMA `and the  XXXXXXXXX motivation XXXXXX for XXXXX the generic drug labeling rule `and regulation of tobacco products"`
+The Smith-Waterman local alignment algorithm:
 
-2018: `"When the Subcommittee heard from the FDA it focused on preventing burdensome regulations for producers and the American people in addition to ongoing discussions of how the FDA is implementing the Food Safety Modernization Act FSMA `XXX XXX addressing XXXXXXXXX opioid XXX abuse XXX XXXXXXX XXXX XXXXXXXX XXXX `and regulation of tobacco products"`
+2017: `"FDA is implementing the Food Safety Modernization Act FSMA `and the  XXXXXXXXX motivation XXXXXX for XXXXX the generic drug labeling rule `and regulation of tobacco products"`
+
+2018: `"FDA is implementing the Food Safety Modernization Act FSMA `XXX XXX addressing XXXXXXXXX opioid XXX abuse XXX XXXXXXX XXXX XXXXXXXX XXXX `and regulation of tobacco products"`
 
 ---
 
 ## Smith-Waterman
 Tracing a path through the matrics of the two documents, maximizing matches (technically, giving points for sequences of matches and mismatches). [[More on Smith-Waterman for text](http://fridolin-linder.com/resources/2016/03/30/local-alignment.html)]
 
-&lt;img src="/Users/judgelord/811/Figs/smith-waterman.png" width="500px" style="display: block; margin: auto;" /&gt;
+&lt;img src="Figs/smith-waterman.png" width="500px" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 ## N-gram window
-Finding all exact matches of n-grams or more
+Finding all exact matches of n words or more.
 
-With a 5-gram window:
+With a 4-gram window:
 
-2010: "CLIMATE CHANGE The Committee continues to support `the Administration's efforts to address climate change. Funding for its voluntary climate change programs are continued through this bill."`
+2010: "`CLIMATE CHANGE The Committee` continues to support `the Administration's efforts to` address climate change. Funding for its voluntary climate change programs are continued through this bill."`
 
-2012: "CLIMATE CHANGE This Committee remains skeptical of `the Administration's efforts to re-package existing programs and to fund new ones in the name of climate change."`
+2012: "`CLIMATE CHANGE This Committee` remains skeptical of `the Administration's efforts to` re-package existing programs and to fund new ones in the name of climate change."`
 
 From this example: [Change and influence in budget texts]()
 

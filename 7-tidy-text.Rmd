@@ -246,8 +246,8 @@ How similar are pairs of texts are overall (i.e. statistically)
 ## Global alignment 
 
 ```{r, out.width = "400px", echo=FALSE}
-knitr::include_graphics(here("Figs/seuss.jpg"))
-knitr::include_graphics(here("Figs/samedifferent.jpg"))
+knitr::include_graphics("Figs/seuss.jpg")
+knitr::include_graphics("Figs/samedifferent.jpg")
 ```
 
 
@@ -276,21 +276,23 @@ str_extract_all(strings, "[A-Z][a-z]*",simplify = TRUE)
 
 ---
 
-```{r, out.width = "600px", echo=FALSE}
-knitr::include_graphics(here("Figs/regex-animal.jpg"))
+```{r, out.width = "500px", echo=FALSE}
+knitr::include_graphics("Figs/regex-animal.jpg")
 ```
 
 ---
 
 # Web scraping
 
-99% of web scraping is finding the information we want and wrangling it into a data frame. 
-
 `rvest`
-`read_html("http://google.com", encoding = "ISO-8859-1")`
+`read_html()`
+
+or
 
 `rvest` + `httr`
-`google2 <- read_html(httr::GET("http://google.com"))`
+`read_html( httr::GET() )`
+
+99% of web scraping is finding the information we want and wrangling it into a data frame. 
 
 ```{r}
 html <- read_html("https://www.UN.org/")
@@ -311,15 +313,13 @@ class: inverse center
 
 ## Measuring similarity:
 - Percent copied words, n-grams, sentences
-- Percent unaligned (e.g., Smith-Waterman Local Alignment)
-- Global alignment scores
-- Change in topic proportions ($\sum (\theta_d - \theta_{d'})$)
+- Percent aligned (e.g., Smith-Waterman local alignment)
+- Global alignment (word frequencies) or topic proportions ($\sum (\theta_d - \theta_{d'})$)
 
 ## Measuring change across versions:
 - Percent new words, n-grams, sentences
-- Percent unaligned (e.g., Smith-Waterman Local Alignment)
-- Global Alignment Scores
-- Change in topic proportions ($\sum (\theta_d - \theta_{d'})$)
+- Percent unaligned (e.g., Smith-Waterman local alignment)
+- Change in global alignment (word frequencies) or topic proportions ($\sum (\theta_d - \theta_{d'})$)
 
 ---
 
@@ -336,11 +336,13 @@ class: inverse center
 
 ---
 
-### Edits may introduce new ideas in otherwise aligned texts:
+### Edits may introduce new ideas in otherwise aligned texts.
 
-2017: `"When the Subcommittee heard from the FDA it focused on preventing burdensome regulations for producers and the American people in addition to ongoing discussions of how the FDA is implementing the Food Safety Modernization Act FSMA `and the  XXXXXXXXX motivation XXXXXX for XXXXX the generic drug labeling rule `and regulation of tobacco products"`
+The Smith-Waterman local alignment algorithm:
 
-2018: `"When the Subcommittee heard from the FDA it focused on preventing burdensome regulations for producers and the American people in addition to ongoing discussions of how the FDA is implementing the Food Safety Modernization Act FSMA `XXX XXX addressing XXXXXXXXX opioid XXX abuse XXX XXXXXXX XXXX XXXXXXXX XXXX `and regulation of tobacco products"`
+2017: `"FDA is implementing the Food Safety Modernization Act FSMA `and the  XXXXXXXXX motivation XXXXXX for XXXXX the generic drug labeling rule `and regulation of tobacco products"`
+
+2018: `"FDA is implementing the Food Safety Modernization Act FSMA `XXX XXX addressing XXXXXXXXX opioid XXX abuse XXX XXXXXXX XXXX XXXXXXXX XXXX `and regulation of tobacco products"`
 
 ---
 
@@ -348,20 +350,20 @@ class: inverse center
 Tracing a path through the matrics of the two documents, maximizing matches (technically, giving points for sequences of matches and mismatches). [[More on Smith-Waterman for text](http://fridolin-linder.com/resources/2016/03/30/local-alignment.html)]
 
 ```{r, out.width = "500px", echo=FALSE}
-knitr::include_graphics(here("Figs/smith-waterman.png"))
+knitr::include_graphics("Figs/smith-waterman.png")
 ```
 
 
 ---
 
 ## N-gram window
-Finding all exact matches of n-grams or more
+Finding all exact matches of n words or more.
 
-With a 5-gram window:
+With a 4-gram window:
 
-2010: "CLIMATE CHANGE The Committee continues to support `the Administration's efforts to address climate change. Funding for its voluntary climate change programs are continued through this bill."`
+2010: "`CLIMATE CHANGE The Committee` continues to support `the Administration's efforts to` address climate change. Funding for its voluntary climate change programs are continued through this bill."`
 
-2012: "CLIMATE CHANGE This Committee remains skeptical of `the Administration's efforts to re-package existing programs and to fund new ones in the name of climate change."`
+2012: "`CLIMATE CHANGE This Committee` remains skeptical of `the Administration's efforts to` re-package existing programs and to fund new ones in the name of climate change."`
 
 From this example: [Change and influence in budget texts]()
 
