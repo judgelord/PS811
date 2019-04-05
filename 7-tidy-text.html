@@ -104,7 +104,7 @@ With tidy text, counting words or phrases is simple:
 
 ---
 
-## Word frequency
+### Word frequency
 
 Responses to ANES question "What do you dislike about [Democrats/Republicans]?" (V161101, V161106)
 
@@ -142,17 +142,24 @@ head(words)
 
 ---
 
+### Replace meaningless words
 
 ```r
-words %&lt;&gt;%
-  ## Two ways to replace meaningless words: 
-  ## 1. anti-join() a data frame with a column of unwanted words called 'word'
-  anti_join(stop_words) %&gt;% 
-  ## 2. Filter out a strings you don't want separated with "|" (RegEx "or")
-  filter(!str_detect(word, "people|just|dont|like|about|democrat.|republican.|party|[0-9]") ) %&gt;%
-  group_by(question) %&gt;%
-  ## Count the number of times each word occurs in each group
-  count(word) 
+# 1. anti-join() a data frame with a column of unwanted words called 'word'
+words %&lt;&gt;% anti_join(stop_words)
+
+# 2. Filter out strings we don't want separated with "|" (RegEx "or")
+unwanted_words &lt;- "people|just|dont|like|about|democrat.|republican.|party|[0-9]"
+
+words %&lt;&gt;% filter(!str_detect(word, unwanted_words) ) 
+```
+
+### Count
+
+```r
+## Count the number of times each word occurs in each group
+words %&lt;&gt;% group_by(question) %&gt;% count(word) 
+
 head(words)
 ```
 
@@ -273,14 +280,14 @@ Web scraping also requires manipulating HTML.
 - `rvest` offers tools for web scraping. Here is a [tutorial on Data Camp](https://www.datacamp.com/community/tutorials/r-web-scraping-rvest0)
 
 Once we have scraped text, we need to clean it and extract the things we care about, both task for [RegEx]( https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf)
-- For tools to manipulate text, see the stringr cheatsheet: https://www.rstudio.com/resources/cheatsheets/#stringr
+- For tools to manipulate text, see the [stringr cheatsheet](https://www.rstudio.com/resources/cheatsheets/#stringr)
 - Matt Denny has a [nice tutorial on cleaning text](http://www.mjdenny.com/Text_Processing_In_R.html)
 
 ---
 
 ## Global alignment 
 
-How similar are pairs of texts are overall (i.e. statistically)
+How similar are pairs of texts are overall (i.e., statistically)
 
 1. Count things, usually word frequencies.
     - Recall the [congressional letters example](https://judgelord.github.io/PS811/text-legislator-letters.html)
@@ -303,13 +310,14 @@ How similar are pairs of texts are overall (i.e. statistically)
 
 ---
 
-Exact (`==`) vs. patterns (RegEx + `str_detect()`)
+#### Exact (`==`) vs. patterns (`str_detect("regular expression")`)
 
 
 ```r
-strings &lt;- c("Zoe", "Elmo", "Thing 1", "Thing 2", "are your politics more like Sesame Streat or Dr Suess?")
+strings &lt;- c("Elmo", "Zoe", "Thing 1", "Thing 2", 
+             "are your politics more like Sesame Street or Dr Seuss?")
 
-strings == "Zoe"
+strings == "Elmo" # Exact match?
 ```
 
 ```
@@ -317,7 +325,7 @@ strings == "Zoe"
 ```
 
 ```r
-strings == "Thing [0-9]"
+strings == "Thing [0-9]" # Exact match?
 ```
 
 ```
@@ -325,7 +333,7 @@ strings == "Thing [0-9]"
 ```
 
 ```r
-str_detect(strings, "Thing [0-9]")
+str_detect(strings, "Thing [0-9]") # RegEx match?
 ```
 
 ```
@@ -333,16 +341,16 @@ str_detect(strings, "Thing [0-9]")
 ```
 
 ```r
-str_extract_all(strings, "[A-Z][a-z]*",simplify = TRUE)
+str_extract_all(strings, "[A-Z][a-z]*", simplify = T) # stringr functions: str_....
 ```
 
 ```
 ##      [,1]     [,2]     [,3] [,4]   
-## [1,] "Zoe"    ""       ""   ""     
-## [2,] "Elmo"   ""       ""   ""     
+## [1,] "Elmo"   ""       ""   ""     
+## [2,] "Zoe"    ""       ""   ""     
 ## [3,] "Thing"  ""       ""   ""     
 ## [4,] "Thing"  ""       ""   ""     
-## [5,] "Sesame" "Streat" "Dr" "Suess"
+## [5,] "Sesame" "Street" "Dr" "Seuss"
 ```
 
 ---
@@ -353,21 +361,17 @@ str_extract_all(strings, "[A-Z][a-z]*",simplify = TRUE)
 
 # Web scraping
 
-`rvest`
-`read_html()`
+`rvest`: `read_html()`, or
 
-or
-
-`rvest` + `httr`
-`read_html( httr::GET() )`
+`rvest` + `httr`: `read_html( httr::GET() )`
 
 99% of web scraping is finding the information we want and wrangling it into a data frame. 
 
 
 ```r
-html &lt;- read_html("https://www.UN.org/")
-links &lt;- html_nodes(html, "a")
-html_text(links)[2:7]
+html &lt;- read_html("https://www.UN.org/") # The UN homepage
+links &lt;- html_nodes(html, "a") # "a" nodes are linked text
+html_text(links)[2:7] # The text for links 2-7
 ```
 
 ```
@@ -381,7 +385,7 @@ html_text(links)[2:7]
 
 [Example: A list of companies lobbying the U.S. Federal Energy Regulatory Commission](https://judgelord.github.io/correspondence/functions/DOE_FERC-company-scraper.html)
 
-[Example: A **table** including the **text of scanned pdf** letters from Members of Congress](https://judgelord.github.io/correspondence/functions/DOE_FERC-scraper.html)
+[Example: A table including the text of scanned pdf letters from Members of Congress](https://judgelord.github.io/correspondence/functions/DOE_FERC-scraper.html)
 
 ---
 

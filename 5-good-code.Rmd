@@ -17,7 +17,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-source(here::here("setup.R"))
+source("setup.R")
 ```
 
 
@@ -32,14 +32,14 @@ class: center inverse
 ![](https://media.giphy.com/media/xUA7aLL1iKj62wBYTC/giphy.gif)
 
 ---
-## 1. `setwd("C:\Users\path\that\only\I\have"`
+### 1. `setwd("C:\Users\path\that\only\I\have"`
 
 
 --
 
 ![](https://media.giphy.com/media/146SJ7jy4BFXHy/giphy.gif)
 
-## I don't have your file paths!
+#### I don't have your file paths!
 
 ---
 
@@ -48,9 +48,10 @@ class: center inverse
 ## If you are working with text (and really, just always), begin with:
 ## `options(stringsAsFactors = F)`
 ## Let R coerce strings to factors as needed.
-Eventually learn to master factors with [`forcats`](https://forcats.tidyverse.org/) (Key if you want to plot things in a certian order.)
+Eventually, learn to master factors with [`forcats`](https://forcats.tidyverse.org/) (e.g., if you want to plot things in a specific order.)
 
 ---
+
 ## 3 
 ### `library(SomoneoneOnTheInternetWroteThis)`
 
@@ -63,7 +64,7 @@ Eventually learn to master factors with [`forcats`](https://forcats.tidyverse.or
 ---
 
 ## Tip: A seperate script to set it all up
-## `source(here("setup.R"))`
+## `source("setup.R")`
 
 ```
 options(stringsAsFactors = F)
@@ -72,8 +73,6 @@ options(stringsAsFactors = F)
 ## Here are some we will use in 811:
 requires <- c("tidyverse", # tidyverse includes dplyr and ggplot2
               "magrittr",
-              "foreign",
-              "readstata13",
               "here")
 
 ## Install any you don't have
@@ -91,7 +90,7 @@ library(here)
 ```
 
 ---
-## `source(here("setup.R"))` continued:
+## `source("setup.R")` continued:
 
 ```
 ## Set defaults for R chunks
@@ -108,29 +107,42 @@ knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
 
 ---
 
+## `filter()`
+
+Subset to observations (rows!) matching certain conditions
+
+![](https://media.giphy.com/media/rwsDkSEQyTxPW/giphy.gif)
+
+
+---
+
+## `select()`
+
+Select certian variables (columns!) or variables matching certian conditions
+
+---
+
+
+## Functions 
+
+To do the same thing more than once, use [functions](https://r4ds.had.co.nz/functions.html#functions).  [Functions make nicer code](https://nicercode.github.io/guides/functions/). 
+
+Apply functions to vectors or lists of data with [`purrr`](https://www.rstudio.com/resources/cheatsheets/#purrr) (instead of writing loops where we have to index everything).
+
+---
+
 ## But don't go overboard
-Simpler is often stronger
+Simpler is often stronger.
 ![](Figs/data_pipeline.png)
 
 ---
 
-## `filter()`
+## Computing
 
-![](https://media.giphy.com/media/rwsDkSEQyTxPW/giphy.gif)
-
----
-
-## Functions 
-
-https://r4ds.had.co.nz/functions.html#functions
-
----
-
-
-
----
-
-## Advanced
 Have long scripts [send you a text or email](https://github.com/jennybc/send-email-with-r) when they are done.
+
+Spread computation across several cores with [`multidplyr`](https://github.com/hadley/multidplyr/blob/master/vignettes/multidplyr.md)
+
+Use a remote, like [SSCC's linstat cluster](https://www.ssc.wisc.edu/sscc/pubs/linstat.htm)
 
 

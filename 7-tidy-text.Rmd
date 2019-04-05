@@ -107,7 +107,7 @@ With tidy text, counting words or phrases is simple:
 
 ---
 
-## Word frequency
+### Word frequency
 
 Responses to ANES question "What do you dislike about [Democrats/Republicans]?" (V161101, V161106)
 ```{r ANES-data}
@@ -124,16 +124,22 @@ head(words)
 
 ---
 
-```{r count, cache = FALSE}
-words %<>%
-  ## Two ways to replace meaningless words: 
-  ## 1. anti-join() a data frame with a column of unwanted words called 'word'
-  anti_join(stop_words) %>% 
-  ## 2. Filter out a strings you don't want separated with "|" (RegEx "or")
-  filter(!str_detect(word, "people|just|dont|like|about|democrat.|republican.|party|[0-9]") ) %>%
-  group_by(question) %>%
-  ## Count the number of times each word occurs in each group
-  count(word) 
+### Replace meaningless words
+```{r anti_join, cache = FALSE}
+# 1. anti-join() a data frame with a column of unwanted words called 'word'
+words %<>% anti_join(stop_words)
+
+# 2. Filter out strings we don't want separated with "|" (RegEx "or")
+unwanted_words <- "people|just|dont|like|about|democrat.|republican.|party|[0-9]"
+
+words %<>% filter(!str_detect(word, unwanted_words) ) 
+```
+
+### Count
+```{r count}
+## Count the number of times each word occurs in each group
+words %<>% group_by(question) %>% count(word) 
+
 head(words)
 ```
 
@@ -220,14 +226,14 @@ Web scraping also requires manipulating HTML.
 - `rvest` offers tools for web scraping. Here is a [tutorial on Data Camp](https://www.datacamp.com/community/tutorials/r-web-scraping-rvest0)
 
 Once we have scraped text, we need to clean it and extract the things we care about, both task for [RegEx]( https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf)
-- For tools to manipulate text, see the stringr cheatsheet: https://www.rstudio.com/resources/cheatsheets/#stringr
+- For tools to manipulate text, see the [stringr cheatsheet](https://www.rstudio.com/resources/cheatsheets/#stringr)
 - Matt Denny has a [nice tutorial on cleaning text](http://www.mjdenny.com/Text_Processing_In_R.html)
 
 ---
 
 ## Global alignment 
 
-How similar are pairs of texts are overall (i.e. statistically)
+How similar are pairs of texts are overall (i.e., statistically)
 
 1. Count things, usually word frequencies.
     - Recall the [congressional letters example](https://judgelord.github.io/PS811/text-legislator-letters.html)
@@ -253,18 +259,19 @@ knitr::include_graphics("Figs/samedifferent.jpg")
 
 ---
 
-Exact (`==`) vs. patterns (RegEx + `str_detect()`)
+#### Exact (`==`) vs. patterns (`str_detect("regular expression")`)
 
 ```{r}
-strings <- c("Zoe", "Elmo", "Thing 1", "Thing 2", "are your politics more like Sesame Streat or Dr Suess?")
+strings <- c("Elmo", "Zoe", "Thing 1", "Thing 2", 
+             "are your politics more like Sesame Street or Dr Seuss?")
 
-strings == "Zoe"
+strings == "Elmo" # Exact match?
 
-strings == "Thing [0-9]"
+strings == "Thing [0-9]" # Exact match?
 
-str_detect(strings, "Thing [0-9]")
+str_detect(strings, "Thing [0-9]") # RegEx match?
 
-str_extract_all(strings, "[A-Z][a-z]*",simplify = TRUE)
+str_extract_all(strings, "[A-Z][a-z]*", simplify = T) # stringr functions: str_....
 ```
 
 ---
@@ -277,25 +284,21 @@ knitr::include_graphics("Figs/regex-animal.jpg")
 
 # Web scraping
 
-`rvest`
-`read_html()`
+`rvest`: `read_html()`, or
 
-or
-
-`rvest` + `httr`
-`read_html( httr::GET() )`
+`rvest` + `httr`: `read_html( httr::GET() )`
 
 99% of web scraping is finding the information we want and wrangling it into a data frame. 
 
 ```{r}
-html <- read_html("https://www.UN.org/")
-links <- html_nodes(html, "a")
-html_text(links)[2:7]
+html <- read_html("https://www.UN.org/") # The UN homepage
+links <- html_nodes(html, "a") # "a" nodes are linked text
+html_text(links)[2:7] # The text for links 2-7
 ```
 
 [Example: A list of companies lobbying the U.S. Federal Energy Regulatory Commission](https://judgelord.github.io/correspondence/functions/DOE_FERC-company-scraper.html)
 
-[Example: A **table** including the **text of scanned pdf** letters from Members of Congress](https://judgelord.github.io/correspondence/functions/DOE_FERC-scraper.html)
+[Example: A table including the text of scanned pdf letters from Members of Congress](https://judgelord.github.io/correspondence/functions/DOE_FERC-scraper.html)
 
 ---
 
