@@ -43,14 +43,13 @@ class: center inverse
 
 ## 2. [Factors](https://www.r-bloggers.com/factors-are-not-first-class-citizens-in-r/)
 
-## If you are working with text (and really, just always), begin with:
-## `options(stringsAsFactors = F)`
+## If you are working with text (and really, just always), begin with: `options(stringsAsFactors = F)`
 ## Let R coerce strings to factors as needed.
 Eventually, learn to master factors with [`forcats`](https://forcats.tidyverse.org/) (e.g., if you want to plot things in a specific order.)
 
 ---
 
-## 3 
+## 3. 
 ### `library(SomoneoneOnTheInternetWroteThis)`
 
 --
@@ -105,32 +104,122 @@ knitr::opts_chunk$set(echo = TRUE, # echo = TRUE means that your code will show
 
 ---
 
-## `filter()`
+## 4. `data[2:7,]`: always the same observations?
 
-Subset to observations (rows!) matching certain conditions
+--
 
-![](https://media.giphy.com/media/rwsDkSEQyTxPW/giphy.gif)
+## Use `filter()`
+
+Subset to rows (observations!) matching certain conditions
+
+![](https://media.giphy.com/media/hO0L2DHNW1h4c/giphy.gif)
 
 
 ---
 
-## `select()`
+## 5. `data[, 2:7,]`: always the same variables?
 
-Select certian variables (columns!) or variables matching certian conditions
+--
 
----
+## Use `select()`
 
-
-## Functions 
-
-To do the same thing more than once, use [functions](https://r4ds.had.co.nz/functions.html#functions).  [Functions make nicer code](https://nicercode.github.io/guides/functions/). 
-
-Apply functions to vectors or lists of data with [`purrr`](https://www.rstudio.com/resources/cheatsheets/#purrr) (instead of writing loops where we have to index everything).
+Select columns (variables!) or column names matching certian conditions
 
 ---
 
-## But don't go overboard
-Simpler is often stronger.
+### What is the UN up to?
+
+```r
+html &lt;- read_html("https://www.UN.org/") # The UN homepage
+links &lt;- html_nodes(html, "a") # "a" nodes are linked text
+
+tibble(text = html_text(links),
+       url = html_attr(links, "href") ) %&gt;% # "href"" attributes are urls
+  filter(str_detect(url, "events")) %&gt;% # urls containing "events"
+  select(text) %&gt;% # or select(-url)
+  distinct() 
+```
+
+```
+## # A tibble: 6 x 1
+##   text                                                                     
+##   &lt;chr&gt;                                                                    
+## 1 "اليوم الدولي للتوعية بخطر الألغام\r\n\r\n4 نيسان/أبريل\r\n"             
+## 2 国际提高地雷意识和协助地雷行动日－4月4日                                 
+## 3 International Mine Awareness Day - 4 April                               
+## 4 Journée internationale pour la sensibilisation au problème des mines et …
+## 5 Международный день просвещения по вопросам минной опасности и помощи в д…
+## 6 Día Internacional de información sobre el peligro de las minas y de asis…
+```
+
+---
+
+### To do something more than once, use [functions](https://r4ds.had.co.nz/functions.html#functions).
+
+
+
+```r
+top_story &lt;- function(x){
+  html &lt;- read_html(str_c("https://www.UN.org/", x)) # The UN homepage
+  links &lt;- html_nodes(html, "a") # "a" nodes are linked text
+  
+  d &lt;- tibble(text = html_text(links),
+              url = html_attr(links, "href") # href attributes are urls
+              ) %&gt;% 
+    filter(text != "", str_detect(url, "/story")) %&gt;% # urls that contain "story"
+    .[1,]
+  return(d)
+}
+```
+
+
+```r
+top_story(x = "en")
+```
+
+```
+## # A tibble: 1 x 2
+##   text                                          url                        
+##   &lt;chr&gt;                                         &lt;chr&gt;                      
+## 1 Haiti stands ‘at the crossroads’ between pea… https://news.un.org/en/sto…
+```
+
+```r
+top_story(x = "ru")
+```
+
+```
+## # A tibble: 1 x 2
+##   text                                   url                               
+##   &lt;chr&gt;                                  &lt;chr&gt;                             
+## 1 ФАО: более 100 миллионов жителей план… https://news.un.org/ru/story/2019…
+```
+---
+
+## Apply functions with [`purrr`](https://www.rstudio.com/resources/cheatsheets/#purrr) 
+(Instead of writing loops where we have to index everything.)
+
+
+```r
+languages &lt;- c("ar", "zh", "en", "fr", "ru", "es")
+
+map_dfr(languages, top_story)
+```
+
+```
+## # A tibble: 6 x 2
+##   text                                          url                        
+##   &lt;chr&gt;                                         &lt;chr&gt;                      
+## 1 الأمين العام يزور ليبيا ويؤكد التزامه بدعم ا… https://news.un.org/ar/sto…
+## 2 "海地支助团十月结束任期  联合国呼吁加强人权保护 "… https://news.un.org/zh/sto…
+## 3 Haiti stands ‘at the crossroads’ between pea… https://news.un.org/en/sto…
+## 4 Sahel : une sécurité durable requiert une pl… https://news.un.org/fr/sto…
+## 5 ФАО: более 100 миллионов жителей планеты гол… https://news.un.org/ru/sto…
+## 6 El fin de la misión de mantenimiento de la p… https://news.un.org/es/sto…
+```
+---
+
+## Simpler is often stronger.
 ![](Figs/data_pipeline.png)
 
 ---
