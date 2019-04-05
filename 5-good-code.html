@@ -18,9 +18,15 @@ class: center, middle, inverse, title-slide
 
 
 
-
+# Be nice to others
 
 ![](https://imgs.xkcd.com/comics/exploits_of_a_mom.png)
+
+---
+
+# Be nice to yourself
+
+![](http://www.phdcomics.com/comics/archive/phd031214s.gif)
 
 ---
 class: center inverse
@@ -30,14 +36,15 @@ class: center inverse
 ![](https://media.giphy.com/media/xUA7aLL1iKj62wBYTC/giphy.gif)
 
 ---
-### 1. `setwd("C:\Users\path\that\only\I\have"`
 
+### 1. `setwd("C:\Users\path\that\only\I\have"`
 
 --
 
 ![](https://media.giphy.com/media/146SJ7jy4BFXHy/giphy.gif)
 
-#### I don't have your file paths!
+#### We don't have your file paths!
+You won't have those file paths on your next computer, a lab computer, a remote server.
 
 ---
 
@@ -222,15 +229,21 @@ map_dfr(languages, top_story)
 ## Simpler is often stronger.
 ![](Figs/data_pipeline.png)
 
+--
+
+- Use `%&gt;%` and `%&lt;&gt;%` instead of making a million objects
+- Use `map()` and other `purrr` functions instead of loops
+
 ---
 
 ## Computing
 
-Have long scripts [send you a text or email](https://github.com/jennybc/send-email-with-r) when they are done.
+Have long scripts [send you a text or email](https://github.com/jennybc/send-email-with-r) when they are done with a task.
 
 Spread computation across several cores with [`multidplyr`](https://github.com/hadley/multidplyr/blob/master/vignettes/multidplyr.md)
 
 Use a remote, like [SSCC's linstat cluster](https://www.ssc.wisc.edu/sscc/pubs/linstat.htm)
+- Easy to `git clone` if you have a self-contained project folder on git
     </textarea>
 <style data-target="print-only">.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
