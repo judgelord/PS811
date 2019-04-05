@@ -39,21 +39,30 @@ class: center inverse
 
 ---
 
-### 1. `setwd("C:\Users\path\that\only\I\have"`
+## 1. `setwd("user\path\only\I\have")`
 
 --
 
 ![](https://media.giphy.com/media/146SJ7jy4BFXHy/giphy.gif)
 
-#### We don't have your file paths!
+### We don't have your file paths!
 You won't have those file paths on your next computer, a lab computer, a remote server.
 
 ---
 
 ## 2. [Factors](https://www.r-bloggers.com/factors-are-not-first-class-citizens-in-r/)
 
-## If you are working with text (and really, just always), begin with: `options(stringsAsFactors = F)`
-## Let R coerce strings to factors as needed.
+```{r}
+strings <- c("a","a","b",NA,"c","c")
+f <- factor(strings)
+f
+ifelse(is.na(f),'b',f)
+```
+
+### If working with text, begin with: `options(stringsAsFactors = F)`
+
+Let R coerce strings to factors as needed.
+
 Eventually, learn to master factors with [`forcats`](https://forcats.tidyverse.org/) (e.g., if you want to plot things in a specific order.)
 
 ---
@@ -65,12 +74,12 @@ Eventually, learn to master factors with [`forcats`](https://forcats.tidyverse.o
 
 ![](https://media.giphy.com/media/l2R05FZf4dVOrgIaQ/giphy.gif)
 
-## I may not have your packages!
+### I may not have your packages!
 
 ---
 
 ## Tip: A seperate script to set it all up
-## `source("setup.R")`
+### `source("setup.R")`
 
 ```
 options(stringsAsFactors = F)
@@ -96,7 +105,7 @@ library(here)
 ```
 
 ---
-## `source("setup.R")` continued:
+### `source("setup.R")` continued:
 
 ```
 ## Set defaults for R chunks
@@ -132,7 +141,7 @@ Subset to rows (observations!) matching certain conditions
 
 ## Use `select()`
 
-Select columns (variables!) or column names matching certian conditions
+Select columns (variables!) or column names matching certain conditions
 
 ---
 
