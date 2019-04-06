@@ -135,7 +135,7 @@ Subset to rows (observations!) matching certain conditions
 
 ---
 
-## 5. `data[, 2:7,]`: always the same variables?
+## 5. `data[, 2:7]`: always the same variables?
 
 --
 
