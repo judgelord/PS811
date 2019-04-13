@@ -18,7 +18,7 @@ This course builds core skills for reproducible research.
 
 [4 - Tidy data & readable code](https://judgelord.github.io/PS811/4-tidy-data.html)
 
-5 - Efficient code that does not break
+[5 - Efficient code that does not break](https://judgelord.github.io/PS811/5-good-code.html)
 
 [6 - Data visualization & summary analysis](https://judgelord.github.io/PS811/6-data-viz.html)
 
@@ -31,6 +31,8 @@ This course builds core skills for reproducible research.
     + Supervised Learning <[content tagging example](), <[learning example]()>>
 
 9 - Model results
+
+- Gender pay gap <[example](https://judgelord.github.io/813/DE3.html)>
 
 10 - Duration models
 
