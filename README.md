@@ -31,12 +31,12 @@ This course builds core skills for reproducible research.
     + Supervised Learning <[content tagging example](), <[learning example]()>>
 - Clustering <[example]()>
 
-9 - Model results
+8 - Model results
 
--  Hypothesis testing <[Gender pay gap example](https://judgelord.github.io/813/DE3.html)>
+- Hypothesis testing <[Gender pay gap example](https://judgelord.github.io/813/DE3.html)>
 
 - Interpreting Logit <[Sentencing decisions example](https://judgelord.github.io/813/DE4.html)>
 
-10 - Duration models
+9 - Duration models
 
-11 - Computation
+10 - Computation
