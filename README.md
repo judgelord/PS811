@@ -24,15 +24,18 @@ This course builds core skills for reproducible research.
 
 [7 - Tidy text analysis](https://judgelord.github.io/PS811/7-tidy-text.html)
 
-- Counting <[example]()>
-- Matching <[web scraping text example]()>, <[web scraping documents and tables example]()>, <[text reuse example]()>
+- Counting <[legislator letters example](https://judgelord.github.io/PS811/text-legislator-letters.html)>
+- Matching <[web scraping text example](https://judgelord.github.io/correspondence/functions/DOE_FERC-company-scraper.html)>, <[web scraping documents and tables example](https://judgelord.github.io/correspondence/functions/DOE_FERC-scraper.html)>, <[text reuse example]()>
 - Classification <[example]()>
     + Unsupervised <[example]()>
     + Supervised Learning <[content tagging example](), <[learning example]()>>
+- Clustering <[example]()>
 
 9 - Model results
 
-- Gender pay gap <[example](https://judgelord.github.io/813/DE3.html)>
+-  Hypothesis testing <[Gender pay gap example](https://judgelord.github.io/813/DE3.html)>
+
+- Interpreting Logit <[Sentencing decisions example](https://judgelord.github.io/813/DE4.html)>
 
 10 - Duration models
 
