@@ -49,3 +49,4 @@ This course builds core skills for reproducible research.
 - [Lotem](https://lbassan.github.io/811/portfolio.html)
 - [Sam](https://sdschutt13.github.io/811/samportfolio.html)
 - [David](https://bdavidc.github.io/811/portfolio.html)
+- [Lisa](https://lisadias.github.io/811/Land_Portfolio_.html)
