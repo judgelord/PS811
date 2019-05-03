@@ -41,7 +41,7 @@ This course builds core skills for reproducible research.
 
 10 - Computation
 
-# Final Projects
+# Portfolios
 - [Monica](https://mckomer.github.io/811/portfolio.html)
 - [Juan](https://juan-qian.github.io/811/portfolio.html)
 - [X](http://htmlpreview.github.io/?https://github.com/14XZ/xzhang-811/blob/Project-Report/Project_report.html)
