@@ -46,7 +46,7 @@ This course builds core skills for reproducible research.
 - [Juan](https://juan-qian.github.io/811/portfolio.html)
 - [X](http://htmlpreview.github.io/?https://github.com/14XZ/xzhang-811/blob/Project-Report/Project_report.html)
 - [Valeriia](https://valeriiaumanets.github.io/811/portfolio)
-- [Lotem](https://lbassan.github.io/811/portfolio.html)
+- [Lotem](https://lbassan.github.io/811/Final_Paper.html)
 - [Sam](https://sdschutt13.github.io/811/samportfolio.html)
 - [David](https://bdavidc.github.io/811/portfolio.html)
 - [Lisa](https://lisadias.github.io/811/Land_Portfolio_.html)
