@@ -28,7 +28,7 @@ This course builds core skills for reproducible research.
 - Matching <[web scraping text example](https://judgelord.github.io/correspondence/functions/DOE_FERC-company-scraper.html)>, <[web scraping documents and tables example](https://judgelord.github.io/correspondence/functions/DOE_FERC-scraper.html)>, <[text reuse example]()>
 - Classification <[example]()>
     + Unsupervised <[example]()>
-    + Supervised Learning <[content tagging example](), <[learning example]()>>
+    + Supervised Learning <[content tagging example](), <[learning example](https://github.com/judgelord/PS811/blob/master/machine-learning_demo/gbm.py)>
 - Clustering <[example]()>
 
 8 - Model results
