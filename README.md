@@ -18,20 +18,26 @@ This course builds core skills for reproducible research.
 
 [4 - Tidy data & readable code](https://judgelord.github.io/PS811/4-tidy-data.html)
 
-5 - Efficient code that does not break
+[5 - Efficient code that does not break](https://judgelord.github.io/PS811/5-good-code.html)
 
 [6 - Data visualization & summary analysis](https://judgelord.github.io/PS811/6-data-viz.html)
 
 [7 - Tidy text analysis](https://judgelord.github.io/PS811/7-tidy-text.html)
 
-- Counting <[example]()>
-- Matching <[web scraping text example]()>, <[web scraping documents and tables example]()>, <[text reuse example]()>
+- Counting <[legislator letters example](https://judgelord.github.io/PS811/text-legislator-letters.html)>
+- Matching <[web scraping text example](https://judgelord.github.io/correspondence/functions/DOE_FERC-company-scraper.html)>, <[web scraping documents and tables example](https://judgelord.github.io/correspondence/functions/DOE_FERC-scraper.html)>, <[text reuse example]()>
 - Classification <[example]()>
     + Unsupervised <[example]()>
-    + Supervised Learning <[content tagging example](), <[learning example]()>>
+    + Supervised Learning <[content tagging example](), <[learning example](https://github.com/judgelord/PS811/blob/master/machine-learning_demo/gbm.py)>
+- Clustering <[example]()>
 
-9 - Model results
+8 - Model results
 
-10 - Duration models
+- Hypothesis testing <[Gender pay gap example](https://judgelord.github.io/813/DE3.html)>
 
-11 - Computation
+- Interpreting Logit <[Sentencing decisions example](https://judgelord.github.io/813/DE4.html)>
+
+9 - Duration models <[Department of Transportation rulemaking example]()>
+
+10 - Computation
+
