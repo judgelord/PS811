@@ -316,11 +316,13 @@ ggplot( aes(x = long, y = lat) ) +
 wi <- map_data("county", "wisconsin")
 
 wi %>% 
-  group_by(subregion) %>%
 ggplot( aes(x = long, y = lat, group = group) ) +
   geom_point() +
-  geom_polygon(fill = NA, color = "grey60")
-
+  geom_polygon(fill = NA, color = "blue") + 
+  geom_point(aes(x=-89.4012, y=43.0731), 
+             shape = "W", 
+             color = "red", 
+             size =5) 
 ```
 
 ---

@@ -263,7 +263,7 @@ knitr::include_graphics("Figs/samedifferent.jpg")
 
 ```{r}
 strings <- c("Elmo", "Zoe", "Thing 1", "Thing 2", 
-             "are your politics more like Sesame Street or Dr Seuss?")
+             "is adulting more like Sesame Street or Dr. Seuss?")
 
 strings == "Elmo" # Exact match?
 

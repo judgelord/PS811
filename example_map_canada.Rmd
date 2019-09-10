@@ -3,14 +3,13 @@ title: "Canada"
 output: html_document
 ---
 
-```{r setup}
+```{r setup, include=FALSE}
 ## Defaults for R chunks
 knitr::opts_chunk$set(echo = TRUE, ## echo = TRUE means code will show
                       warning=FALSE, ## supress warnings and messages from R
                       message=FALSE,
                       # fig.path='Figs/', ## where to save figures
-                      fig.height = 3, ## default figure size (can differ in each chunk)
-                      fig.width = 3)
+                      fig.width = 11)
 ## Add any R packages you require. 
 ## Here are some we will use in 811:
 requires <- c("tidyverse", ## tidyverse includes dplyr and ggplot2
@@ -32,20 +31,9 @@ library(here)
 ```
 
 [From Kieran Healy's blog post](https://kieranhealy.org/blog/archives/2018/12/09/canada-map/).
-My R Markdown file for this is [here](https://github.com/judgelord/PS811/example_map_canada.Rmd).
+My R Markdown file for this example is [here](https://github.com/judgelord/PS811/example_map_canada.Rmd).
 
-Mapping data (and, more importantly, converting map data into a format that we can tidily use) requires a bit more heavy lifting behind the scenes than the core tidyverse libraries provide. We start by (if necessary) installing the sf library, which will also bring a number of dependencies with it. We’ll also install a few packages that provide some functions we might use in the conversion and mapping process.
-
-```{r, eval = FALSE}
-install.packages("sf")
-install.packages("rgdal")
-install.packages("geojsonio")
-install.packages("spdplyr")
-install.packages("rmapshaper")
-```
-
-Then we load the packages, along with others we’ve already installed (as part of the seminar).
-
+Mapping data (and, more importantly, converting map data into a format that we can tidily use) requires a bit more heavy lifting behind the scenes than the core tidyverse libraries provide. We start by loading the `sf` library, which will also bring a number of dependencies with it. We’ll also load a few packages that provide some functions we might use in the conversion and mapping process.
 
 ```{r}
 library(geojsonio)
@@ -86,8 +74,10 @@ So, get the data from Statistics Canada. We’re going to use this link: http://
 
 
 ```{r}
-canada_raw <- readOGR(dsn = "data/gcd_000b11a_e", layer = "gcd_000b11a_e",
-                      use_iconv=TRUE, encoding="CP1250")
+canada_raw <- readOGR(dsn = "data/gcd_000b11a_e", 
+                      layer = "gcd_000b11a_e",
+                      use_iconv=TRUE, 
+                      encoding="CP1250")
 ```
 
 Note the options here. This information is contained in the documentation for the shape files. Now we’re going to convert this object to GeoJSON format and simplify the polygons. These steps will take a little while to run:
@@ -110,20 +100,29 @@ Read the GeoJSON file back in as an sf object. The .geojson file is included in 
 
 ```{r}
 canada_cd <- st_read(here("data/canada_cd_sim.geojson"), quiet = TRUE)
+```
+
+```{r canada}
+canada_cd %>% 
+ggplot() + 
+  geom_sf(mapping = aes(fill = PRNAME)) +
+  guides(fill = FALSE) 
+
+
 
 head(canada_cd)
 ```
 
-Notice the proj4string there in the metadata. We’re going to change that to Canada’s favorite projection, the Lambert Conformal Conic projection. See this discussion for details.
+Notice the proj4string there in the metadata. Let us change that to Canada’s favorite projection, the Lambert Conformal Conic projection. 
 
 
 ```{r}
-canada_cd <- st_transform(canada_cd, crs = "+proj=lcc +lat_1=49 +lat_2=77 +lon_0=-91.52 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs")
+canada_cd %<>% st_transform(crs = "+proj=lcc +lat_1=49 +lat_2=77 +lon_0=-91.52 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs")
 
 head(canada_cd)
 ```
 
-Finally, and just because I don’t have any census-district-level data to hand at the moment, we make a vector of repeated colors to fill in the map, for decoration only, if you want to color all the census divisions.
+Finally, and just because I don’t have any census-district-level data at the moment, we make a vector of repeated colors to fill in the map, for decoration only, if you want to color all the census divisions.
 
 
 ```{r}
@@ -134,9 +133,9 @@ map_colors <- rep(map_colors, 37)
 Instead, we’ll just map the fill to PRUID, i.e. the province level. But try mapping fill to CDUID instead (the census district ID), and see what happens.
 
 
-```{r}
+```{r canada-projection}
 canada_cd %>% 
-ggplot(mapping = aes(fill = PRUID)) + # provence-level
+ggplot(mapping = aes(fill = PRUID)) + # provence-level unit ID
   geom_sf( size = 0.1) + 
   scale_fill_manual(values = map_colors) + 
   guides(fill = FALSE) +
