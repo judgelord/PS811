@@ -9,8 +9,8 @@ output:
   xaringan::moon_reader:
     lib_dir: libs
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"
-    # css: templates/xaringan-themer.css
-    css: [default, metropolis, rladies-fonts]
+    css: templates/xaringan-themer.css
+    # css: [default, default, rladies-fonts]
     nature:
       highlightStyle: github
       highlightLines: true
@@ -84,7 +84,8 @@ class: center
 
 ```{r here}
 ## This works no matter where a script is saved in the project folder
-d <- readstata13::read.dta13(here("data/EX1.dta"))
+library(haven)
+d <- read_dta(here("data/EX1.dta"))
 glimpse(d)
 ```
 
@@ -96,7 +97,7 @@ glimpse(d)
 
 **NEVER** name files untitled.R, data.csv, ProblemSet.Rmd, Rplot.png!
 
-<img style="float: center;" src="Figs/naming-animals.png">
+<img height="600px" src="Figs/naming-animals.png">
 
 ---
 

@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
     <title>Reproducable &amp; collaborative research with git</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta name="author" content="Devin Judge-Lord" />
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/rladies-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="templates/xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -69,7 +67,8 @@ class: center
 
 ```r
 ## This works no matter where a script is saved in the project folder
-d &lt;- readstata13::read.dta13(here("data/EX1.dta"))
+library(haven)
+d &lt;- read_dta(here("data/EX1.dta"))
 glimpse(d)
 ```
 
@@ -88,7 +87,7 @@ glimpse(d)
 
 **NEVER** name files untitled.R, data.csv, ProblemSet.Rmd, Rplot.png!
 
-&lt;img style="float: center;" src="Figs/naming-animals.png"&gt;
+&lt;img height="600px" src="Figs/naming-animals.png"&gt;
 
 ---
 
@@ -143,7 +142,7 @@ See a more details [here](http://r-pkgs.had.co.nz/git.html) and [this blog post]
 ### [GitHub pro is free for students](https://education.github.com/pack)
 - unlimited collaborators on private repositories
     </textarea>
-<style data-target="print-only">.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}</style>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -188,7 +187,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {
@@ -202,8 +218,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
 </script>
 
 <script>
-(function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -217,7 +233,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     i++;
   }
-})();
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
